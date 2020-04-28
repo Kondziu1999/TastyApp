@@ -1,0 +1,81 @@
+<h2>Add your recipe</h2>
+
+<nav>
+    <ul>
+        <li><a routerLink="./recipeSummary">show summary change to button</a></li>
+    </ul>
+</nav>
+
+<p>
+    Form Status: {{ recipeForm.value | json }}
+</p>
+
+<div  class="form-group w-100">
+
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group w-25">
+        <label>
+            Nazwa:
+        </label>
+            <input type="text" class="form-control" formControlName="name">
+    </div>
+    
+
+    <div class="form-group w-25">
+        <label>
+            Poziom Trudności:
+        </label>
+            <select class="form-control" formControlName="level">
+                <option>Łatwy</option>
+                <option>Średni</option>
+                <option>Trudny</option>
+            </select>
+    </div>
+    
+
+    <div class="form-group w-25">
+        <label>
+            Czas wykonania:
+        </label>
+            <select class="form-control" formControlName="time">
+                <option>5 min</option>
+                <option>10 min</option>
+                <option>15 min</option>
+                <option>30 min</option>
+                <option>60 min</option>
+                <option>120 min +</option>
+            </select>
+    
+    </div>
+
+    <div class="form-group w-25">
+        <label>
+            Ilość porcji:
+        </label>
+            <select class="form-control" formControlName="portions">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5+</option>
+            </select>
+    </div>
+
+    <div formArrayName="steps" class="form-group w-50">
+        <h3>Kroki wykonania</h3> <button  class="btn btn-success" (click)="addStep()">+</button>
+        <button  class="btn btn-danger" (click)="delStep()">-</button>
+    
+        <div *ngFor="let step of steps.controls; let i=index" class="form-group w-100">
+            <label>
+                Krok: {{i}}
+            </label>
+                <textarea  [formControlName]="i" class="form-control" ></textarea>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
+</form>
+
+</div>
+<router-outlet></router-outlet>
