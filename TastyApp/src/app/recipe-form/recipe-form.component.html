@@ -62,20 +62,35 @@
             </select>
     </div>
 
+    <div formArrayName="ingredients" class="form-group w-25">
+        <h3>Składniki</h3><button class="btn btn-success" (click)="addIngredient()">+</button>
+
+        <div class="ingredients-container">
+            <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group w-50"  >
+                <input type="text" class="form-control" [formControlName]="i">
+                <button  class="btn btn-warning"  (click)="delIngredient(i)">-</button>
+            </div>
+        </div>
+
+    </div>
+
     <div formArrayName="steps" class="form-group w-50">
         <h3>Kroki wykonania</h3> <button  class="btn btn-success" (click)="addStep()">+</button>
         <button  class="btn btn-danger" (click)="delStep()">-</button>
-    
-        <div *ngFor="let step of steps.controls; let i=index" class="form-group w-100">
-            <label>
-                Krok: {{i}}
-            </label>
-                <textarea  [formControlName]="i" class="form-control" ></textarea>
+        
+            <div *ngFor="let step of steps.controls; let i=index" class="form-group w-100">
+                <label>
+                    Krok: {{i}}
+                </label>
+                    <textarea  [formControlName]="i" class="form-control" ></textarea>
+        
         </div>
+       
     </div>
+
+
     
     <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
 </form>
 
 </div>
-<router-outlet></router-outlet>

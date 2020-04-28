@@ -26,7 +26,10 @@ export class RecipeFormComponent implements OnInit {
       portions: [''],
       steps: this.fb.array([
         this.fb.control('')
-      ])
+      ]),
+      ingredients: this.fb.array([
+        this.fb.control('')
+      ]) 
     });
 
   }
@@ -46,5 +49,18 @@ export class RecipeFormComponent implements OnInit {
     this.steps.removeAt(this.numberOfSteps)
     this.numberOfSteps--
   }
+
+  get ingredients(){
+    return this.recipeForm.get('ingredients') as FormArray;
+  }
+
+  addIngredient(){
+    this.ingredients.push(this.fb.control(''));
+  }
+  
+  delIngredient(num: number){
+    this.ingredients.removeAt(num);
+  }
+
 
 }
