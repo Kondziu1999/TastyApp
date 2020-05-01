@@ -10,87 +10,124 @@
     Form Status: {{ recipeForm.value | json }}
 </p>
 
-<div  class="form-group w-100">
+<div  class="form-group w-100" >
 
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
 
-    <div class="form-group w-25">
-        <label>
-            Nazwa:
-        </label>
-            <input type="text" class="form-control" formControlName="name">
-    </div>
-    
+        <div class="form-group w-25">
+            <label>
+                Nazwa:
+            </label>
+                <input type="text" class="form-control" formControlName="name">
+                <div *ngIf="name.invalid && ( name.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="name.errors.required">
+                        wymagane
+                    </div>
+                    <div *ngIf="name.errors.minlength">
+                        Conajmniej 4 litery
+                    </div>
+                </div>
+        </div>
+        
 
-    <div class="form-group w-25">
-        <label>
-            Poziom Trudności:
-        </label>
-            <select class="form-control" formControlName="level">
-                <option>Łatwy</option>
-                <option>Średni</option>
-                <option>Trudny</option>
-            </select>
-    </div>
-    
+        <div class="form-group w-25">
+            <label>
+                Poziom Trudności:
+            </label>
+                <select class="form-control" formControlName="level">
+                    <option>Łatwy</option>
+                    <option>Średni</option>
+                    <option>Trudny</option>
+                </select>
+                <div *ngIf="level.invalid && ( level.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="level.errors.required">
+                        wymagane
+                    </div>
+                </div>
+        </div>
+        
 
-    <div class="form-group w-25">
-        <label>
-            Czas wykonania:
-        </label>
-            <select class="form-control" formControlName="time">
-                <option>5 min</option>
-                <option>10 min</option>
-                <option>15 min</option>
-                <option>30 min</option>
-                <option>60 min</option>
-                <option>120 min +</option>
-            </select>
-    
-    </div>
+        <div class="form-group w-25">
+            <label>
+                Czas wykonania:
+            </label>
+                <select class="form-control" formControlName="time">
+                    <option>5 min</option>
+                    <option>10 min</option>
+                    <option>15 min</option>
+                    <option>30 min</option>
+                    <option>60 min</option>
+                    <option>120 min +</option>
+                </select>
+        
+        </div>
 
-    <div class="form-group w-25">
-        <label>
-            Ilość porcji:
-        </label>
-            <select class="form-control" formControlName="portions">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5+</option>
-            </select>
-    </div>
+        <div class="form-group w-25">
+            <label>
+                Ilość porcji:
+            </label>
+                <select class="form-control" formControlName="portions">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5+</option>
+                </select>
+        </div>
 
-    <div formArrayName="ingredients" class="form-group w-25">
-        <h3>Składniki</h3><button class="btn btn-success" (click)="addIngredient()">+</button>
+        <div formArrayName="ingredients" class="form-group w-25">
+            <h3>Składniki</h3><button class="btn btn-success" (click)="addIngredient()">+</button>
 
-        <div class="ingredients-container">
-            <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group w-50"  >
-                <input type="text" class="form-control" [formControlName]="i">
-                <button  class="btn btn-warning"  (click)="delIngredient(i)">-</button>
+            <div class="ingredients-container ">
+                <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group w-50"  >
+                    <input type="text" class="form-control" [formControlName]="i">
+                    <button  class="btn btn-warning"  (click)="delIngredient(i)">-</button>
+                </div>
             </div>
+            
+            <div *ngIf="ingredients.invalid && ( ingredients.dirty ||ingredients.touched)"
+                class="alert alert-danger">
+                <div *ngIf="ingredients.errors?.required">
+                    wymagane
+                </div>
+                <div *ngIf="!ingredients.errors?.required">
+                    Pusty składnik ! 
+                </div>
+            </div>
+            
+
         </div>
 
-    </div>
-
-    <div formArrayName="steps" class="form-group w-50">
-        <h3>Kroki wykonania</h3> <button  class="btn btn-success" (click)="addStep()">+</button>
-        <button  class="btn btn-danger" (click)="delStep()">-</button>
+        <div formArrayName="steps" class="form-group w-50" >
+            <h3>Kroki wykonania</h3> <button  class="btn btn-success" (click)="addStep()">+</button>
+            
+                <div *ngFor="let step of steps.controls; let i=index" class="form-group w-50">
+                    <label>
+                        Krok: {{i}}
+                    </label>
+                    <div style="display: flex; align-items: center;">
+                    <textarea  [formControlName]="i" class="form-control" style="flex: 10;"></textarea>                   
+                    <button  class="btn btn-danger" (click)="delStep(i)" >-</button>
+                    </div>
+                    <div *ngIf="getStepValidity(i) && step.touched" class="alert alert-danger" style="flex-direction: column; width:70%;">
+                        wymagane miniumum 20 znaków
+                    </div>
         
-            <div *ngFor="let step of steps.controls; let i=index" class="form-group w-100">
-                <label>
-                    Krok: {{i}}
-                </label>
-                    <textarea  [formControlName]="i" class="form-control" ></textarea>
+                </div>
+            
+        
+                <div *ngIf=" steps.invalid && steps.errors?.required" class="alert alert-danger">
+                    Przynajmniej jeden krok wymagany
+                </div>
+        
         
         </div>
-       
-    </div>
 
 
-    
-    <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
-</form>
+        
+        <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
+    </form>
 
 </div>
