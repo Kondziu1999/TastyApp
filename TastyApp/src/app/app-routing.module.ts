@@ -8,11 +8,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: 'addRecipe',
-  component: RecipeFormComponent, children:[
-      {path: 'recipeSummary', 
-      component: RecipeSummaryComponent
-    }
-  ]},
+    component: RecipeFormComponent},
+  {path: 'recipeSummary',
+    component: RecipeSummaryComponent},
   { path: '',   redirectTo: '/addRecipe', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }
   

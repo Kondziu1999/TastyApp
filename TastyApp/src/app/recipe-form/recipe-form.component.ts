@@ -1,8 +1,12 @@
+import { RecipeModel } from './../models/recipe-model.model';
+import { RecipeMessageServiceService } from './../recipe-message-service.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { emptyIngredientValidator, notRequiredLengthOfStepValidator } from '../validation/recipe-from-validators';
+import { stringify } from 'querystring';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-form',
@@ -15,7 +19,7 @@ export class RecipeFormComponent implements OnInit {
   numberOfSteps: number=0;
   recipeForm: any;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private details: RecipeMessageServiceService, private route: ActivatedRoute,private router:Router) { }
   
   ngOnInit(): void {
     //this.name= new FormControl('');
@@ -36,6 +40,14 @@ export class RecipeFormComponent implements OnInit {
   }
 
   onSubmit(){
+    alert(stringify(this.recipeForm));
+    this.router.navigate(['../recipeSummary'],{relativeTo: this.route});
+    this.details.updateRecipeDetails(this.formToJson());
+  }
+
+  formToJson():string {
+    return JSON.stringify(this.recipeForm.getRawValue());
+
   }
   get level(){
     return this.recipeForm.get('level');

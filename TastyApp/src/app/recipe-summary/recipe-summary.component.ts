@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { RecipeModel } from './../models/recipe-model.model';
+import { RecipeMessageServiceService } from './../recipe-message-service.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-summary',
@@ -7,14 +10,23 @@ import { ActivatedRoute } from '@angular/router';
   styles: [
   ]
 })
-export class RecipeSummaryComponent implements OnInit {
+export class RecipeSummaryComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute) { }
+  currentRecipeDetails: RecipeModel;
+  private detailsSubscription : Subscription;
+  
+
+  constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService) {
+  }
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe(params =>{
-      
-    // })
+    this.detailsSubscription=this.details.getRecipeDetails()
+          .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
   }
+  ngOnDestroy(){
+    this.detailsSubscription.unsubscribe();
+  }
+
+  
 
 }

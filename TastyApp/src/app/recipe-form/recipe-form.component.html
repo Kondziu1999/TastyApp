@@ -78,7 +78,7 @@
         </div>
 
         <div formArrayName="ingredients" class="form-group w-25">
-            <h3>Składniki</h3><button class="btn btn-success" (click)="addIngredient()">+</button>
+            <h3>Składniki</h3><button type="button" class="btn btn-success" (click)="addIngredient()">+</button>
 
             <div class="ingredients-container ">
                 <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group w-50"  >
@@ -101,7 +101,7 @@
         </div>
 
         <div formArrayName="steps" class="form-group w-50" >
-            <h3>Kroki wykonania</h3> <button  class="btn btn-success" (click)="addStep()">+</button>
+            <h3>Kroki wykonania</h3> <button type="button"  class="btn btn-success" (click)="addStep()">+</button>
             
                 <div *ngFor="let step of steps.controls; let i=index" class="form-group w-50">
                     <label>

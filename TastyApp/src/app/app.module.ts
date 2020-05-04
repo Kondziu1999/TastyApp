@@ -1,3 +1,4 @@
+import { RecipeMessageServiceService } from './recipe-message-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +21,7 @@ import { PageNotFoundComponentComponent } from './page-not-found-component/page-
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [RecipeMessageServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

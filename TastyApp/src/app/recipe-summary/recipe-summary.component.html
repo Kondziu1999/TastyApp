@@ -1,1 +1,37 @@
+
 <p>recipe-summary works!</p>
+<p>
+    {{currentRecipeDetails | json}}
+</p>
+
+<div style="min-width: 450px; min-height: 200px; max-width: 800px; max-height: 800px;">
+    <div style="display: flex; justify-content: space-between; width: 100%; height: 50vh;align-items: flex-start;">
+
+        <div style="height:70%; width: 30%; border-style: solid; border-color: gold;display: flex; justify-content: space-between; flex-direction: column; ">
+            <h3>Składniki:</h3>
+    
+            <div *ngFor="let ingredient of currentRecipeDetails.ingredients; let i=index" style="width: 90%; border: solid gray;border-radius: 5px; height: fit-content;">
+                <div >
+                    <p>{{i}}:  {{ingredient}}</p>
+                </div>
+            </div>
+
+        </div>
+    
+        <div style="height :100%;width: 60%; border-style: solid; border-color: gold;display: flex; justify-content: space-between; flex-direction: column; ">
+            <h3>Wykonanie:</h3>
+            
+            <div *ngFor="let step of currentRecipeDetails.steps; let i=index" style="width: 90%; border: solid gray;border-radius: 5px;height: fit-content;">
+                <div>
+                    <h4>Krok {{i}}</h4>
+                    <p>step</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
