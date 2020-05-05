@@ -1,6 +1,7 @@
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from './../recipe-message-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
@@ -14,12 +15,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: [
   ]
 })
-export class RecipeFormComponent implements OnInit {
+export class RecipeFormComponent implements OnInit, OnDestroy {
   //name: any;
   numberOfSteps: number=0;
   recipeForm: any;
-
-  constructor(private fb: FormBuilder, private details: RecipeMessageServiceService, private route: ActivatedRoute,private router:Router) { }
+  currentRecipeDetails: RecipeModel;
+  private detailsSubscription : Subscription;
+  
+  constructor(private fb: FormBuilder, private details: RecipeMessageServiceService, 
+          private route: ActivatedRoute,private router:Router) { }
   
   ngOnInit(): void {
     //this.name= new FormControl('');
@@ -30,13 +34,43 @@ export class RecipeFormComponent implements OnInit {
       time: ['',[Validators.required]],
       portions: ['',[Validators.required]],
       steps: this.fb.array([
-        this.fb.control('',[notRequiredLengthOfStepValidator()])
+        // this.fb.control('',[notRequiredLengthOfStepValidator()])
       ],[Validators.required]),
       ingredients: this.fb.array([
-        this.fb.control('',[emptyIngredientValidator()])
+        // this.fb.control('',[emptyIngredientValidator()])
       ],[Validators.required]) 
     });
 
+    //if there user whant to edit recipe again
+    this.detailsSubscription=this.details.getRecipeDetails()
+          .subscribe((message)=>{
+            if(message.length>0){
+              this.currentRecipeDetails=JSON.parse(message);
+              this.updateForm();}
+          });
+
+  }
+  updateForm():void{
+    //fill form
+    if(this.currentRecipeDetails){
+       this.recipeForm.patchValue({
+      name: this.currentRecipeDetails.name,
+      level: this.currentRecipeDetails.level,
+      time: this.currentRecipeDetails.time,
+      portions: this.currentRecipeDetails.portions
+    });
+
+    this.currentRecipeDetails.ingredients
+      .forEach(ingredient=>this.addIngredient(ingredient));
+   
+    this.currentRecipeDetails.steps
+      .forEach(step=>this.addStep(step));
+    }    
+  }
+
+
+  ngOnDestroy():void{
+    this.detailsSubscription.unsubscribe();
   }
 
   onSubmit(){
@@ -47,7 +81,6 @@ export class RecipeFormComponent implements OnInit {
 
   formToJson():string {
     return JSON.stringify(this.recipeForm.getRawValue());
-
   }
   get level(){
     return this.recipeForm.get('level');
@@ -62,16 +95,21 @@ export class RecipeFormComponent implements OnInit {
   get name(){
     return this.recipeForm.get('name');
   }
-
+  
   get steps(): FormArray{
     return this.recipeForm.get('steps') as FormArray;
   }
 
 
-  addStep(){
-    this.steps.push(this.fb.control('',[notRequiredLengthOfStepValidator()]));
+  addStep(step?: string){
     this.numberOfSteps++;
+    if(step){
+      this.steps.push(this.fb.control(step,[notRequiredLengthOfStepValidator()]));
+      return;
+    }
+    this.steps.push(this.fb.control('',[notRequiredLengthOfStepValidator()]));
   }
+  
 
   delStep(i: number){
     this.steps.removeAt(i);
@@ -82,7 +120,11 @@ export class RecipeFormComponent implements OnInit {
     return this.recipeForm.get('ingredients') as FormArray;
   }
 
-  addIngredient(){
+  addIngredient(ingredient?: string){
+    if(ingredient){
+      this.ingredients.push(this.fb.control(ingredient,[emptyIngredientValidator()]));
+      return;
+    }
     this.ingredients.push(this.fb.control('',[emptyIngredientValidator()]));
   }
   
@@ -92,6 +134,9 @@ export class RecipeFormComponent implements OnInit {
 
   getStepValidity(i: number): boolean{
     return (<FormArray>this.recipeForm.get('steps')).controls[i].invalid
+  }
+  getIngredientValidity(i: number):boolean{
+    return (<FormArray>this.recipeForm.get('ingredients')).controls[i].valid;
   }
 
 }

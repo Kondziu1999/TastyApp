@@ -118,7 +118,7 @@
                 </div>
             
         
-                <div *ngIf=" steps.invalid && steps.errors?.required" class="alert alert-danger">
+                <div *ngIf=" steps.invalid && steps.touched&& steps.errors?.required" class="alert alert-danger">
                     Przynajmniej jeden krok wymagany
                 </div>
         
@@ -129,5 +129,7 @@
         
         <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
     </form>
+
+    <p *ngIf="recipeForm.invalid" style="color: green;">Nie zapomnij dodać kroków i składników</p>
 
 </div>

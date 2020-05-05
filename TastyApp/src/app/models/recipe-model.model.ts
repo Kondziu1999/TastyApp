@@ -3,7 +3,7 @@ export class RecipeModel {
     name: string;
     level: string;
     time: string;
-    protions: string;
+    portions: string;
     ingredients: Array<string>;
     steps :Array<string>;
 

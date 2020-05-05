@@ -6,11 +6,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class RecipeMessageServiceService {
 
-  public recipeDetails=new BehaviorSubject<string>('{ "name": "asdfasdf", "level": "Średni", "time": "10 min", "portions": "1", "steps": [ "sadfsadfasdfasdf", "asdfsadfsadfasdf", "asdfasdfsadf" ], "ingredients": [ "asdfasdf", "asdfasdf", "asdfsadfasdf", "sadfsadfsad" ] }');
+  public recipeDetails=new BehaviorSubject<string>('{ "name": "Mintaj z porem", "level": "Średni", "time": "30 min", "portions": "4", "steps": [ "umyć i osuszyć mintaja", "włożyć do piekarnika rozgrzanego do 180 stopni na 20 minut", "opruszyć pieprzem i solą, polać sokiem z cytryny" ], "ingredients": [ "ryż 100g", "cytryna", "sól i pieprz", "mintaj 20dag" ] }');
 
   constructor() { }
 
   getRecipeDetails(): Observable<string> {
+  //  return new BehaviorSubject<string>('');
     return this.recipeDetails.asObservable();
   }
 
