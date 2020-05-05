@@ -1,3 +1,4 @@
+import { RecipeService } from './../recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from './../recipe-message-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -14,14 +15,19 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
 
   currentRecipeDetails: RecipeModel;
   private detailsSubscription : Subscription;
-  
+  public whaitForServerResponse: boolean;
+  public responseError: boolean;
 
-  constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router) {
+  constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
+    private recipeService: RecipeService) {
   }
 
   ngOnInit(): void {
     this.detailsSubscription=this.details.getRecipeDetails()
           .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
+    this.whaitForServerResponse=false;
+    this.responseError=false;
+
   }
   ngOnDestroy(){
     this.detailsSubscription.unsubscribe();
@@ -33,8 +39,14 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
       );
       this.router.navigate(['../addRecipe'],{relativeTo: this.route})
   }
-  confirm(){
 
+  confirm(){
+    this.whaitForServerResponse=true;
+    this.recipeService.addRecipe(this.currentRecipeDetails)
+      .subscribe(
+        message=>this.whaitForServerResponse=false,
+        err => {this.responseError=true; this.whaitForServerResponse=false}
+        )
   }
 
   

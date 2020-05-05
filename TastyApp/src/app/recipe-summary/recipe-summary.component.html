@@ -38,8 +38,15 @@
     </div>
     
     <div style=" display: flex;flex-direction: row;justify-content: flex-end;margin-top: 2%;">
+        <div *ngIf="whaitForServerResponse" class="spinner-border text-success" style="margin-right: 20%;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
         <button  class="btn btn-warning "type="button" (click)="edit()">Edytuje</button> 
         <button  style="margin-left: 5%;"class="btn btn-success "type="button" (click)="confirm()">Potwierdzam</button>
+    </div>
+
+    <div *ngIf="responseError" class="alert alert-danger">
+        <p>Spróbuj ponownie lub później</p>
     </div>
     
     

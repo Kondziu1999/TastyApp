@@ -74,7 +74,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
-    alert(stringify(this.recipeForm));
+    //alert(stringify(this.recipeForm));
     this.router.navigate(['../recipeSummary'],{relativeTo: this.route});
     this.details.updateRecipeDetails(this.formToJson());
   }

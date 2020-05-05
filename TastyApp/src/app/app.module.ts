@@ -1,3 +1,4 @@
+import { RecipeService } from './recipe.service';
 import { RecipeMessageServiceService } from './recipe-message-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -8,6 +9,7 @@ import { AppComponent } from './app.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
 import { RecipeSummaryComponent } from './recipe-summary/recipe-summary.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,10 @@ import { PageNotFoundComponentComponent } from './page-not-found-component/page-
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [RecipeMessageServiceService],
+  providers: [RecipeMessageServiceService,RecipeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

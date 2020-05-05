@@ -70,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "TastyApp:build"
+            "browserTarget": "TastyApp:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
