@@ -10,13 +10,15 @@ import { RecipeFormComponent } from './recipe-form/recipe-form.component';
 import { RecipeSummaryComponent } from './recipe-summary/recipe-summary.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipeFormComponent,
     RecipeSummaryComponent,
-    PageNotFoundComponentComponent
+    PageNotFoundComponentComponent,
+    RecipeAddedSuccessfullyComponent
   ],
   imports: [
     BrowserModule,

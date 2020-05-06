@@ -44,10 +44,14 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     this.whaitForServerResponse=true;
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
-        message=>this.whaitForServerResponse=false,
+        message=>{this.whaitForServerResponse=false; this.navigateToSuccessSide()},
         err => {this.responseError=true; this.whaitForServerResponse=false}
         )
   }
+
+  navigateToSuccessSide(): void{
+    this.router.navigate(['../successfullyAdded'],{relativeTo: this.route});
+  }  
 
   
 

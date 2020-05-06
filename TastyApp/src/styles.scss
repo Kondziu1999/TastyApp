@@ -50,3 +50,18 @@
         }
     }
 }
+
+.successText{
+    & > .h2{
+        font-family: Ringside Regular A,Ringside Regular B,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
+        font-style: normal;
+        font-size: 20%;
+        letter-spacing: -.04rem;
+        font-weight: 700;
+    }
+    text-align: center;
+    margin-bottom: 10%;
+    min-height: 100px;
+    min-width: 400px;
+ 
+}

@@ -1,3 +1,4 @@
+import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
 import { RecipeSummaryComponent } from './recipe-summary/recipe-summary.component';
 import { AppComponent } from './app.component';
@@ -11,6 +12,8 @@ const routes: Routes = [
     component: RecipeFormComponent},
   {path: 'recipeSummary',
     component: RecipeSummaryComponent},
+  { path: 'successfullyAdded', 
+    component: RecipeAddedSuccessfullyComponent},
   { path: '',   redirectTo: '/addRecipe', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }
   

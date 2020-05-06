@@ -14,14 +14,16 @@ export class RecipeService {
   
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json'
+      'Content-Type':  'application/json',
+      'Accept': 'application/json'
+      
     })
   };
 
   addRecipe(recipe:RecipeModel): Observable<RecipeModel>{
-    return this.http.post<RecipeModel>(this.backendUrl,recipe,this.httpOptions)
+    return this.http.post<RecipeModel>(this.backendUrl+'/recipes',recipe,this.httpOptions)
         .pipe(
-          retry(5),
+          retry(2),
           catchError(this.handleError)
         );
   }
@@ -33,7 +35,7 @@ export class RecipeService {
     }
     //backend error
     else{
-      console.error("server side error");
+      console.error("server side error"+ error);
     }
     return throwError("Something bad happened, Try again later.");
   }
