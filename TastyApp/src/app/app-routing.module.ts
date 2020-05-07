@@ -1,3 +1,4 @@
+import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
 import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
 import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
@@ -17,6 +18,17 @@ const routes: Routes = [
     component: RecipeAddedSuccessfullyComponent},
   { path: 'recipeOverview', 
     component: RecipeOverviewComponent},
+  {path: 'recipes', children:[
+    {
+      path: '',
+      component: RecipesListingComponent
+    },
+    {
+      path: ':id',
+      component: RecipeOverviewComponent
+    }
+  ]},
+  {path: 'NotFound', component: PageNotFoundComponentComponent},
   { path: '',   redirectTo: '/addRecipe', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }
   

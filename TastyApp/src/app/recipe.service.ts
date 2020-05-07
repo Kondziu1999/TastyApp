@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { RecipesOverviewModel } from './models/recipes-overview-model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class RecipeService {
 
   backendUrl="http://localhost:8080"
+  recipesOverviewUrlPostfix='/recipes/overview'
   constructor(private http: HttpClient) { }
   
   httpOptions = {
@@ -19,7 +21,7 @@ export class RecipeService {
       
     })
   };
-  
+
   getRecipe(id:number): Observable<RecipeModel>{
     return this.http.get<RecipeModel>(this.backendUrl+'/recipes/'+id,this.httpOptions)
       .pipe(
@@ -34,6 +36,14 @@ export class RecipeService {
           retry(2),
           catchError(this.handleError)
         );
+  }
+
+  getRecipesOverview(): Observable<RecipesOverviewModel>{
+    return this.http.get<RecipesOverviewModel>(this.backendUrl+this.recipesOverviewUrlPostfix,this.httpOptions)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse){
