@@ -1,0 +1,36 @@
+
+
+<div class="summary-size">
+    <div style="display: flex; justify-content: space-between;" class="title-frame ">
+
+        <p class="text-style">Przepis:<br> {{recipe.name}} </p>
+        <p class="text-style">Poziom trudności: <br> {{recipe.level}}</p>
+        <p class="text-style">czas: <br> {{recipe.time}}</p>
+        <p class="text-style">ilość porcji: <br> {{recipe.portions}}</p>
+    </div>
+    <div class="flex-container">
+
+        <div style="height:70%; width: 30%;" class="table">
+            <h3>Składniki:</h3>
+
+            <div *ngFor="let ingredient of recipe.ingredients; let i=index" class="item" >
+                <div >
+                    <p>{{i}}:  {{ingredient}}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="height :100%;width: 60%;" class="table">
+            <h3>Wykonanie:</h3>
+            
+            <div *ngFor="let step of recipe.steps; let i=index" class="item" >
+                <div>
+                    <h4>Krok {{i}}</h4>
+                    <p>{{step}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

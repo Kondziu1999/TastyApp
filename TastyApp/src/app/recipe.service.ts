@@ -19,6 +19,14 @@ export class RecipeService {
       
     })
   };
+  
+  getRecipe(id:number): Observable<RecipeModel>{
+    return this.http.get<RecipeModel>(this.backendUrl+'/recipes/'+id,this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
 
   addRecipe(recipe:RecipeModel): Observable<RecipeModel>{
     return this.http.post<RecipeModel>(this.backendUrl+'/recipes',recipe,this.httpOptions)

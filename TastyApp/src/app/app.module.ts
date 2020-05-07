@@ -11,6 +11,8 @@ import { RecipeSummaryComponent } from './recipe-summary/recipe-summary.componen
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
+import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
+import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/re
     RecipeFormComponent,
     RecipeSummaryComponent,
     PageNotFoundComponentComponent,
-    RecipeAddedSuccessfullyComponent
+    RecipeAddedSuccessfullyComponent,
+    RecipeOverviewComponent,
+    RecipesListingComponent
   ],
   imports: [
     BrowserModule,
