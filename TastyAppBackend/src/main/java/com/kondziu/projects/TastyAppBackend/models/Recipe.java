@@ -44,4 +44,7 @@ public class Recipe {
     @Column(name="steps")
     @ElementCollection
     private List<String> steps=new ArrayList<>();
+
+    @Column(name = "description")
+    private String description;
 }

@@ -6,5 +6,5 @@ export class RecipeModel {
     portions: string;
     ingredients?: Array<string>;
     steps?: Array<string>;
-
+    description?: string;
 }

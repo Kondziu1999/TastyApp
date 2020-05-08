@@ -38,7 +38,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       ],[Validators.required]),
       ingredients: this.fb.array([
         // this.fb.control('',[emptyIngredientValidator()])
-      ],[Validators.required]) 
+      ],[Validators.required]) ,
+      description: ['']
     });
 
     //if there user whant to edit recipe again
@@ -82,6 +83,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   formToJson():string {
     return JSON.stringify(this.recipeForm.getRawValue());
   }
+  
   get level(){
     return this.recipeForm.get('level');
   }
@@ -98,6 +100,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   
   get steps(): FormArray{
     return this.recipeForm.get('steps') as FormArray;
+  }
+
+  get description(){
+    return this.recipeForm.get('description');
   }
 
 

@@ -4,6 +4,7 @@
 </p>
 
 <div class="summary-size">
+
     <h2 style="margin-bottom: 5%;">Podsumowanie:</h2>
     <div style="display: flex; justify-content: space-between;" class="title-frame ">
 
@@ -12,6 +13,7 @@
         <p class="text-style">czas: <br> {{currentRecipeDetails.time}}</p>
         <p class="text-style">ilość porcji: <br> {{currentRecipeDetails.portions}}</p>
     </div>
+
     <div class="flex-container">
 
         <div style="height:70%; width: 30%;" class="table">
@@ -37,6 +39,14 @@
 
         </div>
     </div>
+
+    <div class="flex-container" style="display: flex;flex-direction: column;">
+        <h3>Opis:</h3>
+        <div class="table" style="padding: 5px 5px;">
+            {{currentRecipeDetails.description}}
+        </div>
+    </div>
+   
     
     <div style=" display: flex;flex-direction: row;justify-content: flex-end;margin-top: 2%;">
         <div *ngIf="whaitForServerResponse" class="spinner-border text-success" style="margin-right: 20%;" role="status">
