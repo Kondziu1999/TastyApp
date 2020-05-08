@@ -58,7 +58,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       name: this.currentRecipeDetails.name,
       level: this.currentRecipeDetails.level,
       time: this.currentRecipeDetails.time,
-      portions: this.currentRecipeDetails.portions
+      portions: this.currentRecipeDetails.portions,
+      description: this.currentRecipeDetails.description
     });
 
     this.currentRecipeDetails.ingredients
