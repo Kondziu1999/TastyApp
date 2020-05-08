@@ -1,18 +1,14 @@
 package com.kondziu.projects.TastyAppBackend.controllers;
 
-import com.kondziu.projects.TastyAppBackend.dto.RecipeOverview;
+
 import com.kondziu.projects.TastyAppBackend.dto.RecipesOverviewWrapper;
 import com.kondziu.projects.TastyAppBackend.models.Recipe;
 import com.kondziu.projects.TastyAppBackend.repos.RecipeRepository;
 import com.kondziu.projects.TastyAppBackend.services.RecipesOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,10 +36,9 @@ public class RecipeController {
         return  ResponseEntity.of(recipeRepository.findById(id));
     }
 
-    @GetMapping("/recipes/overview")
-    public  ResponseEntity<RecipesOverviewWrapper> getRecipesOverview(){
-        return ResponseEntity.ok(recipesOverviewService.getRecipesOverview());
-        //return ResponseEntity.ok();
+    @GetMapping(value = {"/recipes/overview","/recipes/overview/{optionalPage}"})
+    public  ResponseEntity<RecipesOverviewWrapper> getRecipesOverview(@PathVariable Optional<Integer> optionalPage){
+        return ResponseEntity.ok(recipesOverviewService.getRecipesOverview(optionalPage));
     }
 
 }

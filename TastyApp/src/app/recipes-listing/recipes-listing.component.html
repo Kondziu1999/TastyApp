@@ -1,8 +1,24 @@
 <div *ngFor="let recipe of recipesOverviewModel.recipesOverview" style="width: 70vw; min-width: 400px;">
-    <div style="display: flex; justify-content: space-between; background-color: white; box-shadow:3px 3px 3px 3px  chocolate;" class="title-frame" (click)="goToDetails(recipe.id)">  
+    
+    <div  class="title-frame recipe-overview" (click)="goToDetails(recipe.id)">  
         <p class="text-style">Przepis:<br> {{recipe.name}} </p>
         <p class="text-style">Poziom trudności: <br> {{recipe.level}}</p>
         <p class="text-style">czas: <br> {{recipe.time}}</p>
         <p class="text-style">ilość porcji: <br> {{recipe.portions}}</p>
     </div>
+    
 </div>
+
+
+
+<nav aria-label="...">
+    <ul class=" pagination">
+        <li class="page-item" [class.disabled]="currentPage<1">
+            <a class="page-link navbar-button-style" (click)="previousPage()">Previous</a>
+          </li>
+
+        <li class="page-item" [class.disabled]="lastPageFlag">
+            <a class="page-link navbar-button-style" (click)="nextPage()">Next</a>
+        </li>
+    </ul>
+</nav>

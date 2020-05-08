@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+$green-color: #03d30d;
+
+
+
 .ingredients-container{
     & > .form-group {
         display: flex;
@@ -18,8 +22,13 @@
     margin-bottom: 5%;
     & > .text-style{
         text-align: center;
-        text-transform: capitalize;
-        font-size: 110%;
+        // text-transform: capitalize;
+        // font-size: 110%;
+        text-decoration: none;
+        font-family: "Marker Felt, fantasy";
+        font-weight: bold;
+        font-size: large;
+
     }
 }
 
@@ -63,5 +72,72 @@
     margin-bottom: 10%;
     min-height: 100px;
     min-width: 400px;
- 
 }
+
+
+.navbar-button-style{
+    font-family: Impact; 
+    color: darkslategrey;
+    &:hover{
+        background-color: $green-color ;
+        cursor: pointer;
+    }
+       
+}
+
+.navbar-style{
+   background-color: #585a58 ;
+   min-height: 50px;
+   margin-bottom: 3%;
+
+   &> .ul{
+        display: flex; 
+        flex-direction: row;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        &> .li{
+           
+            height: 100%;
+            border-right: 1px solid #bbb;
+            &> .i{
+                color: white; 
+                padding: 12px 12px;
+                &:hover{
+                    background-color: $green-color;
+                    cursor: pointer;
+                }
+            }
+
+            &> .a{
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-family: "Marker Felt, fantasy";
+                font-weight: bolder;
+                font-size: large;
+                
+                &:hover{
+                    background-color: #03d30d;
+                    cursor: pointer;
+                }
+            }
+            
+        }
+   }
+}
+
+
+.recipe-overview{
+    display: flex;
+    justify-content: space-between;
+    background-color: white; 
+    box-shadow:2px 2px 6px 2px  rgb(98, 243, 105);
+    &:hover{
+        background-color: rgb(212, 207, 207);
+        cursor: pointer;
+    }
+}
+

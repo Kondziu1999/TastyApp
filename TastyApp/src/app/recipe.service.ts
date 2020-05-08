@@ -38,8 +38,12 @@ export class RecipeService {
         );
   }
 
-  getRecipesOverview(): Observable<RecipesOverviewModel>{
-    return this.http.get<RecipesOverviewModel>(this.backendUrl+this.recipesOverviewUrlPostfix,this.httpOptions)
+  getRecipesOverview(pageNumber?: number): Observable<RecipesOverviewModel>{
+    let requestUrl: string=this.backendUrl+this.recipesOverviewUrlPostfix;
+
+    pageNumber? requestUrl=(requestUrl+ "/"+pageNumber): requestUrl;
+
+    return this.http.get<RecipesOverviewModel>(requestUrl,this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)

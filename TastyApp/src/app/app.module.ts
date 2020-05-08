@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
 import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
 import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RecipesListingComponent } from './recipes-listing/recipes-listing.compo
     PageNotFoundComponentComponent,
     RecipeAddedSuccessfullyComponent,
     RecipeOverviewComponent,
-    RecipesListingComponent
+    RecipesListingComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<body>
+<!-- <body>
   <h1>RECIPE APP</h1>
 
 <h3>menu</h3>
@@ -7,9 +7,12 @@
     <li><a routerLink="/addRecipe" routerLinkActive="active">Add Recipe</a></li>
      <li><a routerLink="/app-recipe-summary" routerLinkActive="active">Add Recipe</a></li> 
   </ul>
-</nav>
+</nav> -->
 
-<router-outlet></router-outlet>  
+<div style="display: flex; flex-direction: column;">
+  <app-nav-bar></app-nav-bar>
+  <router-outlet></router-outlet>  
 
-</body>
+</div>
+
 
