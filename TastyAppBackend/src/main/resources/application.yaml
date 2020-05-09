@@ -19,7 +19,14 @@ spring:
 
 server:
   port: 8080
-
+#  ssl:
+#    key-store: src/main/resources/keystore.jks
+#    key-store-password: password
+#    enabled: true
+#    key-password: password
+app:
+  jwtSecret: secret
+  jwtExpirationInMs: 3600000
 page:
   size: 10
   default-page: 0
