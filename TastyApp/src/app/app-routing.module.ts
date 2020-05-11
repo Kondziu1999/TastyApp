@@ -1,3 +1,4 @@
+import { LoginComponent } from './login/login.component';
 import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
 import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
 import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/recipe-added-successfully.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
       component: RecipeOverviewComponent
     }
   ]},
+  {path: 'login',component: LoginComponent},
   {path: 'NotFound', component: PageNotFoundComponentComponent},
   { path: '',   redirectTo: '/addRecipe', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }

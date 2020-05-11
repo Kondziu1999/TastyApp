@@ -10,7 +10,7 @@ import { RecipesOverviewModel } from './models/recipes-overview-model';
 })
 export class RecipeService {
 
-  backendUrl="http://localhost:8080"
+  backendUrl="http://localhost:8080/api"
   recipesOverviewUrlPostfix='/recipes/overview'
   constructor(private http: HttpClient) { }
   
@@ -40,7 +40,6 @@ export class RecipeService {
 
   getRecipesOverview(pageNumber?: number): Observable<RecipesOverviewModel>{
     let requestUrl: string=this.backendUrl+this.recipesOverviewUrlPostfix;
-
     pageNumber? requestUrl=(requestUrl+ "/"+pageNumber): requestUrl;
 
     return this.http.get<RecipesOverviewModel>(requestUrl,this.httpOptions)
