@@ -14,6 +14,7 @@ import { RecipeAddedSuccessfullyComponent } from './recipe-added-successfully/re
 import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
 import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     RecipeAddedSuccessfullyComponent,
     RecipeOverviewComponent,
     RecipesListingComponent,
-    NavBarComponent
+    NavBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

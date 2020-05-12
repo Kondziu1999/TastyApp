@@ -27,6 +27,7 @@ server:
 app:
   jwtSecret: secret
   jwtExpirationInMs: 3600000
+
 page:
   size: 10
   default-page: 0
