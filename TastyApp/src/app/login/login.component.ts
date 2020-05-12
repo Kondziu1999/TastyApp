@@ -17,14 +17,13 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  authObserver: Observable<ApiSigninResponse>;
 
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private authService: AuthService
-      // private accountService: AccountService,
-      // private alertService: AlertService
+      private authService: AuthService    
   ) { }
 
   ngOnInit() {
@@ -37,20 +36,13 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
-  //get controls() { return this.form.controls; }
-
   get username(){return this.form.get('username')};
-
   get password(){return this.form.get('password')};
 
-  authObserver: Observable<ApiSigninResponse>;
+
   onSubmit() {
       this.submitted = true;
-
-      // reset alerts on submit
-      //this.alertService.clear();
-
+            
       // stop here if form is invalid
       if (this.form.invalid) {
           return;
@@ -61,19 +53,9 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data=> {
-            console.log(data)
+            console.log(data);
+            this.router.navigate([this.returnUrl]);
           },
           error => {console.log(error),this.loading=false});
-      // this.loading = true;
-      // this.accountService.login(this.f.username.value, this.f.password.value)
-      //     .pipe(first())
-      //     .subscribe(
-      //         data => {
-      //             this.router.navigate([this.returnUrl]);
-      //         },
-      //         error => {
-      //             this.alertService.error(error);
-      //             this.loading = false;
-      //         });
   }
 }

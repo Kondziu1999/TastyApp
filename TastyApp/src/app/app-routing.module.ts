@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth-guard';
 import { LoginComponent } from './login/login.component';
 import { RecipesListingComponent } from './recipes-listing/recipes-listing.component';
 import { RecipeOverviewComponent } from './recipe-overview/recipe-overview.component';
@@ -12,13 +13,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: 'addRecipe',
-    component: RecipeFormComponent},
+    component: RecipeFormComponent, canActivate: [AuthGuard]},
   {path: 'recipeSummary',
-    component: RecipeSummaryComponent},
+    component: RecipeSummaryComponent, canActivate: [AuthGuard]},
   { path: 'successfullyAdded', 
     component: RecipeAddedSuccessfullyComponent},
-  { path: 'recipeOverview', 
-    component: RecipeOverviewComponent},
+  // { path: 'recipeOverview', 
+  //   component: RecipeOverviewComponent},
   {path: 'recipes', children:[
     {
       path: '',
@@ -31,7 +32,7 @@ const routes: Routes = [
   ]},
   {path: 'login',component: LoginComponent},
   {path: 'NotFound', component: PageNotFoundComponentComponent},
-  { path: '',   redirectTo: '/addRecipe', pathMatch: 'full' },
+  { path: '',   redirectTo: '/recipes', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }
   
 ];

@@ -24,16 +24,20 @@ export class AuthService {
         return response;
       }))
      
-
+      
      
 }
       
 private setSession(authResult: ApiSigninResponse) {
     //const expiresAt = moment().add(authResult.expiresIn,'second');
-    const expiresAt=authResult.expiration;
+    const expiresAt=<number>authResult.expiration;
+    const time=moment();
+    time.add(expiresAt,'seconds');
+    console.log(time.format());
+    console.log(moment().isBefore(time));
 
     localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt) );
+    localStorage.setItem("expires_at", JSON.stringify(time) );
 }          
 
 logout() {
