@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { User } from './models/user';
 import * as moment from "moment";
 import { map } from 'rxjs/operators';
+import { CredentailsAvailability } from './models/credentails-availability';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,12 @@ export class AuthService {
   constructor(private http:HttpClient) { }
 
   authServerUrlPrefix: string="http://localhost:8080";
+  
+  getUsernameAndEmailAvailability(username: string, email: string){
+    return this.http.post<CredentailsAvailability>(this.authServerUrlPrefix+'/api/auth/checkCredentials',{username,email});
+
+  }
+
   login(usernameOrEmail:string, password:string ) {
     console.log(usernameOrEmail+ " "+ password);
     return this.http.post<ApiSigninResponse>(this.authServerUrlPrefix+'/api/auth/signin', {usernameOrEmail, password})
@@ -24,9 +31,11 @@ export class AuthService {
         return response;
       }))
      
-      
-     
-}
+  }
+
+  register(user : User){
+
+  }
       
 private setSession(authResult: ApiSigninResponse) {
     //const expiresAt = moment().add(authResult.expiresIn,'second');

@@ -1,0 +1,62 @@
+<h3>Register now !</h3>
+
+<div [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" formControlName="firstName" class="form-control" />
+        <div *ngIf="f.firstName.invalid && (f.firstName.touched || f.firstName.dirty)" class="alert alert-danger">
+            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" formControlName="lastName" class="form-control" />
+        <div *ngIf="f.lastName.invalid && (f.lastName.touched || f.lastName.dirty)" class="alert alert-danger">
+            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" formControlName="username" class="form-control" (blur)="checkIfUsernameAndEmailAvailable()"/>
+        <div *ngIf="(f.username.invalid && (f.username.touched || f.username.dirty)) 
+            || !credentailsAvailability.usernameAvailable" class="alert alert-danger">
+
+            <div *ngIf="f.username.errors?.required">Username is required</div>
+            <div *ngIf="!credentailsAvailability.usernameAvailable">Username is occuppied </div>
+            <div *ngIf="f.username.errors?.notUniqueUsername">Username is occuppied </div>
+        </div>
+        <!-- <div *ngIf="!credentailsAvailability.usernameAvailable">Username is occuppied </div> -->
+
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" class="form-control"/>
+        <div *ngIf="f.password.invalid && (f.password.touched || f.password.dirty)" class="alert alert-danger">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" class="form-control" (blur)="checkIfUsernameAndEmailAvailable()">
+        <div *ngIf="(f.email.invalid && (f.email.touched || f.email.dirty) )
+            || !credentailsAvailability.emailAvailable" class="alert alert-danger">
+            <div *ngIf="f.email.errors?.required">Username is required</div>
+            <div *ngIf="!credentailsAvailability.emailAvailable">Email is occuppied </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Register
+        </button>
+        <a routerLink="../login" class="btn btn-link">Cancel</a>
+    </div>
+
+</div>
