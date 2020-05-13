@@ -1,3 +1,4 @@
+import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { AuthGuard } from './auth-guard';
 import { LoginComponent } from './login/login.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
     }
   ]},
   {path: 'register',component: RegistrationFormComponent},
+  {path: 'registrationSuccess',component: RegistrationSuccessComponent},
   {path: 'login',component: LoginComponent},
   {path: 'NotFound', component: PageNotFoundComponentComponent},
   { path: '',   redirectTo: '/recipes', pathMatch: 'full' },

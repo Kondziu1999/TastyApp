@@ -16,6 +16,7 @@ import { RecipesListingComponent } from './recipes-listing/recipes-listing.compo
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RegistrationFormComponent } from './registration-form/registration-form
     RecipesListingComponent,
     NavBarComponent,
     LoginComponent,
-    RegistrationFormComponent
+    RegistrationFormComponent,
+    RegistrationSuccessComponent
   ],
   imports: [
     BrowserModule,

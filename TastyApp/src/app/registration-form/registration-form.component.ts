@@ -1,3 +1,4 @@
+import { UserDto } from './../models/UserDto';
 import { Observable } from 'rxjs';
 import { CredentailsAvailability } from './../models/credentails-availability';
 import { User } from './../models/user';
@@ -18,6 +19,8 @@ export class RegistrationFormComponent implements OnInit {
   form: FormGroup;
   submitted: boolean=false;
   loading: boolean=false;
+  registerFailure: boolean=false;
+
   public credentailsAvailability: CredentailsAvailability;
   public credentailsAvailabilityObservable: Observable<CredentailsAvailability>;
 
@@ -38,7 +41,7 @@ export class RegistrationFormComponent implements OnInit {
       confirmPassword: ['',Validators.required,],
       email: ['',[Validators.required,Validators.email]]
     }, { validators: passwordsMismatchValidator});
-    //lets assume that values are valid at the beginning
+    
   } 
 
 
@@ -52,9 +55,21 @@ export class RegistrationFormComponent implements OnInit {
       this.submitted=true;
       this.loading=true;
 
-      const user=<User>JSON.parse(this.form.value);
+      console.log(this.form.value);
+      const user=<User>JSON.parse(JSON.stringify(this.form.value));
 
-      this.authService.register(user);
+      const userDto= new UserDto(user);
+      console.log(userDto);
+      
+      this.authService.register(userDto)
+        .subscribe(response=> {
+          console.log(response.status);
+          this.router.navigate(['/registrationSuccess']);
+        },
+           error => {console.log(error); 
+            this.registerFailure=true
+            }
+        )
 
   }
 
