@@ -4,10 +4,7 @@ import com.kondziu.projects.TastyAppBackend.exceptions.AppException;
 import com.kondziu.projects.TastyAppBackend.models.Role;
 import com.kondziu.projects.TastyAppBackend.models.RoleName;
 import com.kondziu.projects.TastyAppBackend.models.User;
-import com.kondziu.projects.TastyAppBackend.payload.ApiResponse;
-import com.kondziu.projects.TastyAppBackend.payload.JwtAuthenticationResponse;
-import com.kondziu.projects.TastyAppBackend.payload.LoginRequest;
-import com.kondziu.projects.TastyAppBackend.payload.SignUpRequest;
+import com.kondziu.projects.TastyAppBackend.payload.*;
 import com.kondziu.projects.TastyAppBackend.repos.RoleRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
 import com.kondziu.projects.TastyAppBackend.security.JwtTokenProvider;
@@ -102,7 +99,15 @@ public class AuthController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
 
+    @PostMapping("/checkCredentials")
+    public ResponseEntity<?> checkUsernameAndEmailAvailability(@RequestBody CheckCredentialsPayload payload){
+        boolean usernameExists = userRepository.existsByUsername(payload.getUsername());
+        boolean emailExists = userRepository.existsByEmail(payload.getEmail());
 
+        //Response is returned always with 200 code since this endpoint is used for register validation
+        return ResponseEntity.ok(new CheckCredentialsResponse(!usernameExists,!emailExists));
+    }
+    
     private ResponseEntity<?> getBadRequestResponseEntityWithErrorMsg(String message){
         return new ResponseEntity(new ApiResponse(false, message),
                 HttpStatus.BAD_REQUEST);

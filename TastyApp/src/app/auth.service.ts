@@ -1,10 +1,12 @@
+import { UserDto } from './models/userDto';
 import { Observable } from 'rxjs';
 import { ApiSigninResponse } from './models/api-signin-response';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './models/user';
 import * as moment from "moment";
 import { map } from 'rxjs/operators';
+import { CredentailsAvailability } from './models/credentails-availability';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,27 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
   loginObservable: Observable<ApiSigninResponse>;
-  constructor(private http:HttpClient) { }
+  
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+    })
+  };
+
+  private JsonHeader=new HttpHeaders({'Content-Type':  'application/json'});
 
   authServerUrlPrefix: string="http://localhost:8080";
+
+
+  
+  constructor(private http:HttpClient) { }
+
+  
+  getUsernameAndEmailAvailability(username: string, email: string){
+    return this.http.post<CredentailsAvailability>(this.authServerUrlPrefix+'/api/auth/checkCredentials',{username,email});
+
+  }
+
   login(usernameOrEmail:string, password:string ) {
     console.log(usernameOrEmail+ " "+ password);
     return this.http.post<ApiSigninResponse>(this.authServerUrlPrefix+'/api/auth/signin', {usernameOrEmail, password})
@@ -24,9 +44,12 @@ export class AuthService {
         return response;
       }))
      
-      
-     
-}
+  }
+
+  register(userDto : UserDto){
+    return this.http.post(this.authServerUrlPrefix+ '/api/auth/signup',JSON.stringify(userDto), {observe: 'response', headers: this.JsonHeader});
+  }
+  
       
 private setSession(authResult: ApiSigninResponse) {
     //const expiresAt = moment().add(authResult.expiresIn,'second');

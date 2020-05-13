@@ -1,4 +1,8 @@
 export class User {
-    email : string;
-    name :string;
+    firstName: string;
+    lastName:string;
+    username: string;
+    password :string;  
+    confirmPassword: string;
+    email: string;
 }

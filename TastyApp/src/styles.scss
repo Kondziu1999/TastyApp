@@ -141,3 +141,15 @@ $green-color: #03d30d;
     }
 }
 
+.registrationOrLogin{
+    display:flex;
+    flex-direction: column;
+
+    &> .card-pos{
+        width: 25vw;
+        min-width: 400px;
+        min-height:600; 
+        align-self:center;
+    }
+}
+
