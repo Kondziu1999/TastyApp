@@ -5,7 +5,7 @@ import { AuthService } from './../auth.service';
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { uniqueUsernameValidator } from '../validation/register-form-validators';
+import { uniqueUsernameValidator, passwordsMismatchValidator } from '../validation/register-form-validators';
 
 @Component({
   selector: 'app-registration-form',
@@ -33,11 +33,11 @@ export class RegistrationFormComponent implements OnInit {
     this.form=this.formBuilder.group({
       firstName: ['',Validators.required],
       lastName: ['',Validators.required],
-      username: ['',[Validators.required]],
-      password: ['',Validators.required],
-      confirmPassword: ['',Validators.required],
-      email: ['',Validators.required]
-    });
+      username: ['',[Validators.required,Validators.minLength(4)]],
+      password: ['',[Validators.required,Validators.minLength(6)]],
+      confirmPassword: ['',Validators.required,],
+      email: ['',[Validators.required,Validators.email]]
+    }, { validators: passwordsMismatchValidator});
     //lets assume that values are valid at the beginning
   } 
 
@@ -60,7 +60,6 @@ export class RegistrationFormComponent implements OnInit {
 
   checkIfUsernameAndEmailAvailable(): void{
     this.credentailsAvailabilityObservable=this.authService.getUsernameAndEmailAvailability(this.username.value, this.email.value);
-    
     this.credentailsAvailabilityObservable
       .subscribe(
         msg => {this.credentailsAvailability=msg;

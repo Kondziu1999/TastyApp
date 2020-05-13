@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { ValidatorFn, AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { CredentailsAvailability } from '../models/credentails-availability';
 
 
@@ -15,6 +15,15 @@ export function uniqueUsernameValidator(credentailsAvailability: CredentailsAvai
         
         return !credentailsAvailability.usernameAvailable? {'notUniqueUsername': true} : null;
       };
-}
+} 
+
+
+export const passwordsMismatchValidator: ValidatorFn=(control: FormGroup): ValidationErrors| null =>{
+  const password=control.get('password').value;
+  const confirmPassword=control.get('confirmPassword').value;
+  const valid=password && confirmPassword && password===confirmPassword;
+
+  return valid ? null: {'passwordMismatch' : true};
+};
 
 
