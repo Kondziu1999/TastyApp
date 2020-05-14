@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailSenderServiceImpl implements  EmailSenderService {
+public class EmailSenderServiceImpl {
 
     private JavaMailSender javaMailSender;
 
@@ -17,7 +17,6 @@ public class EmailSenderServiceImpl implements  EmailSenderService {
     }
 
     @Async
-    @Override
     public void sendMail(SimpleMailMessage message) {
         javaMailSender.send(message);
     }

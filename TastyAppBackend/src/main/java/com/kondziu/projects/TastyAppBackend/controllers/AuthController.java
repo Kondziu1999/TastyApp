@@ -1,6 +1,7 @@
 package com.kondziu.projects.TastyAppBackend.controllers;
 
 import com.kondziu.projects.TastyAppBackend.exceptions.AppException;
+import com.kondziu.projects.TastyAppBackend.exceptions.InvalidConfirmationTokenException;
 import com.kondziu.projects.TastyAppBackend.models.ConfirmationToken;
 import com.kondziu.projects.TastyAppBackend.models.Role;
 import com.kondziu.projects.TastyAppBackend.models.RoleName;
@@ -27,8 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
-import java.util.Optional;
-import java.util.function.Supplier;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -132,26 +132,18 @@ public class AuthController {
 
     @GetMapping("/confirmEmail/{token}")
     public ResponseEntity<?> confirmEmail(@PathVariable String token) {
-        ConfirmationToken confirmationToken = confirmationTokenRepository
-                .findConfirmationTokenByConfirmationToken(token).orElseGet(emptyConfirmationToken);
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(token)
+                .orElseThrow( () -> new InvalidConfirmationTokenException("token doesnt exist"));
+         //throw invalid since it is token error not user
+         User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
+                 .orElseThrow( () -> new InvalidConfirmationTokenException("user associated with token doesnt exists"));
 
-        //if user is not empty
-        if (confirmationToken.getUser().getEmail() != null) {
-            Optional<User> userOptional = userRepository.findByEmail(confirmationToken.getUser().getEmail());
-            User user;
-            if (userOptional.isPresent()) {
-                user = userOptional.get();
-                user.setEnabled(true);
-                userRepository.save(user);
-                return ResponseEntity.ok(confirmationToken);
-            } else {
-                return getBadRequestResponseEntityWithErrorMsg("something bad happened, user do not exist ");
-            }
-        }
+         //set confirm email flag to true
+         user.setEnabled(true);
+         userRepository.save(user);
 
-        return getBadRequestResponseEntityWithErrorMsg("invalid token");
+        //Consider delete token from db since it is not longer need
+        return ResponseEntity.ok(confirmationToken);
     }
 
-
-    private Supplier<ConfirmationToken> emptyConfirmationToken = () -> new ConfirmationToken(new User());
 }

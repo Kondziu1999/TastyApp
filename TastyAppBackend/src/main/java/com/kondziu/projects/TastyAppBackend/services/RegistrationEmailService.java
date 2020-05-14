@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationEmailService {
 
-    private EmailSenderService emailSenderService;
+    private EmailSenderServiceImpl emailSenderService;
 
     @Value("${app.domain}")
     private String DOMAIN;

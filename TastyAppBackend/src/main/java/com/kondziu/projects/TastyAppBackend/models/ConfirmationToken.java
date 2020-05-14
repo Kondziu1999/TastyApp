@@ -22,6 +22,7 @@ public class ConfirmationToken {
     private long tokenId;
 
     @Column(name="confirmation_token")
+    @JsonIgnore
     private String confirmationToken;
 
     @Temporal(TemporalType.TIMESTAMP)
