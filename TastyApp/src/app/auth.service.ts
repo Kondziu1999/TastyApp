@@ -1,5 +1,5 @@
 import { UserDto } from './models/userDto';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ApiSigninResponse } from './models/api-signin-response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -25,9 +25,18 @@ export class AuthService {
 
   authServerUrlPrefix: string="http://localhost:8080";
 
+  private isUserLoggedInSubject: BehaviorSubject<boolean>;
 
   
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+    const isUserLoggedIn=
+    (moment().isBefore(this.getExpiration()) !=null)?
+        moment().isBefore(this.getExpiration()) : false;
+
+    console.log("insisde constructor" + isUserLoggedIn);
+
+    this.isUserLoggedInSubject= new BehaviorSubject<boolean>(isUserLoggedIn);
+   }
 
   
   getUsernameAndEmailAvailability(username: string, email: string){
@@ -61,19 +70,30 @@ private setSession(authResult: ApiSigninResponse) {
 
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem("expires_at", JSON.stringify(time) );
+    this.isUserLoggedInSubject.next(true);
+    console.log("insisde setSession" + true); 
+
 }          
 
 logout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("expires_at");
+    this.isUserLoggedInSubject.next(false);
+    console.log("insisde logout " + false);
+
 }
 
 public isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
+    const checkIfLoggedIn = (moment().isBefore(this.getExpiration()) != null) ? moment().isBefore(this.getExpiration()) : false;
+
+    if(checkIfLoggedIn != this.isUserLoggedInSubject.value){
+      this.isUserLoggedInSubject.next(checkIfLoggedIn);
+    }
+    return this.isUserLoggedInSubject;
 }
 
 isLoggedOut() {
-    return !this.isLoggedIn();
+    return !this.isUserLoggedInSubject.value;
 }
 
 getExpiration() {
