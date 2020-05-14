@@ -1,13 +1,16 @@
 package com.kondziu.projects.TastyAppBackend.controllers;
 
 import com.kondziu.projects.TastyAppBackend.exceptions.AppException;
+import com.kondziu.projects.TastyAppBackend.models.ConfirmationToken;
 import com.kondziu.projects.TastyAppBackend.models.Role;
 import com.kondziu.projects.TastyAppBackend.models.RoleName;
 import com.kondziu.projects.TastyAppBackend.models.User;
 import com.kondziu.projects.TastyAppBackend.payload.*;
+import com.kondziu.projects.TastyAppBackend.repos.ConfirmationTokenRepository;
 import com.kondziu.projects.TastyAppBackend.repos.RoleRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
 import com.kondziu.projects.TastyAppBackend.security.JwtTokenProvider;
+import com.kondziu.projects.TastyAppBackend.services.RegistrationEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -40,16 +45,22 @@ public class AuthController {
 
     private final JwtTokenProvider tokenProvider;
 
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
+    private final RegistrationEmailService registrationEmailService;
+
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, ConfirmationTokenRepository confirmationTokenRepository, RegistrationEmailService registrationEmailService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.registrationEmailService = registrationEmailService;
     }
 
 
@@ -96,6 +107,12 @@ public class AuthController {
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
+        //create confirmation token and store it in db
+        ConfirmationToken confirmationToken=new ConfirmationToken(result);
+        confirmationTokenRepository.save(confirmationToken);
+        //pass it to service
+        registrationEmailService.prepareMessageAndSend(confirmationToken.getConfirmationToken(),user.getEmail());
+
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
 
@@ -109,7 +126,32 @@ public class AuthController {
     }
     
     private ResponseEntity<?> getBadRequestResponseEntityWithErrorMsg(String message){
-        return new ResponseEntity(new ApiResponse(false, message),
+        return new ResponseEntity<>(new ApiResponse(false, message),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping("/confirmEmail/{token}")
+    public ResponseEntity<?> confirmEmail(@PathVariable String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository
+                .findConfirmationTokenByConfirmationToken(token).orElseGet(emptyConfirmationToken);
+
+        //if user is not empty
+        if (confirmationToken.getUser().getEmail() != null) {
+            Optional<User> userOptional = userRepository.findByEmail(confirmationToken.getUser().getEmail());
+            User user;
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                user.setEnabled(true);
+                userRepository.save(user);
+                return ResponseEntity.ok(confirmationToken);
+            } else {
+                return getBadRequestResponseEntityWithErrorMsg("something bad happened, user do not exist ");
+            }
+        }
+
+        return getBadRequestResponseEntityWithErrorMsg("invalid token");
+    }
+
+
+    private Supplier<ConfirmationToken> emptyConfirmationToken = () -> new ConfirmationToken(new User());
 }
