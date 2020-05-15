@@ -26,7 +26,7 @@ public class PasswordRestoreService {
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setFrom("konrad.podgorski1999@gmail.com");
         mailMessage.setText("To reset your password, please click here : "
-                +redirectUrl+"?token="+token);
+                +redirectUrl+"/"+token);
         return mailMessage;
 
     }
