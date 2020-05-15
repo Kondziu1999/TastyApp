@@ -2,15 +2,15 @@ package com.kondziu.projects.TastyAppBackend.controllers;
 
 import com.kondziu.projects.TastyAppBackend.exceptions.AppException;
 import com.kondziu.projects.TastyAppBackend.exceptions.InvalidConfirmationTokenException;
-import com.kondziu.projects.TastyAppBackend.models.ConfirmationToken;
-import com.kondziu.projects.TastyAppBackend.models.Role;
-import com.kondziu.projects.TastyAppBackend.models.RoleName;
-import com.kondziu.projects.TastyAppBackend.models.User;
+import com.kondziu.projects.TastyAppBackend.exceptions.UserNotFoundException;
+import com.kondziu.projects.TastyAppBackend.models.*;
 import com.kondziu.projects.TastyAppBackend.payload.*;
 import com.kondziu.projects.TastyAppBackend.repos.ConfirmationTokenRepository;
+import com.kondziu.projects.TastyAppBackend.repos.ResetPasswordTokenRepository;
 import com.kondziu.projects.TastyAppBackend.repos.RoleRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
 import com.kondziu.projects.TastyAppBackend.security.JwtTokenProvider;
+import com.kondziu.projects.TastyAppBackend.services.PasswordRestoreService;
 import com.kondziu.projects.TastyAppBackend.services.RegistrationEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,11 +49,15 @@ public class AuthController {
 
     private final RegistrationEmailService registrationEmailService;
 
+    private final ResetPasswordTokenRepository resetPasswordTokenRepository;
+
+    private final PasswordRestoreService passwordRestoreService;
+
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, ConfirmationTokenRepository confirmationTokenRepository, RegistrationEmailService registrationEmailService) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, ConfirmationTokenRepository confirmationTokenRepository, RegistrationEmailService registrationEmailService, ResetPasswordTokenRepository resetPasswordTokenRepository, PasswordRestoreService passwordRestoreService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -61,6 +65,8 @@ public class AuthController {
         this.tokenProvider = tokenProvider;
         this.confirmationTokenRepository = confirmationTokenRepository;
         this.registrationEmailService = registrationEmailService;
+        this.resetPasswordTokenRepository = resetPasswordTokenRepository;
+        this.passwordRestoreService = passwordRestoreService;
     }
 
 
@@ -136,7 +142,7 @@ public class AuthController {
                 .orElseThrow( () -> new InvalidConfirmationTokenException("token doesnt exist"));
          //throw invalid since it is token error not user
          User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
-                 .orElseThrow( () -> new InvalidConfirmationTokenException("user associated with token doesnt exists"));
+                 .orElseThrow( () -> new InvalidConfirmationTokenException("user associated with token doesnt exists") );
 
          //set confirm email flag to true
          user.setEnabled(true);
@@ -144,6 +150,43 @@ public class AuthController {
 
         //Consider delete token from db since it is not longer need
         return ResponseEntity.ok(confirmationToken);
+    }
+    @PostMapping(value ={"/resetPassword"})
+    public ResponseEntity<?>  resetPassword(@RequestBody ResetPasswordPayload payload){
+        //if it is request for sending URL with token via email
+        //contains usernameOrEmail  and frontendUrl
+        if(payload.getToken()==null){
+            User user=userRepository.findByUsernameOrEmail(payload.getUsernameOrEmail(),payload.getUsernameOrEmail())
+                    .orElseThrow( () -> new UserNotFoundException("user with given username or email not found") );
+
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/api/auth/resetPassword")
+                    .buildAndExpand(user.getUsername()).toUri();
+
+            ResetPasswordToken token=new ResetPasswordToken(user);
+            resetPasswordTokenRepository.save(token);
+
+            passwordRestoreService.sendRestorePasswordEmail(token.getResetPasswordToken(),user.getEmail(),payload.getFrontendUrl());
+
+            return ResponseEntity.created(location).body(new ApiResponse(true, "Email send successfully"));
+        }
+        //otherwise it must be request which change password
+        //contains usernameOrEmail  token  password
+        else {
+            ResetPasswordToken token = resetPasswordTokenRepository.findResetPasswordTokenByResetPasswordToken(payload.getToken())
+                    .orElseThrow( () -> new InvalidConfirmationTokenException("invalid token") );
+            User user=userRepository.findByUsernameOrEmail(payload.getUsernameOrEmail(), payload.getUsernameOrEmail())
+                    .orElseThrow( () -> new UserNotFoundException("user with given username or email not found") );
+
+            String password = payload.getPassword();
+
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+
+            resetPasswordTokenRepository.delete(token);
+
+            return ResponseEntity.ok().body(payload);
+        }
     }
 
 }

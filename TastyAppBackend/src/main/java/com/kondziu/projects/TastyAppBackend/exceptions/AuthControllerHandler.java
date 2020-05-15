@@ -24,6 +24,12 @@ public class AuthControllerHandler {
 
             return handleInvalidConfirmationTokenException(exception,httpHeaders,status,request);
         }
+        if(ex instanceof UserNotFoundException){
+            HttpStatus status=HttpStatus.NOT_FOUND;
+            UserNotFoundException exception=(UserNotFoundException) ex;
+
+            return handleUserNotFoundException(exception,httpHeaders,status,request);
+        }
         else{
             HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
             return handleExceptionInternal(ex, null, httpHeaders, status, request);
@@ -36,9 +42,15 @@ public class AuthControllerHandler {
         return handleExceptionInternal(ex,new ApiError(errors),headers,status,request);
     }
 
+    protected ResponseEntity<ApiError> handleUserNotFoundException(
+            UserNotFoundException ex,HttpHeaders headers, HttpStatus status, WebRequest request){
+        List<String> errors=Collections.singletonList(ex.getMessage());
+        return handleExceptionInternal(ex,new ApiError(errors),headers,status,request);
+    }
 
     //single method to customize response type of all exceptions
-    protected ResponseEntity<ApiError> handleExceptionInternal(Exception ex, ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<ApiError> handleExceptionInternal(
+            Exception ex, ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
         }
