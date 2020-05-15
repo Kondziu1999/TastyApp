@@ -14,8 +14,10 @@ public class PasswordRestoreService {
         this.emailSenderService=emailSenderService;
     }
 
+
     public void sendRestorePasswordEmail(String token,String email,String redirectUrl){
         SimpleMailMessage message=prepareRestorePasswordEmail(token,email,redirectUrl);
+        System.out.println("SEND MAIL FROM PASSWORD SERVICE");
         this.emailSenderService.sendMail(message);
     }
 

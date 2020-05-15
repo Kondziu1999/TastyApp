@@ -175,7 +175,8 @@ public class AuthController {
         else {
             ResetPasswordToken token = resetPasswordTokenRepository.findResetPasswordTokenByResetPasswordToken(payload.getToken())
                     .orElseThrow( () -> new InvalidConfirmationTokenException("invalid token") );
-            User user=userRepository.findByUsernameOrEmail(payload.getUsernameOrEmail(), payload.getUsernameOrEmail())
+            String username=token.getUser().getUsername();
+            User user=userRepository.findByUsernameOrEmail(username,username)
                     .orElseThrow( () -> new UserNotFoundException("user with given username or email not found") );
 
             String password = payload.getPassword();
@@ -183,7 +184,7 @@ public class AuthController {
             user.setPassword(passwordEncoder.encode(password));
             userRepository.save(user);
 
-            resetPasswordTokenRepository.delete(token);
+            resetPasswordTokenRepository.deleteById(token.getTokenId());
 
             return ResponseEntity.ok().body(payload);
         }
