@@ -21,6 +21,7 @@ public class UserPrincipal implements UserDetails {
     private Long id;
     private String name;
     private String username;
+    private boolean isEnabled;
 
     @JsonIgnore
     private String email;
@@ -30,6 +31,7 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserPrincipal create(User user) {
+
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
@@ -38,6 +40,7 @@ public class UserPrincipal implements UserDetails {
                 user.getId(),
                 user.getName(),
                 user.getUsername(),
+                user.isEnabled(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities
@@ -77,6 +80,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

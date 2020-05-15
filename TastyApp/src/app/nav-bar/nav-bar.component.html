@@ -1,18 +1,27 @@
 <div class="navbar-style" >
 
-<ul class="ul">
-  
-    <li class="li">
-        <i class="fas fa-home fa-2x i" (click)="goToHomePage()"></i>
-    </li>
+    <ul class="ul" style="display: flex; width: 100%;">
+    
+        <li class="li">
+            <i class="fas fa-home fa-2x i" (click)="goToHomePage()"></i>
+        </li>
 
-    <li class="li">
-        <a class="a" (click)="goToHomePage()">Home</a>
-    </li>
-    <li class="li">
-        <a class="a" (click)="goToAddRecipe()">Dodaj Przepis</a>
-    </li>
-</ul>
-
-
+        <li class="li">
+            <a class="a" (click)="goToHomePage()">Home</a>
+        </li>
+        <li class="li">
+            <a class="a" (click)="goToAddRecipe()">Dodaj Przepis</a>
+        </li>
+        <li style="margin-left: auto;" class="li" *ngIf="isUserLoggedIn">
+            <a class="a" (click)="logout()">Logout</a>
+        </li>
+        <li class="li display-logout" [class.display-logout]="!isUserLoggedIn"  (click)="changeToogle()">
+            <i class="fas fa-ellipsis-v fa-2x i" ></i>
+            <div class="dropdown" [ngClass]="{'display-none':!isToogle}">
+                <a routerLink="/login" class="link" href="#">Login</a>
+                <a routerLink="/register" class="link"href="#">Register</a>
+            </div>
+        </li>
+    </ul>
+    
 </div>

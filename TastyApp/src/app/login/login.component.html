@@ -1,5 +1,5 @@
 
-<div class="registrationOrLogin">
+<div class="registrationOrLogin" *ngIf="!isForgetPassword">
     <div class="card card-pos">
         
         <h4 class="card-header">Login</h4>
@@ -28,6 +28,7 @@
                         Login
                     </button>
                     <a routerLink="../register" class="btn btn-link">Register</a>
+                    <a routerLink="./resetPassword" (click)="isForgetPassword=true" class="btn btn-link">Forgot password?</a>
                 </div>
     
             </form>
@@ -35,3 +36,5 @@
     </div>
 
 </div>
+<!-- since it is only one item in outlet i will use ngIf insted of use @Input on child -->
+<router-outlet  *ngIf="isForgetPassword" ></router-outlet>

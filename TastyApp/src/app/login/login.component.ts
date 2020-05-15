@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   authObserver: Observable<ApiSigninResponse>;
+  isForgetPassword: boolean;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -27,6 +28,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isForgetPassword=false;
+    
       this.form = this.formBuilder.group({
           username: ['', Validators.required],
           password: ['', Validators.required]

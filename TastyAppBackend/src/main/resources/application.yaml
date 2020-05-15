@@ -14,9 +14,20 @@ spring:
     show-sql: true
   application:
     name: TastyAppBackend
-
-
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "konrad.podgorski1999@gmail.com"
+    password: "bncuhqrijiowskgj"
+    properties:
+      mail:
+        smtp:
+          starttls:
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 server:
   port: 8080
 #  ssl:
@@ -27,7 +38,10 @@ server:
 app:
   jwtSecret: secret
   jwtExpirationInMs: 3600000
+  domain: "http://localhost:8080"
+
 
 page:
   size: 10
   default-page: 0
+
