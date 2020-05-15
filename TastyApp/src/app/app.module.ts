@@ -17,6 +17,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
+import { ResetPasswordComponentComponent } from './reset-password-component/reset-password-component.component';
+import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { RegistrationSuccessComponent } from './registration-success/registratio
     NavBarComponent,
     LoginComponent,
     RegistrationFormComponent,
-    RegistrationSuccessComponent
+    RegistrationSuccessComponent,
+    ResetPasswordComponentComponent,
+    ResetPasswordFormComponent
   ],
   imports: [
     BrowserModule,

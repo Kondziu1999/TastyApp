@@ -1,3 +1,5 @@
+import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
+import { ResetPasswordComponentComponent } from './reset-password-component/reset-password-component.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { AuthGuard } from './auth-guard';
@@ -34,7 +36,18 @@ const routes: Routes = [
   ]},
   {path: 'register',component: RegistrationFormComponent},
   {path: 'registrationSuccess',component: RegistrationSuccessComponent},
-  {path: 'login',component: LoginComponent},
+  {path: 'login',component: LoginComponent ,children:[
+    {
+      path: 'resetPassword',
+      component: ResetPasswordComponentComponent
+  }]},
+  {path: 'resetPassword',children:[{
+    path: ':token',
+    component: ResetPasswordFormComponent
+  },{
+    path: '',
+    redirectTo: '/NotFound',pathMatch: 'full'
+  }]},
   {path: 'NotFound', component: PageNotFoundComponentComponent},
   { path: '',   redirectTo: '/recipes', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponentComponent, }
