@@ -1,6 +1,6 @@
-import { RecipeService } from './../recipe.service';
+import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
-import { RecipeMessageServiceService } from './../recipe-message-service.service';
+import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';

@@ -2,7 +2,7 @@ import { UserDto } from './../models/UserDto';
 import { Observable } from 'rxjs';
 import { CredentailsAvailability } from './../models/credentails-availability';
 import { User } from './../models/user';
-import { AuthService } from './../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

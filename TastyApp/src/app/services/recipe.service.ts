@@ -1,9 +1,9 @@
-import { RecipeModel } from './models/recipe-model.model';
+import { RecipeModel } from '../models/recipe-model.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { RecipesOverviewModel } from './models/recipes-overview-model';
+import { RecipesOverviewModel } from '../models/recipes-overview-model';
 
 @Injectable({
   providedIn: 'root'

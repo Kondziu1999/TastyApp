@@ -1,6 +1,6 @@
 import { ApiSigninResponse } from './../models/api-signin-response';
 import { Subscription, Observable } from 'rxjs';
-import { AuthService } from './../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

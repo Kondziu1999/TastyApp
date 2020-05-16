@@ -1,5 +1,5 @@
-import { RecipeService } from './recipe.service';
-import { RecipeMessageServiceService } from './recipe-message-service.service';
+import { RecipeService } from './services/recipe.service';
+import { RecipeMessageServiceService } from './services/recipe-message-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';

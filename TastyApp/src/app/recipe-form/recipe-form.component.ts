@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { RecipeModel } from './../models/recipe-model.model';
-import { RecipeMessageServiceService } from './../recipe-message-service.service';
+import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
 import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
