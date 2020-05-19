@@ -133,7 +133,19 @@
         </div>
 
 
+        <div id="drop_zone" (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)" style="border-style: dashed;width: 50%;height:5%">
+            <p>Drag and Deop File here...</p>
+        </div>
         
+        <!-- <div style="width: 50%;display: flex;">
+            <button  style="align-items: flex-start;" type="button" class="btn btn-primary"> Upload</button>
+
+        </div> -->
+        <div *ngFor="let file of files; let i=index">
+            {{file.fileName}}
+            <h1>plik</h1>
+            <button type="button" (click)="deleteFile(i)">Kick it out</button>
+        </div>   
         <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
     </form>
 

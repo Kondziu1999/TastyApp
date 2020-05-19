@@ -6,19 +6,24 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 export class AuthInterceptor implements HttpInterceptor {
     
     intercept(req: HttpRequest<any>,next: HttpHandler): Observable<HttpEvent<any>>{
-        const idToken = localStorage.getItem("id_token");
+        const idToken = localStorage.getItem("access_token");
 
-        if (idToken) {
-            const cloned = req.clone({
-                headers: req.headers.set("Authorization",
-                    "Bearer " + idToken)
+        // if (idToken) {
+            // const cloned = req.clone({
+            //     headers: req.headers.set("Authorization",
+            //         "Bearer " + idToken)
+            // });
+            const clon=req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${idToken}`
+                    }
             });
 
-            return next.handle(cloned);
-        }
-        else {
-            return next.handle(req);
-        }
+            return next.handle(clon);
+        // }
+        // else {
+        //     return next.handle(req);
+        // }
     }
 
 }

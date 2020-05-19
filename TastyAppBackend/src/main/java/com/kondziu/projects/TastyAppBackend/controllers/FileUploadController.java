@@ -21,6 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/files")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FileUploadController {
 
     private final UploadImageService uploadImageService;
@@ -47,10 +48,13 @@ public class FileUploadController {
         if(file.isEmpty()){
             throw new BadRequestException("the attached file is empty");
         }
-        ImageModel imageModel=new ImageModel(UUID.randomUUID().toString(), Files.getFileExtension(file.getOriginalFilename()),file);
+        ImageModel imageModel=
+                new ImageModel(UUID.randomUUID().toString(), Files.getFileExtension(file.getOriginalFilename()),file);
         boolean result = uploadImageService.uploadImage(imageModel,userId,recipeId);
 
-        return result ? ResponseEntity.ok("image uploaded successfully") :
+        return result ? ResponseEntity.ok(imageModel) :
              ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("something went wrong");
     }
+
+
 }

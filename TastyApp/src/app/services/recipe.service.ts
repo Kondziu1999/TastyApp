@@ -48,6 +48,17 @@ export class RecipeService {
         catchError(this.handleError)
       );
   }
+  private JsonHeader=new HttpHeaders({ 'Accept': 'application/json'});
+  uploadPhotos(file: File){
+    const uploadImageData  = new FormData();
+    uploadImageData.append('imageFile', file, file.name);
+
+    this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImageData)
+      .subscribe(
+        msg => console.log(msg),
+        error => console.log(error)
+      );
+  }
 
   private handleError(error: HttpErrorResponse){
     //client side error

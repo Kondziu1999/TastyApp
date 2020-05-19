@@ -1,7 +1,8 @@
+import { RecipeService } from './../services/recipe.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
-import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
@@ -21,9 +22,14 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   recipeForm: any;
   currentRecipeDetails: RecipeModel;
   private detailsSubscription : Subscription;
+
+  files: Array<{
+    'fileName': string,
+    'selectedFile': File
+  }> = [];
   
   constructor(private fb: FormBuilder, private details: RecipeMessageServiceService, 
-          private route: ActivatedRoute,private router:Router) { }
+          private route: ActivatedRoute,private router:Router, private recipeService: RecipeService) { }
   
   ngOnInit(): void {
     //this.name= new FormControl('');
@@ -79,6 +85,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     //alert(stringify(this.recipeForm));
     this.router.navigate(['../recipeSummary'],{relativeTo: this.route});
     this.details.updateRecipeDetails(this.formToJson());
+
+    this.recipeService.uploadPhotos(this.files[0].selectedFile);    
   }
 
   formToJson():string {
@@ -144,6 +152,45 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   }
   getIngredientValidity(i: number):boolean{
     return (<FormArray>this.recipeForm.get('ingredients')).controls[i].valid;
+  }
+
+  mouseOver: boolean=false;
+
+  dragOverHandler(ev) {
+    console.log('File(s) in drop zone'); 
+  
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.mouseOver=true;
+  }
+
+  dropHandler(ev){
+    ev.preventDefault();
+
+    if(ev.dataTransfer.items){
+      for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+        
+        if (ev.dataTransfer.items[i].kind === 'file') {
+          let file = ev.dataTransfer.items[i].getAsFile();
+          let obj = {
+            fileName: file.name,
+            selectedFile: file
+          }
+          this.files.push(obj);
+          console.log('... file[' + i + '].name = ' + file.name);
+        }
+      }
+    }
+  
+  }
+
+  deleteFile(index: number){
+    console.log(this.files);
+
+    this.files.slice(index,1);
+    this.files=this.files.filter(obj => obj!== this.files[index]);
+    console.log(this.files);
   }
 
 }
