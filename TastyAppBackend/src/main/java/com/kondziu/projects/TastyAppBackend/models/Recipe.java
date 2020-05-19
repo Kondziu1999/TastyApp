@@ -47,4 +47,7 @@ public class Recipe {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }

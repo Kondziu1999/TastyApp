@@ -1,6 +1,7 @@
 package com.kondziu.projects.TastyAppBackend.controllers;
 
 
+import com.google.common.io.Files;
 import com.kondziu.projects.TastyAppBackend.exceptions.BadRequestException;
 import com.kondziu.projects.TastyAppBackend.exceptions.RecipeNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.UserNotFoundException;
@@ -17,8 +18,9 @@ import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api/files")
 public class FileUploadController {
 
     private final UploadImageService uploadImageService;
@@ -45,7 +47,7 @@ public class FileUploadController {
         if(file.isEmpty()){
             throw new BadRequestException("the attached file is empty");
         }
-        ImageModel imageModel=new ImageModel(UUID.randomUUID().toString(),file.getContentType(),file);
+        ImageModel imageModel=new ImageModel(UUID.randomUUID().toString(), Files.getFileExtension(file.getOriginalFilename()),file);
         boolean result = uploadImageService.uploadImage(imageModel,userId,recipeId);
 
         return result ? ResponseEntity.ok("image uploaded successfully") :

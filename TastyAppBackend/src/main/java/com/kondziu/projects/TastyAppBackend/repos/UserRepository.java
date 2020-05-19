@@ -2,6 +2,7 @@ package com.kondziu.projects.TastyAppBackend.repos;
 
 import com.kondziu.projects.TastyAppBackend.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+    @Query("SELECT r.id from User u INNER JOIN Recipe r where r.id=?1")
+    List<String> findUserRecipes(Long recipeId);
 }
