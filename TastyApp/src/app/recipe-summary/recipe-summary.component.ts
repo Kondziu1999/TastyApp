@@ -20,6 +20,7 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   public photosUploaded: number;
   public responseError: boolean;
   public files: Array<File>;
+  public imageURL: any;
 
   constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
     private recipeService: RecipeService) {
@@ -76,6 +77,46 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     this.router.navigate(['../successfullyAdded'],{relativeTo: this.route});
   }  
 
+  displayModalVar: boolean= false;
+
+  displayModal(): void{
+    this.displayModalVar=true;
+   
+  }
+
+  closeModal(){
+    this.displayModalVar=false;
+  }
   
+//   preview() {
+//     // Show preview 
+//     var mimeType = this.files[0].selectedFile.type;
+//     if (mimeType.match(/image\/*/) == null) {
+//       return;
+//     }
+ 
+//     var reader = new FileReader();      
+//     reader.readAsDataURL(this.files[0].selectedFile); 
+//     reader.onload = (_event) => { 
+//       this.imageURL = reader.result; 
+//     }
+// }
+
+  loadImageUrl(file: File,index: number){
+    let mimeType= file.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file); 
+    reader.onload = (_event) => { 
+      // this.imageURL = reader.result; 
+      this.imagesURL[index] = reader.result.toString();
+       
+    }
+  }
+
+  imagesURL: String[]=[];
 
 }

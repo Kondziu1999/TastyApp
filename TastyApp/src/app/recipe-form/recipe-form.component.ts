@@ -10,6 +10,7 @@ import { emptyIngredientValidator, notRequiredLengthOfStepValidator } from '../v
 import { stringify } from 'querystring';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
@@ -30,9 +31,23 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     'fileName': string,
     'selectedFile': File
   }> = [];
-  
+
+  // imageURL: any;
+
+  // displayModalVar: boolean= false;
+
+  // displayModal(): void{
+  //   this.displayModalVar=true;
+   
+  // }
+
+  // closeModal(){
+  //   this.displayModalVar=false;
+  // }
+
+
   constructor(private fb: FormBuilder, private details: RecipeMessageServiceService, 
-          private route: ActivatedRoute,private router:Router, private recipeService: RecipeService) { }
+      private route: ActivatedRoute,private router:Router, private recipeService: RecipeService) { }
   
   ngOnInit(): void {
     //this.name= new FormControl('');
@@ -60,6 +75,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
           });
     
     //since message service hold pure file there is need to map it back to object 
+    //TODO refactor it
     this.filesSubscription=this.details.getFiles()
           .subscribe(
             msg =>{ 
@@ -201,7 +217,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
         }
       }
     }
-  
+    // this.preview();
   }
 
   deleteFile(index: number){
@@ -211,5 +227,19 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.files=this.files.filter(obj => obj!== this.files[index]);
     console.log(this.files);
   }
+
+//   preview() {
+//     // Show preview 
+//     var mimeType = this.files[0].selectedFile.type;
+//     if (mimeType.match(/image\/*/) == null) {
+//       return;
+//     }
+ 
+//     var reader = new FileReader();      
+//     reader.readAsDataURL(this.files[0].selectedFile); 
+//     reader.onload = (_event) => { 
+//       this.imageURL = reader.result; 
+//     }
+// }
 
 }

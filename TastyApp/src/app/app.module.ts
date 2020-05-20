@@ -22,6 +22,7 @@ import { RegistrationSuccessComponent } from './registration-success/registratio
 import { ResetPasswordComponentComponent } from './reset-password-component/reset-password-component.component';
 import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     RegistrationSuccessComponent,
     ResetPasswordComponentComponent,
     ResetPasswordFormComponent
+
   ],
   imports: [
     BrowserModule,
