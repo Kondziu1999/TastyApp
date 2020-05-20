@@ -15,8 +15,11 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
 
   currentRecipeDetails: RecipeModel;
   private detailsSubscription : Subscription;
-  public whaitForServerResponse: boolean;
+  private filesSubscription: Subscription;
+  public waitForRecipeUpload: boolean;
+  public photosUploaded: number;
   public responseError: boolean;
+  public files: Array<File>;
 
   constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
     private recipeService: RecipeService) {
@@ -25,9 +28,18 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.detailsSubscription=this.details.getRecipeDetails()
           .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
-    this.whaitForServerResponse=false;
-    this.responseError=false;
+    this.filesSubscription=this.details.getFiles()
+          .subscribe(message => this.files=message);
 
+    this.waitForRecipeUpload=false;
+    this.responseError=false;
+    this.photosUploaded=0;
+
+  }
+
+  ifPhotosUploaded() : boolean{
+    if(this.files== null) return true;
+    return this.files.length < this.photosUploaded ? false : true;
   }
   ngOnDestroy(){
     this.detailsSubscription.unsubscribe();
@@ -41,12 +53,23 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
-    this.whaitForServerResponse=true;
+    this.waitForRecipeUpload=true;
+    
+
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
-        message=>{this.whaitForServerResponse=false; this.navigateToSuccessSide()},
-        err => {this.responseError=true; this.whaitForServerResponse=false}
+        message=>{this.waitForRecipeUpload=false; 
+          if(this.photosUploaded) this.navigateToSuccessSide()
+        },
+        err => {this.responseError=true; this.waitForRecipeUpload=false}
         )
+    if(this.files !=null){
+      this.files.forEach(file => this.recipeService.uploadPhoto(file)
+          .subscribe(
+            msg => {this.photosUploaded+=1;
+              if(this.photosUploaded && ! this.waitForRecipeUpload) this.navigateToSuccessSide()},
+            err => this.responseError=true));
+    }
   }
 
   navigateToSuccessSide(): void{

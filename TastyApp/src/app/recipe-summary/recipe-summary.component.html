@@ -46,10 +46,14 @@
             {{currentRecipeDetails.description}}
         </div>
     </div>
+
+    <div *ngFor="let file of files">
+        File {{file.name}}
+    </div>
    
     
     <div style=" display: flex;flex-direction: row;justify-content: flex-end;margin-top: 2%;">
-        <div *ngIf="whaitForServerResponse" class="spinner-border text-success" style="margin-right: 20%;" role="status">
+        <div *ngIf="waitForRecipeUpload || !ifPhotosUploaded()" class="spinner-border text-success" style="margin-right: 20%;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
         <button  class="btn btn-warning "type="button" (click)="edit()">Edytuje</button> 

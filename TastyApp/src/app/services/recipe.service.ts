@@ -49,15 +49,12 @@ export class RecipeService {
       );
   }
   private JsonHeader=new HttpHeaders({ 'Accept': 'application/json'});
-  uploadPhotos(file: File){
+  uploadPhoto(file: File){
     const uploadImageData  = new FormData();
     uploadImageData.append('imageFile', file, file.name);
 
-    this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImageData)
-      .subscribe(
-        msg => console.log(msg),
-        error => console.log(error)
-      );
+    return this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImageData)
+      .pipe(retry(2));
   }
 
   private handleError(error: HttpErrorResponse){

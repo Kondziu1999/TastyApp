@@ -81,12 +81,18 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.detailsSubscription.unsubscribe();
   }
 
+
   onSubmit(){
     //alert(stringify(this.recipeForm));
     this.router.navigate(['../recipeSummary'],{relativeTo: this.route});
     this.details.updateRecipeDetails(this.formToJson());
+    this.details.updateFiles(this.files.map(file => file.selectedFile));
 
-    this.recipeService.uploadPhotos(this.files[0].selectedFile);    
+    // this.files.forEach(file => {
+    //   this.recipeService.uploadPhoto(file.selectedFile)
+    //     .subscribe(msg => console.log(msg))}
+    // );
+
   }
 
   formToJson():string {
@@ -154,7 +160,6 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     return (<FormArray>this.recipeForm.get('ingredients')).controls[i].valid;
   }
 
-  mouseOver: boolean=false;
 
   dragOverHandler(ev) {
     console.log('File(s) in drop zone'); 
@@ -162,7 +167,6 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
     ev.stopPropagation();
-    this.mouseOver=true;
   }
 
   dropHandler(ev){
