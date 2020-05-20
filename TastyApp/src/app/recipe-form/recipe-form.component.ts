@@ -21,7 +21,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   numberOfSteps: number=0;
   recipeForm: any;
   currentRecipeDetails: RecipeModel;
+
+  //subscriptions to service which serve details between form and summary component
   private detailsSubscription : Subscription;
+  private filesSubscription: Subscription;
 
   files: Array<{
     'fileName': string,
@@ -55,8 +58,20 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
               this.currentRecipeDetails=JSON.parse(message);
               this.updateForm();}
           });
-
+    
+    //since message service hold pure file there is need to map it back to object 
+    this.filesSubscription=this.details.getFiles()
+          .subscribe(
+            msg =>{ 
+              if(msg !=null) {
+                this.files=msg.map(val => ({'fileName': val.name,
+                'selectedFile': val}))
+              }
+            }
+          );
+          
   }
+  
   updateForm():void{
     //fill form
     if(this.currentRecipeDetails){
