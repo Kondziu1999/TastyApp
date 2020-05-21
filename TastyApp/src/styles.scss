@@ -1,7 +1,71 @@
 /* You can add global styles to this file, and also import other style files */
 $green-color: #03d30d;
+$grey-color: rgb(233, 233, 233);
+$shadow-color: rgb(34, 34, 34) ;
 
+.form-component-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(233, 233, 233);
+    font-weight: 500;
+    
+    .form-container{
+        min-width: 500px;
+        width: 60%; 
+        height:100%;
+        box-shadow: 3px 3px 13px 1px $shadow-color;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
+        .form{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+
+    .btn-position{
+        margin-bottom: 3%;
+        align-self: center;
+    }
+
+    .basic-font{
+        font-weight: 500;
+
+    }
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.header-font{
+    font-family: 'Lato'; 
+    font-weight: 800;
+}
+
+.label-font{
+    font-family: 'Balsamiq Sans', cursive;
+}
+
+.header-style{
+    @extend .header-font;
+    align-self: center;
+    margin-bottom: 3%;
+}
+
+.add-recipe-header{
+    @extend .header-font;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    color:#28a745;
+}
 
 .ingredients-container{
     & > .form-group {
@@ -203,7 +267,7 @@ $green-color: #03d30d;
     height: 8vh;
     display: flex;
     justify-content: center;
-
+    border-width: 2px;
     &> .sentence{
         height: 50%;
         
@@ -239,6 +303,10 @@ $green-color: #03d30d;
     //background-color: rgba(0, 0, 0, 0.2);
     
 }
+
+//
+
+
 
 //modal image//
 
