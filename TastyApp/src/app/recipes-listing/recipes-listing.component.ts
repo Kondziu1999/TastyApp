@@ -3,6 +3,7 @@ import { RecipesOverviewModel } from './../models/recipes-overview-model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-recipes-listing',
@@ -19,7 +20,8 @@ export class RecipesListingComponent implements OnInit {
   private MAX_PAGE_SIZE:number=10;
   private recipeObserver: any;
 
-  constructor(private recipeService: RecipeService,private route: ActivatedRoute,private router: Router) { }
+  constructor(private recipeService: RecipeService,private route: ActivatedRoute,private router: Router,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.lastPageFlag=false;
@@ -70,6 +72,7 @@ export class RecipesListingComponent implements OnInit {
       .subscribe(this.recipeObserver);
 
   }
+
 }
 
 

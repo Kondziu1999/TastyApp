@@ -71,7 +71,11 @@ export class RecipeService {
       .pipe(retry(2));
   }
 
-
+  getPhoto(){
+    //return image directly
+    return this.http.get<Blob>(this.backendUrl+"/files/images/1/1",{responseType : "blob" as "json" });
+  }
+  
   private handleError(error: HttpErrorResponse){
     //client side error
     if(error.error instanceof ErrorEvent){
