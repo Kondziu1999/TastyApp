@@ -1,7 +1,7 @@
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
@@ -17,7 +17,7 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   private detailsSubscription : Subscription;
   private filesSubscription: Subscription;
   public waitForRecipeUpload: boolean;
-  public photosUploaded: number;
+  public photosUploaded: boolean;
   public responseError: boolean;
   public files: Array<File>;
   public imageURL: any;
@@ -31,16 +31,17 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
           .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
     this.filesSubscription=this.details.getFiles()
           .subscribe(message => this.files=message);
-
+     
     this.waitForRecipeUpload=false;
     this.responseError=false;
-    this.photosUploaded=0;
-
+ 
   }
+ 
 
   ifPhotosUploaded() : boolean{
     if(this.files== null) return true;
-    return this.files.length < this.photosUploaded ? false : true;
+    if(this.photosUploaded == null) return true;
+    return this.photosUploaded;
   }
   ngOnDestroy(){
     this.detailsSubscription.unsubscribe();
@@ -56,7 +57,6 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   confirm(){
     this.waitForRecipeUpload=true;
     
-
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
         message=>{this.waitForRecipeUpload=false; 
@@ -64,12 +64,14 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
         },
         err => {this.responseError=true; this.waitForRecipeUpload=false}
         )
-    if(this.files !=null){
-      this.files.forEach(file => this.recipeService.uploadPhoto(file)
-          .subscribe(
-            msg => {this.photosUploaded+=1;
-              if(this.photosUploaded && ! this.waitForRecipeUpload) this.navigateToSuccessSide()},
-            err => this.responseError=true));
+
+    if(this.files!=null){
+      this.recipeService.uploadPhotos(this.files)
+        .subscribe(
+          msg => {
+            this.photosUploaded=true;
+            if(! this.waitForRecipeUpload) this.navigateToSuccessSide();},
+           err => {this.responseError=true; this.waitForRecipeUpload=false});
     }
   }
 
@@ -88,20 +90,6 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     this.displayModalVar=false;
   }
   
-//   preview() {
-//     // Show preview 
-//     var mimeType = this.files[0].selectedFile.type;
-//     if (mimeType.match(/image\/*/) == null) {
-//       return;
-//     }
- 
-//     var reader = new FileReader();      
-//     reader.readAsDataURL(this.files[0].selectedFile); 
-//     reader.onload = (_event) => { 
-//       this.imageURL = reader.result; 
-//     }
-// }
-
   loadImageUrl(file: File,index: number){
     let mimeType= file.type;
     if (mimeType.match(/image\/*/) == null) {

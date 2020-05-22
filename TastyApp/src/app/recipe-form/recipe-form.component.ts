@@ -200,6 +200,18 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     ev.stopPropagation();
   }
 
+  addFile(files: FileList){
+    for ( var i=0; i< files.length; i++){
+      let obj = {
+        fileName: files[i].name,
+        selectedFile: files[i]
+      }
+      if(this.files.length<4){
+        this.files.push(obj);
+      }
+    }
+
+  }
   dropHandler(ev){
     ev.preventDefault();
 
@@ -212,7 +224,9 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
             fileName: file.name,
             selectedFile: file
           }
-          this.files.push(obj);
+          if(this.files.length<4){
+            this.files.push(obj);
+          }
           console.log('... file[' + i + '].name = ' + file.name);
         }
       }

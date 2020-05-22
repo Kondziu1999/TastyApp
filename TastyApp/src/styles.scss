@@ -30,14 +30,22 @@ $shadow-color: rgb(34, 34, 34) ;
         }
     }
 
-    .btn-position{
-        margin-bottom: 3%;
-        align-self: center;
-    }
-
     .basic-font{
         font-weight: 500;
 
+    }
+
+    .addButton{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5%;
+    }
+
+    .submitButton{
+        align-self: flex-end;
+        margin-bottom: 3%;
+        
     }
 }
 
@@ -148,6 +156,7 @@ $shadow-color: rgb(34, 34, 34) ;
     }
        
 }
+
 
 .navbar-style{
    background-color: #585a58 ;

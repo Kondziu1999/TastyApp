@@ -48,7 +48,9 @@ export class RecipeService {
         catchError(this.handleError)
       );
   }
+
   private JsonHeader=new HttpHeaders({ 'Accept': 'application/json'});
+
   uploadPhoto(file: File){
     const uploadImageData  = new FormData();
     uploadImageData.append('imageFile', file, file.name);
@@ -56,6 +58,19 @@ export class RecipeService {
     return this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImageData)
       .pipe(retry(2));
   }
+
+  uploadPhotos(files: Array<File>){
+    const uploadImagesData  = new FormData();
+
+    files.forEach(file => {
+      uploadImagesData.append('imageFile', file, file.name);
+   
+    });
+    
+    return this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImagesData)
+      .pipe(retry(2));
+  }
+
 
   private handleError(error: HttpErrorResponse){
     //client side error

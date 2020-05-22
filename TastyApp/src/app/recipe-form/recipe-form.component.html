@@ -92,13 +92,13 @@
             </div>
             
             
-            <div formArrayName="ingredients" class="form-group" style="width: 60%;margin-bottom: 2%;">
+            <div formArrayName="ingredients" class="form-group" style="width: 60%;">
                 
 
                 <div class="ingredients-container ">
                     <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group "  >
                         <input type="text" class="form-control basic-font" [formControlName]="i">
-                        <button  class="btn btn-warning" style="margin-left: 10%;"  (click)="delIngredient(i)">-</button>
+                        <button  class="btn btn-secondary" style="margin-left: 10%;"  (click)="delIngredient(i)">-</button>
                     </div>
                 </div>
                 
@@ -115,7 +115,7 @@
 
             </div>
 
-            <div style="width: 50%;display: flex;flex-direction: column;">
+            <div class="addButton">
                 <button type="button" class="btn btn-success btn-position" style="align-self: flex-end;" (click)="addIngredient()">Dodaj</button>
             </div>
 
@@ -124,17 +124,15 @@
                 <!-- <button  type="button"  class="btn btn-success btn-position"  (click)="addStep()">Dodaj</button> -->
             </div>
             
-
+        
             <div formArrayName="steps" class="form-group flex-column" style="width: 60%;" >
-                
-                
                     <div *ngFor="let step of steps.controls; let i=index" class="form-group flex-column">
                         <label  class="label-font" style="align-self: center;">
                             Krok: {{i}}
                         </label>
                         <div style="display: flex; align-items: center;">
                             <textarea  [formControlName]="i" class="form-control basic-font" style="flex: 10;margin-right: 3%;"></textarea>                   
-                            <button  class="btn btn-warning" (click)="delStep(i)" >-</button>
+                            <button  class="btn btn-secondary" (click)="delStep(i)" >-</button>
                         </div>
                         <div *ngIf="getStepValidity(i) && step.touched" class="alert alert-danger" style="flex-direction: column; width:70%;">
                             wymagane miniumum 20 znaków
@@ -148,12 +146,11 @@
                     </div>
             
             </div>
-            <div style="width: 50%;" class="flex-column">
-        
+            <div  class="flex-column addButton">
                 <button  type="button"  class="btn btn-success btn-position" style="align-self: flex-end;" (click)="addStep()">Dodaj</button>
             </div>
 
-            <div class="flex-column" style="width: 60%;margin-bottom: 2%;">
+            <div class="flex-column" style="width: 60%;margin-bottom: 5%;">
                 <h3 class="header-style">Opis</h3>
                 <textarea formControlName="description" class="form-control basic-font" ></textarea>     
             </div>
@@ -163,7 +160,18 @@
             <div id="drop_zone" (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)" class="drop-zone">
                 <p class="sentence">Przeciągnij i upuść...(max 4)</p>
             </div>
-            
+
+            <!-- <input type="file" (change)="addFile($event.target.files)" id="inputGroupFile01"> -->
+
+            <div class="input-group mb-3" style="width: 50%;margin-top: 5%;">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03"
+                  (change)="addFile($event.target.files)"
+                  >
+                  <label class="custom-file-label" for="inputGroupFile03">Wybierz zdjęcie</label>
+                </div>
+              </div>
+              
             <div class="files-display">
                 <div *ngFor="let file of files; let i=index" class="file">
                     <span style="font-weight: bold;font-variant: small-caps;">
@@ -172,8 +180,10 @@
                     <i style="align-self: center;" class="fas fa-trash fa-2x trash" (click)="deleteFile(i)"></i>
                 </div>
             </div> 
-
-            <button class="btn btn-primary btn-position" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
+            
+            <div style="width: 60%;" class="flex-column">
+                <button class="btn btn-primary submitButton" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
+            </div>
         </form>
 
         <p *ngIf="recipeForm.invalid" style="color: green;">Nie zapomnij dodać kroków i składników</p>
