@@ -39,7 +39,7 @@ export class RecipesListingComponent implements OnInit {
     this.recipesOverviewObservable=this.recipeService.getRecipesOverview();
      
     this.recipesOverviewObservable.subscribe( this.recipeObserver);
-
+    this.recipeService.getPhotosNames("1","1");
   }
 
   goToDetails(id:number): void{

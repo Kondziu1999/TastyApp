@@ -3,6 +3,8 @@ package com.kondziu.projects.TastyAppBackend.services;
 import com.kondziu.projects.TastyAppBackend.FileManager.FileManager;
 import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
 import com.kondziu.projects.TastyAppBackend.models.ImageModel;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class ImageService {
 
     private  final String UPLOADED_FOLDER="C:\\Users\\priva\\Desktop\\TastyApp\\uploads";
@@ -77,6 +80,20 @@ public class ImageService {
             //if dir do not exists
             return Collections.emptyList();
         }
+    }
+
+    public List<String> getImagesNames(Integer userId,Integer recipeId){
+        String sourceDir=UPLOADED_FOLDER+"\\users\\"+userId+"\\recipes\\"+recipeId;
+        List<String> imagesNames = new ArrayList<>();
+
+        try(Stream<Path> paths = Files.walk(Paths.get(sourceDir))){
+            paths.filter(Files::isRegularFile)
+                    .forEach(path -> imagesNames.add(path.getFileName().toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("Invalid destination directory path !");
+        }
+        return imagesNames;
     }
 
 

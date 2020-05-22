@@ -79,6 +79,7 @@ export class AuthService {
   logout() {
       localStorage.removeItem("access_token");
       localStorage.removeItem("expires_at");
+      localStorage.removeItem("user_id");
       this.isUserLoggedInSubject.next(false);
       console.log("insisde logout " + false);
 

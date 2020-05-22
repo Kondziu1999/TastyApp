@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/recipes/overview/**")
                 .permitAll()
+                .antMatchers("/api/files/images/urls/**")
+                .permitAll()
                 .antMatchers("/api/recipes/*")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.GET,"/api/files/images/**")

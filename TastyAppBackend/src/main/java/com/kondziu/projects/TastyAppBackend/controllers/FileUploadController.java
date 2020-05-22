@@ -12,7 +12,6 @@ import com.kondziu.projects.TastyAppBackend.repos.RecipeRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
 import com.kondziu.projects.TastyAppBackend.services.ImageService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,6 +76,20 @@ public class FileUploadController {
 
 //        return ResponseEntity.ok().body(dtoList.get(0));
         return dtoList.get(0).getBytes();
+    }
+
+    @GetMapping("/images/urls/{optionalUserId}/{optionalRecipeId}")
+    public ResponseEntity<?> getRecipeImagesNames(@PathVariable Optional<Integer> optionalUserId,
+                                                  @PathVariable Optional<Integer> optionalRecipeId){
+        Integer userId = optionalUserId.orElseThrow( () -> new BadRequestException("user id not specified") );
+        Integer recipeId= optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
+        if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
+
+        List<String> imagesNames = uploadImageService.getImagesNames(userId,recipeId);
+
+        return imagesNames.size() > 0 ? ResponseEntity.ok().body(imagesNames) :
+                ResponseEntity.badRequest().body("images to recipe don't exist");
     }
 
 }

@@ -76,6 +76,11 @@ export class RecipeService {
     return this.http.get<Blob>(this.backendUrl+"/files/images/1/1",{responseType : "blob" as "json" });
   }
   
+  getPhotosNames( userId :string , recipeId: string){
+    return this.http.get( this.backendUrl + "/files/images/urls/" + userId + "/" + recipeId)
+      .subscribe( msg => console.log(msg));
+  }
+
   private handleError(error: HttpErrorResponse){
     //client side error
     if(error.error instanceof ErrorEvent){
