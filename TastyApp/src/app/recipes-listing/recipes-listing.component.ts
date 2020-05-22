@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RecipeModel } from '../models/recipe-model.model';
 
 @Component({
   selector: 'app-recipes-listing',
@@ -14,6 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class RecipesListingComponent implements OnInit {
 
   recipesOverviewModel : RecipesOverviewModel;
+  recipesOverview : Array<RecipeModel>;
   recipesOverviewObservable: Observable<RecipesOverviewModel>;
   currentPage: number;
   lastPageFlag: boolean;
@@ -36,12 +38,14 @@ export class RecipesListingComponent implements OnInit {
       error : (error: any) => console.log(error)
     }
 
-    this.recipesOverviewObservable=this.recipeService.getRecipesOverview();
-     
+    this.recipesOverviewObservable=this.recipeService.getRecipesOverview(); 
     this.recipesOverviewObservable.subscribe( this.recipeObserver);
-    this.recipeService.getPhotosNames("1","1");
+
   }
 
+  loadImageUrls(){
+
+  }
   goToDetails(id:number): void{
     this.router.navigate(['./'+id],{relativeTo: this.route});
   }

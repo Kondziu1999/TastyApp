@@ -21,6 +21,7 @@ import { RegistrationFormComponent } from './registration-form/registration-form
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { ResetPasswordComponentComponent } from './reset-password-component/reset-password-component.component';
 import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
+import { RecipeMenuModelComponent } from './recipe-menu-model/recipe-menu-model.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     RegistrationFormComponent,
     RegistrationSuccessComponent,
     ResetPasswordComponentComponent,
-    ResetPasswordFormComponent
+    ResetPasswordFormComponent,
+    RecipeMenuModelComponent
 
   ],
   imports: [

@@ -1,3 +1,4 @@
+import { PhotosNamesDto } from './../payload/PhotosNamesDto';
 import { RecipeModel } from '../models/recipe-model.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -21,7 +22,9 @@ export class RecipeService {
       
     })
   };
-
+  getBackendURL(){
+    return this.backendUrl;
+  }
   getRecipe(id:number): Observable<RecipeModel>{
     return this.http.get<RecipeModel>(this.backendUrl+'/recipes/'+id,this.httpOptions)
       .pipe(
@@ -76,9 +79,8 @@ export class RecipeService {
     return this.http.get<Blob>(this.backendUrl+"/files/images/1/1",{responseType : "blob" as "json" });
   }
   
-  getPhotosNames( userId :string , recipeId: string){
-    return this.http.get( this.backendUrl + "/files/images/urls/" + userId + "/" + recipeId)
-      .subscribe( msg => console.log(msg));
+  getPhotosNames( userId :number , recipeId: number) : Observable<PhotosNamesDto>{
+    return this.http.get<PhotosNamesDto>( this.backendUrl + "/files/images/urls/" + userId + "/" + recipeId);
   }
 
   private handleError(error: HttpErrorResponse){
