@@ -3,6 +3,7 @@ package com.kondziu.projects.TastyAppBackend.controllers;
 
 import com.google.common.io.Files;
 import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
+import com.kondziu.projects.TastyAppBackend.dto.RecipeImagesNamesDto;
 import com.kondziu.projects.TastyAppBackend.exceptions.BadRequestException;
 import com.kondziu.projects.TastyAppBackend.exceptions.RecipeNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.UserNotFoundException;
@@ -12,6 +13,7 @@ import com.kondziu.projects.TastyAppBackend.repos.RecipeRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
 import com.kondziu.projects.TastyAppBackend.services.ImageService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,7 +90,7 @@ public class FileUploadController {
 
         List<String> imagesNames = uploadImageService.getImagesNames(userId,recipeId);
 
-        return imagesNames.size() > 0 ? ResponseEntity.ok().body(imagesNames) :
+        return imagesNames.size() > 0 ? ResponseEntity.ok().body(new RecipeImagesNamesDto(imagesNames)) :
                 ResponseEntity.badRequest().body("images to recipe don't exist");
     }
 
