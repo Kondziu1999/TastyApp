@@ -76,7 +76,7 @@ public class ImageService {
             return imageModels;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("Invalid destination directory path !");
             //if dir do not exists
             return Collections.emptyList();
         }
@@ -90,8 +90,7 @@ public class ImageService {
             paths.filter(Files::isRegularFile)
                     .forEach(path -> imagesNames.add(path.getFileName().toString()));
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Invalid destination directory path !");
+            log.warn("Invalid destination directory path !");
         }
         return imagesNames;
     }
