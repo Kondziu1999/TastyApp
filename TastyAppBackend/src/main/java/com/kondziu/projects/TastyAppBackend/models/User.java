@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -58,6 +59,9 @@ public class User {
     //if token confirmed
     @Column(name = "isEnabled")
     private  boolean isEnabled=false;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Recipe> recipes;
 
     public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 15) String username, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 100) String password){
         this.name = name;

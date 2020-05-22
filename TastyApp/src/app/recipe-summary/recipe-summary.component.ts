@@ -1,7 +1,7 @@
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
@@ -15,8 +15,12 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
 
   currentRecipeDetails: RecipeModel;
   private detailsSubscription : Subscription;
-  public whaitForServerResponse: boolean;
+  private filesSubscription: Subscription;
+  public waitForRecipeUpload: boolean;
+  public photosUploaded: boolean;
   public responseError: boolean;
+  public files: Array<File>;
+  public imageURL: any;
 
   constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
     private recipeService: RecipeService) {
@@ -25,9 +29,19 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.detailsSubscription=this.details.getRecipeDetails()
           .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
-    this.whaitForServerResponse=false;
+    this.filesSubscription=this.details.getFiles()
+          .subscribe(message => this.files=message);
+     
+    this.waitForRecipeUpload=false;
     this.responseError=false;
+ 
+  }
+ 
 
+  ifPhotosUploaded() : boolean{
+    if(this.files== null) return true;
+    if(this.photosUploaded == null) return true;
+    return this.photosUploaded;
   }
   ngOnDestroy(){
     this.detailsSubscription.unsubscribe();
@@ -41,18 +55,56 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
-    this.whaitForServerResponse=true;
+    this.waitForRecipeUpload=true;
+    
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
-        message=>{this.whaitForServerResponse=false; this.navigateToSuccessSide()},
-        err => {this.responseError=true; this.whaitForServerResponse=false}
+        message=>{this.waitForRecipeUpload=false; 
+          if(this.photosUploaded) this.navigateToSuccessSide()
+        },
+        err => {this.responseError=true; this.waitForRecipeUpload=false}
         )
+
+    if(this.files!=null){
+      this.recipeService.uploadPhotos(this.files)
+        .subscribe(
+          msg => {
+            this.photosUploaded=true;
+            if(! this.waitForRecipeUpload) this.navigateToSuccessSide();},
+           err => {this.responseError=true; this.waitForRecipeUpload=false});
+    }
   }
 
   navigateToSuccessSide(): void{
     this.router.navigate(['../successfullyAdded'],{relativeTo: this.route});
   }  
 
+  displayModalVar: boolean= false;
+
+  displayModal(): void{
+    this.displayModalVar=true;
+   
+  }
+
+  closeModal(){
+    this.displayModalVar=false;
+  }
   
+  loadImageUrl(file: File,index: number){
+    let mimeType= file.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file); 
+    reader.onload = (_event) => { 
+      // this.imageURL = reader.result; 
+      this.imagesURL[index] = reader.result.toString();
+       
+    }
+  }
+
+  imagesURL: String[]=[];
 
 }

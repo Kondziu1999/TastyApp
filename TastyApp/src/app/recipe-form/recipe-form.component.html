@@ -1,142 +1,192 @@
-<h2>Add your recipe</h2>
+<div class="form-component-container">
+ 
+ 
 
 
-<div  class="form-group w-100" style="width: 100%;" >
+    <div  class="form-group form-container" >
+           
+ 
+        <div style="background-color: #585a58; width: 100%;margin-bottom: 5%;" class="flex-column">
+            <h2 class="add-recipe-header" style="word-spacing: 10px;align-self: center;color: white;"> TWÓJ  PRZEPIS</h2>
+        </div>  
 
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" style="width: 100%;display: flex; align-items: center;flex-direction: column;">
+ 
+      
 
-        <div class="form-group w-25">
-            <label>
-                Nazwa:
-            </label>
-                <input type="text" class="form-control" formControlName="name">
-                <div *ngIf="name.invalid && ( name.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="name.errors.required">
-                        wymagane
-                    </div>
-                    <div *ngIf="name.errors.minlength">
-                        Conajmniej 4 litery
-                    </div>
-                </div>
-        </div>
-        
-
-        <div class="form-group w-25">
-            <label>
-                Poziom Trudności:
-            </label>
-                <select class="form-control" formControlName="level">
-                    <option>Łatwy</option>
-                    <option>Średni</option>
-                    <option>Trudny</option>
-                </select>
-                <div *ngIf="level.invalid && ( level.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="level.errors.required">
-                        wymagane
-                    </div>
-                </div>
-        </div>
-        
-
-        <div class="form-group w-25">
-            <label>
-                Czas wykonania:
-            </label>
-                <select class="form-control" formControlName="time">
-                    <option>5 min</option>
-                    <option>10 min</option>
-                    <option>15 min</option>
-                    <option>30 min</option>
-                    <option>60 min</option>
-                    <option>120 min +</option>
-                </select>
-        
-        </div>
-
-        <div class="form-group w-25">
-            <label>
-                Ilość porcji:
-            </label>
-                <select class="form-control" formControlName="portions">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5+</option>
-                </select>
-        </div>
-
-        <div style="width: 60%;display: flex;flex-direction: column;">
-            <h3 style="align-self: center;">Składniki</h3>
-            <button type="button" class="btn btn-success" style="margin-bottom: 2%;align-self: flex-start;" (click)="addIngredient()">Dodaj</button>
-        </div>
-        
-        
-        <div formArrayName="ingredients" class="form-group" style="width: 40%;">
+                
             
-
-            <div class="ingredients-container ">
-                <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group "  >
-                    <input type="text" class="form-control" [formControlName]="i">
-                    <button  class="btn btn-warning"  (click)="delIngredient(i)">-</button>
-                </div>
-            </div>
-            
-            <div *ngIf="ingredients.invalid && ( ingredients.dirty ||ingredients.touched)"
-                class="alert alert-danger">
-                <div *ngIf="ingredients.errors?.required">
-                    wymagane
-                </div>
-                <div *ngIf="!ingredients.errors?.required">
-                    Pusty składnik ! 
-                </div>
-            </div>
-            
-
-        </div>
-
-        <div style="width: 60%;display: flex;flex-direction: column;">
-            <h3 style="align-self: center;">Kroki wykonania</h3> 
-            <button  type="button"  class="btn btn-success"  style="margin-bottom: 2%; align-self: start;" (click)="addStep()">Dodaj</button>
-        </div>
         
+        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="form">
 
-        <div formArrayName="steps" class="form-group" style="width: 60%; display: flex;flex-direction: column;" >
-            
-            
-                <div *ngFor="let step of steps.controls; let i=index" class="form-group" style="display: flex;flex-direction: column;">
-                    <label style="align-self: center;">
-                        Krok: {{i}}
+            <div style="display: flex;flex-direction: column;width: 60%; margin-bottom: 5%;">
+
+                <div class="form-group" style="width: 70%;">
+                    <label class="label-font">
+                        Nazwa:
                     </label>
-                    <div style="display: flex; align-items: center;">
-                    <textarea  [formControlName]="i" class="form-control" style="flex: 10;"></textarea>                   
-                    <button  class="btn btn-danger" (click)="delStep(i)" >-</button>
-                    </div>
-                    <div *ngIf="getStepValidity(i) && step.touched" class="alert alert-danger" style="flex-direction: column; width:70%;">
-                        wymagane miniumum 20 znaków
-                    </div>
-        
+                        <input type="text" class="form-control basic-font" formControlName="name">
+                        <div *ngIf="name.invalid && ( name.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="name.errors.required">
+                                wymagane
+                            </div>
+                            <div *ngIf="name.errors.minlength">
+                                Conajmniej 4 litery
+                            </div>
+                        </div>
                 </div>
+                
+    
+                <div class="form-group w-50">
+                    <label  class="label-font">
+                        Poziom Trudności:
+                    </label>
+                        <select class="form-control basic-font" formControlName="level">
+                            <option>Łatwy</option>
+                            <option>Średni</option>
+                            <option>Trudny</option>
+                        </select>
+                        <div *ngIf="level.invalid && ( level.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="level.errors.required">
+                                wymagane
+                            </div>
+                        </div>
+                </div>
+                
+    
+                <div class="form-group w-50">
+                    <label  class="label-font">
+                        Czas wykonania:
+                    </label>
+                        <select class="form-control basic-font" formControlName="time" >
+                            <option>5 min</option>
+                            <option>10 min</option>
+                            <option>15 min</option>
+                            <option>30 min</option>
+                            <option>60 min</option>
+                            <option>120 min +</option>
+                        </select>
+                
+                </div>
+    
+                <div class="form-group w-50" >
+                    <label  class="label-font">
+                        Ilość porcji:
+                    </label>
+                        <select class="form-control basic-font" formControlName="portions">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5+</option>
+                        </select>
+                </div>
+
+            </div>
+            
+
+            <div style="width: 60%;display: flex;flex-direction: column;margin-bottom: 2%;">
+                <h3 class="header-style" style="align-self: flex-start;" >Składniki</h3>
+                <!-- <button type="button" class="btn btn-success btn-position" (click)="addIngredient()">Dodaj</button> -->
+            </div>
+            
+            
+            <div formArrayName="ingredients" class="form-group" style="width: 60%;">
+                
+
+                <div class="ingredients-container ">
+                    <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group "  >
+                        <input type="text" class="form-control basic-font" [formControlName]="i">
+                        <button  class="btn btn-secondary" style="margin-left: 10%;"  (click)="delIngredient(i)">-</button>
+                    </div>
+                </div>
+                
+                <div *ngIf="ingredients.invalid && ( ingredients.dirty ||ingredients.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="ingredients.errors?.required">
+                        wymagane
+                    </div>
+                    <div *ngIf="!ingredients.errors?.required">
+                        Pusty składnik ! 
+                    </div>
+                </div>
+                
+
+            </div>
+
+            <div class="addButton">
+                <button type="button" class="btn btn-success btn-position" style="align-self: flex-end;" (click)="addIngredient()">Dodaj</button>
+            </div>
+
+            <div style="width: 60%;" class="flex-column">
+                <h3 class="header-style" style="align-self: flex-start;">Kroki wykonania</h3> 
+                <!-- <button  type="button"  class="btn btn-success btn-position"  (click)="addStep()">Dodaj</button> -->
+            </div>
             
         
-                <div *ngIf=" steps.invalid && steps.touched&& steps.errors?.required" class="alert alert-danger">
-                    Przynajmniej jeden krok wymagany
+            <div formArrayName="steps" class="form-group flex-column" style="width: 60%;" >
+                    <div *ngFor="let step of steps.controls; let i=index" class="form-group flex-column">
+                        <label  class="label-font" style="align-self: center;">
+                            Krok: {{i}}
+                        </label>
+                        <div style="display: flex; align-items: center;">
+                            <textarea  [formControlName]="i" class="form-control basic-font" style="flex: 10;margin-right: 3%;"></textarea>                   
+                            <button  class="btn btn-secondary" (click)="delStep(i)" >-</button>
+                        </div>
+                        <div *ngIf="getStepValidity(i) && step.touched" class="alert alert-danger" style="flex-direction: column; width:70%;">
+                            wymagane miniumum 20 znaków
+                        </div>
+            
+                    </div>
+                
+            
+                    <div *ngIf=" steps.invalid && steps.touched&& steps.errors?.required" class="alert alert-danger">
+                        Przynajmniej jeden krok wymagany
+                    </div>
+            
+            </div>
+            <div  class="flex-column addButton">
+                <button  type="button"  class="btn btn-success btn-position" style="align-self: flex-end;" (click)="addStep()">Dodaj</button>
+            </div>
+
+            <div class="flex-column" style="width: 60%;margin-bottom: 5%;">
+                <h3 class="header-style">Opis</h3>
+                <textarea formControlName="description" class="form-control basic-font" ></textarea>     
+            </div>
+
+            <h3 class="header-style"> Dodaj zdjęcia</h3>
+
+            <div id="drop_zone" (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)" class="drop-zone">
+                <p class="sentence">Przeciągnij i upuść...(max 4)</p>
+            </div>
+
+            <!-- <input type="file" (change)="addFile($event.target.files)" id="inputGroupFile01"> -->
+
+            <div class="input-group mb-3" style="width: 50%;margin-top: 5%;">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03"
+                  (change)="addFile($event.target.files)"
+                  >
+                  <label class="custom-file-label" for="inputGroupFile03">Wybierz zdjęcie</label>
                 </div>
-        
-        </div>
+              </div>
+              
+            <div class="files-display">
+                <div *ngFor="let file of files; let i=index" class="file">
+                    <span style="font-weight: bold;font-variant: small-caps;">
+                        {{file.fileName | uppercase}}
+                    </span>
+                    <i style="align-self: center;" class="fas fa-trash fa-2x trash" (click)="deleteFile(i)"></i>
+                </div>
+            </div> 
+            
+            <div style="width: 60%;" class="flex-column">
+                <button class="btn btn-primary submitButton" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
+            </div>
+        </form>
 
-        <div style="width: 70%;display: flex;flex-direction: column;">
-            <h3 style="align-self: center;">Opis</h3>
-            <textarea formControlName="description" class="form-control" ></textarea>     
-        </div>
+        <p *ngIf="recipeForm.invalid" style="color: green;">Nie zapomnij dodać kroków i składników</p>
 
-
-        
-        <button class="btn btn-primary" type="submit" [disabled]="!recipeForm.valid">Dodaj Przepis !</button>
-    </form>
-
-    <p *ngIf="recipeForm.invalid" style="color: green;">Nie zapomnij dodać kroków i składników</p>
-
+    </div>
 </div>

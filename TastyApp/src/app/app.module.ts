@@ -1,9 +1,11 @@
+import { AuthInterceptor } from './http/auth-interceptor';
 import { RecipeService } from './services/recipe.service';
 import { RecipeMessageServiceService } from './services/recipe-message-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
@@ -20,6 +22,7 @@ import { RegistrationSuccessComponent } from './registration-success/registratio
 import { ResetPasswordComponentComponent } from './reset-password-component/reset-password-component.component';
 import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +38,7 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     RegistrationSuccessComponent,
     ResetPasswordComponentComponent,
     ResetPasswordFormComponent
+
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,11 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [RecipeMessageServiceService,RecipeService],
+  providers: [RecipeMessageServiceService,RecipeService,{
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

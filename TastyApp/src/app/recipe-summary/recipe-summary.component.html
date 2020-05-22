@@ -21,7 +21,7 @@
     
             <div *ngFor="let ingredient of currentRecipeDetails.ingredients; let i=index" class="item" >
                 <div >
-                    <p>{{i}}:  {{ingredient}}</p>
+                    <p>  {{ingredient}}</p>
                 </div>
             </div>
 
@@ -46,10 +46,43 @@
             {{currentRecipeDetails.description}}
         </div>
     </div>
+
+    <div class="files-display">
+        <div *ngFor="let file of files; let i=index" class="file">
+            {{file.name}}
+            {{loadImageUrl(file,i)}}
+            <img  class="photo" [src]="imagesURL[i]" (click)="imageURL=imagesURL[i];displayModal()" style="width: 100px; height: 80px;">
+           
+        </div>
+    </div> 
+
+    <!-- <div style="display: flex; flex-direction: column; flex-wrap: wrap;">
+
+        <div *ngIf="imageURL" class="photo-preview" style="background-color: rgba(0, 0, 0, 0.24);">
+        
+        
+            <img id="myImg" (click)="displayModal()" [src]="imageURL" alt="Snow" style="width:100%;max-width:300px">
+    
+         
+        </div> -->
+
+
+    <div id="myModal" class="modal" style="display: block;" *ngIf="displayModalVar">
+            
+        <!-- The Close Button -->
+        <span (click)="closeModal()" class="close">&times;</span>
+      
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01" [src]="imageURL" >
+      
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
+
    
     
     <div style=" display: flex;flex-direction: row;justify-content: flex-end;margin-top: 2%;">
-        <div *ngIf="whaitForServerResponse" class="spinner-border text-success" style="margin-right: 20%;" role="status">
+        <div *ngIf="waitForRecipeUpload || !ifPhotosUploaded()" class="spinner-border text-success" style="margin-right: 20%;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
         <button  class="btn btn-warning "type="button" (click)="edit()">Edytuje</button> 
