@@ -70,6 +70,7 @@ export class AuthService {
 
       localStorage.setItem('access_token', authResult.accessToken);
       localStorage.setItem("expires_at", JSON.stringify(time) );
+      localStorage.setItem("user_id", authResult.userId.toString());
       this.isUserLoggedInSubject.next(true);
       console.log("insisde setSession" + true); 
 

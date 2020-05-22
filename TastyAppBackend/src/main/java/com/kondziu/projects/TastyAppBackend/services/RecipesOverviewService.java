@@ -38,12 +38,13 @@ public class RecipesOverviewService {
 
         recipes.
                 forEach(recipe -> wrapper.addOverview(
-                                    new RecipeOverview(
-                                            recipe.getId(),
-                                            recipe.getName(),
-                                            recipe.getLevel(),
-                                            recipe.getTime(),
-                                            recipe.getPortions())));
+                    new RecipeOverview(
+                        recipe.getId(),
+                        recipe.getUser().getId().intValue(),
+                        recipe.getName(),
+                        recipe.getLevel(),
+                        recipe.getTime(),
+                        recipe.getPortions())));
         return wrapper;
     }
 
