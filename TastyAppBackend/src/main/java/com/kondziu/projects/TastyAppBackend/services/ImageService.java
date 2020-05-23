@@ -81,14 +81,14 @@ public class ImageService {
 
         try(Stream<Path> paths = Files.walk(Paths.get(sourceDir))){
             paths
-                .filter(Files::isRegularFile)
-                .forEach( path ->{
-                try {
-                    imageModels.add( new ImageDto( path.getFileName().toString(), "jpg", Files.readAllBytes(path)) );
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+                    .filter(Files::isRegularFile)
+                    .forEach( path ->{
+                        try {
+                            imageModels.add( new ImageDto( path.getFileName().toString(), "jpg", Files.readAllBytes(path)) );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
 
             return imageModels;
 
@@ -115,3 +115,4 @@ public class ImageService {
 
     //TODO compress image, consider using Tinypng
 }
+
