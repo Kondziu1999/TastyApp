@@ -28,6 +28,10 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+  servlet:
+    multipart:
+      max-request-size: 15MB
+      max-file-size: 15MB
 server:
   port: 8080
 #  ssl:
@@ -45,3 +49,5 @@ page:
   size: 10
   default-page: 0
 
+image:
+  maxSize: 300
