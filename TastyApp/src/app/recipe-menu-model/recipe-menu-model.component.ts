@@ -27,7 +27,7 @@ export class RecipeMenuModelComponent implements OnInit {
     this.recipeService.getPhotosNames(this.userId,this.recipeId)
         .subscribe(
           msg => {this.imageName = msg.names[0];
-                  this.imageURL = this.recipeService.getBackendURL() + "/files/images/" + this.userId + "/" + this.recipeId;
+                  this.imageURL = this.recipeService.getBackendURL() + "/files/images/" + this.userId + "/" + this.recipeId + "/"+this.imageName;
                 console.log(this.imageURL)},
           err => console.log(err)
         )

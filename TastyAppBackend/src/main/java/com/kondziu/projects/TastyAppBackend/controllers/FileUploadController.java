@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
 import com.kondziu.projects.TastyAppBackend.dto.RecipeImagesNamesDto;
 import com.kondziu.projects.TastyAppBackend.exceptions.BadRequestException;
+import com.kondziu.projects.TastyAppBackend.exceptions.ImageNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.RecipeNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.UserNotFoundException;
 import com.kondziu.projects.TastyAppBackend.models.ImageModel;
@@ -66,7 +67,7 @@ public class FileUploadController {
     }
 
     @GetMapping(value="/images/{optionalUserId}/{optionalRecipeId}")
-    public  byte[] getPhoto(@PathVariable Optional<Integer> optionalUserId,
+    public  byte[] getPhotos(@PathVariable Optional<Integer> optionalUserId,
                                        @PathVariable Optional<Integer> optionalRecipeId){
 
         Integer userId = optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
@@ -75,13 +76,27 @@ public class FileUploadController {
         if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
 
         List<ImageDto> dtoList = uploadImageService.getImages(userId,recipeId);
-
 //        return ResponseEntity.ok().body(dtoList.get(0));
         return dtoList.get(0).getBytes();
     }
+    @GetMapping("/images/{optionalUserId}/{optionalRecipeId}/{optionalFilename}")
+    public byte[] getPhoto(@PathVariable Optional<Integer> optionalUserId,
+                           @PathVariable Optional<Integer> optionalRecipeId,@PathVariable Optional<String> optionalFilename){
+
+        Integer userId = optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
+        Integer recipeId = optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        String filename = optionalFilename.orElseThrow( () ->new  BadRequestException("filename not specified"));
+        if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
+        if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
+
+        ImageDto imageDto = uploadImageService.getImage(userId, recipeId, filename);
+
+        if(imageDto.getBytes() ==null) throw new ImageNotFoundException("filename: "+filename + "not found");
+        return imageDto.getBytes();
+    }
 
     @GetMapping("/images/urls/{optionalUserId}/{optionalRecipeId}")
-    public ResponseEntity<?> getRecipeImagesNames(@PathVariable Optional<Integer> optionalUserId,
+    public ResponseEntity<?> getRecipeImagesNames(@PathVariable Optional<Integer>  optionalUserId,
                                                   @PathVariable Optional<Integer> optionalRecipeId){
         Integer userId = optionalUserId.orElseThrow( () -> new BadRequestException("user id not specified") );
         Integer recipeId= optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );

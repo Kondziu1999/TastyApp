@@ -1,22 +1,23 @@
 package com.kondziu.projects.TastyAppBackend.services;
+import java.nio.file.Files;
+
 
 import com.kondziu.projects.TastyAppBackend.FileManager.FileManager;
 import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
 import com.kondziu.projects.TastyAppBackend.models.ImageModel;
-import lombok.extern.log4j.Log4j;
+
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -45,11 +46,6 @@ public class ImageService {
             Files.write(path,bytes);
 
             return true;
-//            File initialImage = new File(filePath);
-//            image= ImageIO.read(initialImage);
-//            ImageIO.read
-//
-//            ImageIO.write(image,imageModel.getType(),new File(filePath));
 
         }
         catch (IOException e){
@@ -57,7 +53,22 @@ public class ImageService {
             return false;
         }
     }
+    public ImageDto getImage(Integer userId, Integer recipeId,String filename){
+        String filePath = FileManager.constructPathToImage(userId,recipeId,filename,UPLOADED_FOLDER);
+        Path path = Path.of(filePath);
 
+        ImageDto imageDto = new ImageDto();
+        try{
+            byte[] bytes = Files.readAllBytes(path);
+            imageDto.setBytes(bytes);
+            imageDto.setType( com.google.common.io.Files.getFileExtension(filename) );
+            imageDto.setUniqueName(filename);
+            return imageDto;
+        }catch (IOException e){
+            log.warn("file doesn't exists : " + filePath);
+            return imageDto;
+        }
+    }
     public List<ImageDto> getImages(Integer userId, Integer recipeId){
         String sourceDir=UPLOADED_FOLDER+"\\users\\"+userId+"\\recipes\\"+recipeId;
         List<ImageDto>  imageModels = new ArrayList<>();
