@@ -15,18 +15,34 @@
 @Input("time") time: string;
 @Input("portions") poritons: string; -->
 
-<div *ngFor="let recipe of recipesOverviewModel.recipesOverview" style="display: flex;flex-direction: column;">
 
-    <app-recipe-menu-model
-        [recipeId]= recipe.id
-        [userId]= recipe.userId
-        [name]= recipe.name
-        [level]= recipe.level
-        [time]= recipe.time
-        [portions]= recipe.portions
-    >
-    </app-recipe-menu-model>
-</div>
+    
+    <div style="display: flex;flex-direction: column;align-items: center;align-self;">
+        <div style="width: 75%;min-width: 500px;height: 80%;display: flex;flex-wrap: wrap;">
+    
+            <div *ngFor="let recipe of recipesOverviewModel.recipesOverview"  
+            style="display:flex;flex-wrap:wrap; margin-bottom: 5%;margin-right: 3%;">
+        
+                <app-recipe-menu-model
+                    [recipeId]= recipe.id
+                    [userId]= recipe.userId
+                    [name]= recipe.name
+                    [level]= recipe.level
+                    [time]= recipe.time
+                    [portions]= recipe.portions
+                    style="width: 500px;height:360px;"
+                >
+                </app-recipe-menu-model>
+            </div>
+        
+        </div>
+    </div>
+
+
+
+   
+
+
 
 
 
