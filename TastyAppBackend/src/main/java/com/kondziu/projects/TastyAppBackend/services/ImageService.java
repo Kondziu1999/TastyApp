@@ -1,5 +1,4 @@
 package com.kondziu.projects.TastyAppBackend.services;
-import java.io.File;
 import java.nio.file.Files;
 
 
@@ -8,7 +7,6 @@ import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
 import com.kondziu.projects.TastyAppBackend.models.ImageModel;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -27,11 +25,7 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 public class ImageService {
-    private FileManager fileManager;
 
-    public ImageService(FileManager fileManager){
-        this.fileManager=fileManager;
-    }
     private  final String UPLOADED_FOLDER="C:\\Users\\priva\\Desktop\\TastyApp\\uploads";
 
     public boolean uploadImage(ImageModel imageModel, Integer userId, Integer recipeId){
@@ -47,10 +41,10 @@ public class ImageService {
             path= path.resolveSibling(path.getFileName() + extension);
 
             System.out.println(path.toAbsolutePath());
-            fileManager.createDirIfNotExists(dirPath);
+            FileManager.createDirIfNotExists(dirPath);
 
             Files.write(path,bytes);
-            fileManager.compressImage(userId,recipeId,path.getFileName().toString(),UPLOADED_FOLDER,bytes.length);
+
             return true;
 
         }
@@ -60,7 +54,7 @@ public class ImageService {
         }
     }
     public ImageDto getImage(Integer userId, Integer recipeId,String filename){
-        String filePath = fileManager.constructPathToImage(userId,recipeId,filename,UPLOADED_FOLDER);
+        String filePath = FileManager.constructPathToImage(userId,recipeId,filename,UPLOADED_FOLDER);
         Path path = Path.of(filePath);
 
         ImageDto imageDto = new ImageDto();
