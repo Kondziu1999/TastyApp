@@ -1,5 +1,6 @@
 export class RecipeModel {
     id?: number
+    userId?: number;
     name: string;
     level: string;
     time: string;

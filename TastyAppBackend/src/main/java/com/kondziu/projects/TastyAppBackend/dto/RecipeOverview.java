@@ -10,6 +10,7 @@ import lombok.*;
 public class RecipeOverview {
 
     private Integer id;
+    private Integer userId;
     private String name;
     private String level;
     private String time;

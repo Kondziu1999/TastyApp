@@ -14,7 +14,7 @@ import java.util.List;
 @ControllerAdvice
 public class FileUploadControllerHandler {
 
-    @ExceptionHandler({RecipeNotFoundException.class})
+    @ExceptionHandler({RecipeNotFoundException.class,ImageNotFoundException.class})
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -24,6 +24,12 @@ public class FileUploadControllerHandler {
 
             return handleRecipeNotFoundException(exception,httpHeaders,status,request);
         }
+        else if(ex instanceof ImageNotFoundException){
+            HttpStatus status = HttpStatus.NOT_FOUND;
+            ImageNotFoundException exception = (ImageNotFoundException) ex;
+
+            return handleImageNotFoundException(exception,httpHeaders,status,request);
+        }
         else {
             HttpStatus status=HttpStatus.INTERNAL_SERVER_ERROR;
             return handleExceptionInternal(ex, null,httpHeaders,status,request);
@@ -32,10 +38,15 @@ public class FileUploadControllerHandler {
 
     protected ResponseEntity<ApiError> handleRecipeNotFoundException(
             RecipeNotFoundException ex,HttpHeaders headers, HttpStatus status, WebRequest request){
-        List<String> errors=Collections.singletonList(ex.getMessage());
+        List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionInternal(ex,new ApiError(errors),headers,status,request);
     }
+    protected ResponseEntity<ApiError> handleImageNotFoundException(
+            ImageNotFoundException ex,HttpHeaders headers, HttpStatus status, WebRequest request){
 
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionInternal(ex, new ApiError(errors),headers,status,request);
+    }
     //single method to customize response type of all exceptions
     protected ResponseEntity<ApiError> handleExceptionInternal(
             Exception ex, ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {

@@ -1,7 +1,10 @@
 package com.kondziu.projects.TastyAppBackend.controllers;
 
 
+import com.kondziu.projects.TastyAppBackend.dto.RecipeDto;
 import com.kondziu.projects.TastyAppBackend.dto.RecipesOverviewWrapper;
+import com.kondziu.projects.TastyAppBackend.exceptions.RecipeNotFoundException;
+import com.kondziu.projects.TastyAppBackend.mappers.RecipeToDtoMapper;
 import com.kondziu.projects.TastyAppBackend.models.Recipe;
 import com.kondziu.projects.TastyAppBackend.repos.RecipeRepository;
 import com.kondziu.projects.TastyAppBackend.services.RecipesOverviewService;
@@ -32,8 +35,9 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public ResponseEntity<Recipe> getRecipe(@PathVariable Integer id){
-        return  ResponseEntity.of(recipeRepository.findById(id));
+    public ResponseEntity<RecipeDto> getRecipe(@PathVariable Integer id){
+        Recipe recipe=recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("recipe with given id doesn't found : " +id));
+        return  ResponseEntity.ok(RecipeToDtoMapper.recipeToDto(recipe));
     }
 
     @GetMapping(value = {"/recipes/overview","/recipes/overview/{optionalPage}"})

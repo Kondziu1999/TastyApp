@@ -28,6 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Optional;
 
 
 @RestController
@@ -81,9 +82,11 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        // can get user without checking since user pass authentication
+        User user=userRepository.findByUsernameOrEmail( loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,jwtExpirationInMs/1000));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,jwtExpirationInMs/1000,user.getId().intValue()));
     }
 
     @PostMapping("/signup")

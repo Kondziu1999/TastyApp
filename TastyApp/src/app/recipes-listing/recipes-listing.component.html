@@ -8,7 +8,29 @@
     </div>
     
 </div>
+<!-- @Input("userId") userId: number;
+@Input("recipeId") recipeId: number;
+@Input("name") name: string;
+@Input("level") level: string;
+@Input("time") time: string;
+@Input("portions") poritons: string; -->
 
+<div *ngFor="let recipe of recipesOverviewModel.recipesOverview" style="display: flex;flex-direction: column;">
+
+    <app-recipe-menu-model
+        [recipeId]= recipe.id
+        [userId]= recipe.userId
+        [name]= recipe.name
+        [level]= recipe.level
+        [time]= recipe.time
+        [portions]= recipe.portions
+    >
+    </app-recipe-menu-model>
+</div>
+
+
+
+    <img src="http://localhost:8080/api/files/images/1/1" />
 
 
 <nav aria-label="...">

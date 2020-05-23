@@ -10,10 +10,12 @@ public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
     private int expiration;;
+    private int userId;
 
-    public JwtAuthenticationResponse(String accessToken,int expiration) {
+    public JwtAuthenticationResponse(String accessToken,int expiration,int userId) {
         this.accessToken = accessToken;
         this.expiration=expiration;
+        this.userId=userId;
     }
 
 }

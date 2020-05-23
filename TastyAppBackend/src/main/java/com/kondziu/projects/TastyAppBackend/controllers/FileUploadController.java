@@ -2,21 +2,25 @@ package com.kondziu.projects.TastyAppBackend.controllers;
 
 
 import com.google.common.io.Files;
+import com.kondziu.projects.TastyAppBackend.dto.ImageDto;
+import com.kondziu.projects.TastyAppBackend.dto.RecipeImagesNamesDto;
 import com.kondziu.projects.TastyAppBackend.exceptions.BadRequestException;
+import com.kondziu.projects.TastyAppBackend.exceptions.ImageNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.RecipeNotFoundException;
 import com.kondziu.projects.TastyAppBackend.exceptions.UserNotFoundException;
 import com.kondziu.projects.TastyAppBackend.models.ImageModel;
 import com.kondziu.projects.TastyAppBackend.payload.ApiResponse;
 import com.kondziu.projects.TastyAppBackend.repos.RecipeRepository;
 import com.kondziu.projects.TastyAppBackend.repos.UserRepository;
-import com.kondziu.projects.TastyAppBackend.services.UploadImageService;
+import com.kondziu.projects.TastyAppBackend.services.ImageService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,11 +30,11 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200")
 public class FileUploadController {
 
-    private final UploadImageService uploadImageService;
+    private final ImageService uploadImageService;
     private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
 
-    public FileUploadController(UploadImageService uploadImageService, UserRepository userRepository, RecipeRepository recipeRepository){
+    public FileUploadController(ImageService uploadImageService, UserRepository userRepository, RecipeRepository recipeRepository){
         this.uploadImageService=uploadImageService;
         this.userRepository = userRepository;
         this.recipeRepository = recipeRepository;
@@ -42,8 +46,8 @@ public class FileUploadController {
                                          @RequestParam("imageFile")MultipartFile[] files){
 
         //check if request is valid
-        Integer userId=optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
-        Integer recipeId=optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        Integer userId = optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
+        Integer recipeId = optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
         if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
         if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
 
@@ -62,6 +66,47 @@ public class FileUploadController {
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("something went wrong");
     }
 
+    @GetMapping(value="/images/{optionalUserId}/{optionalRecipeId}")
+    public  byte[] getPhotos(@PathVariable Optional<Integer> optionalUserId,
+                                       @PathVariable Optional<Integer> optionalRecipeId){
 
+        Integer userId = optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
+        Integer recipeId= optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
+        if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
+
+        List<ImageDto> dtoList = uploadImageService.getImages(userId,recipeId);
+//        return ResponseEntity.ok().body(dtoList.get(0));
+        return dtoList.get(0).getBytes();
+    }
+    @GetMapping("/images/{optionalUserId}/{optionalRecipeId}/{optionalFilename}")
+    public byte[] getPhoto(@PathVariable Optional<Integer> optionalUserId,
+                           @PathVariable Optional<Integer> optionalRecipeId,@PathVariable Optional<String> optionalFilename){
+
+        Integer userId = optionalUserId.orElseThrow( () ->new BadRequestException("user id not specified") );
+        Integer recipeId = optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        String filename = optionalFilename.orElseThrow( () ->new  BadRequestException("filename not specified"));
+        if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
+        if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
+
+        ImageDto imageDto = uploadImageService.getImage(userId, recipeId, filename);
+
+        if(imageDto.getBytes() ==null) throw new ImageNotFoundException("filename: "+filename + "not found");
+        return imageDto.getBytes();
+    }
+
+    @GetMapping("/images/urls/{optionalUserId}/{optionalRecipeId}")
+    public ResponseEntity<?> getRecipeImagesNames(@PathVariable Optional<Integer>  optionalUserId,
+                                                  @PathVariable Optional<Integer> optionalRecipeId){
+        Integer userId = optionalUserId.orElseThrow( () -> new BadRequestException("user id not specified") );
+        Integer recipeId= optionalRecipeId.orElseThrow( () -> new BadRequestException("recipe id not specified") );
+        if(! userRepository.existsById(userId.longValue()) ) throw new UserNotFoundException("user with given id not found: "+userId);
+        if(! recipeRepository.existsById(recipeId) ) throw new RecipeNotFoundException("file with given id not found: "+ recipeId);
+
+        List<String> imagesNames = uploadImageService.getImagesNames(userId,recipeId);
+
+        return imagesNames.size() > 0 ? ResponseEntity.ok().body(new RecipeImagesNamesDto(imagesNames)) :
+                ResponseEntity.badRequest().body("images to recipe don't exist");
+    }
 
 }
