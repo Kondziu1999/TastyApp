@@ -19,6 +19,7 @@ export class RecipeMenuModelComponent implements OnInit {
 
   imageName: string;
   imageURL : string;
+  onMouseOver: boolean=false;
 
   constructor(private recipeService: RecipeService) {
    }
@@ -32,5 +33,12 @@ export class RecipeMenuModelComponent implements OnInit {
           err => console.log(err)
         )
      }
+
+    mouseOver(){
+      this.onMouseOver = true;
+    }
+    mouseOut(){
+      this.onMouseOver = false;
+    }
 
 }

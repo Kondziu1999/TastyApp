@@ -1,21 +1,21 @@
 
 
-<div style="border-style: solid;width: 100%;height: 100%; box-shadow: 3px 3px 13px 1px rgb(34, 34, 34);background-color: rgb(255, 255, 255)">
+<div (mouseover)='mouseOver()' (mouseout)='mouseOut()' class="on-hover-change-bg" style="border-style: solid;width: 100%;height: 100%; box-shadow: 2px 2px 13px 1px rgb(49, 49, 49)">
     
-    <div style="display:flex;flex-direction: column;background-color: #ececec">
-        <h2 style="align-self: center;height: 40px;" class="label-font;"> {{name}}</h2>
+    <div style="display:flex;flex-direction: column;background-color: #585a58">
+        <h2 style="align-self: center;height: 40px;color: white;" > {{name}}</h2>
     </div>
 
-    <div style="display: flex; flex-direction: row;width: 100%;height: 300px;">
+    <div [class.blur-image]="onMouseOver" style="display: flex; flex-direction: row;width: 100%;height: 280px;">
 
     
         <div>
           <div *ngIf="imageURL" style="border-style: solid;">
-                <img src={{imageURL}} style="width: 400px;height: 300px;">
+                <img src={{imageURL}} style="width: 350px;height: 280px;">
             </div>
         </div>
 
-        <div style="display: flex;flex-direction:column;justify-content: space-around; width: 100%; height: 300px;">
+        <div style="display: flex;flex-direction:column;justify-content: space-around; width: 100%; height: 280px;">
             <div style="display: flex;flex-direction: column;align-items: center;"> 
                 <i style="color: #03d30d;" class="far fa-clock fa-3x" ></i>
                 <p class="label-font">{{time}}</p>

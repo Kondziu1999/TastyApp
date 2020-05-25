@@ -1,62 +1,59 @@
-<div *ngFor="let recipe of recipesOverviewModel.recipesOverview" style="width: 70vw; min-width: 400px;">
-    
-    <div  class="title-frame recipe-overview" (click)="goToDetails(recipe.id)">  
-        <p class="text-style">Przepis:<br> {{recipe.name}} </p>
-        <p class="text-style">Poziom trudności: <br> {{recipe.level}}</p>
-        <p class="text-style">czas: <br> {{recipe.time}}</p>
-        <p class="text-style">ilość porcji: <br> {{recipe.portions}}</p>
-    </div>
-    
-</div>
-<!-- @Input("userId") userId: number;
-@Input("recipeId") recipeId: number;
-@Input("name") name: string;
-@Input("level") level: string;
-@Input("time") time: string;
-@Input("portions") poritons: string; -->
 
-
-    
-    <div style="display: flex;flex-direction: column;align-items: center;align-self;">
-        <div style="width: 75%;min-width: 500px;height: 80%;display: flex;flex-wrap: wrap;">
-    
-            <div *ngFor="let recipe of recipesOverviewModel.recipesOverview"  
-            style="display:flex;flex-wrap:wrap; margin-bottom: 5%;margin-right: 3%;">
+<div style="background-color: rgb(233, 233, 233);">
+    <!-- <div *ngFor="let recipe of recipesOverviewModel.recipesOverview" style="width: 70vw; min-width: 400px;">
         
-                <app-recipe-menu-model
-                    [recipeId]= recipe.id
-                    [userId]= recipe.userId
-                    [name]= recipe.name
-                    [level]= recipe.level
-                    [time]= recipe.time
-                    [portions]= recipe.portions
-                    style="width: 500px;height:360px;"
-                >
-                </app-recipe-menu-model>
-            </div>
-        
+        <div  class="title-frame recipe-overview" (click)="goToDetails(recipe.id)">  
+            <p class="text-style">Przepis:<br> {{recipe.name}} </p>
+            <p class="text-style">Poziom trudności: <br> {{recipe.level}}</p>
+            <p class="text-style">czas: <br> {{recipe.time}}</p>
+            <p class="text-style">ilość porcji: <br> {{recipe.portions}}</p>
         </div>
-    </div>
+        
+    </div> -->
+    <!-- @Input("userId") userId: number;
+    @Input("recipeId") recipeId: number;
+    @Input("name") name: string;
+    @Input("level") level: string;
+    @Input("time") time: string;
+    @Input("portions") poritons: string; -->
 
 
 
+    <div class="recipe-listing-container">
+        <div class="recipes-shadow-box" >
+
+            <div class="recipes-box">
+        
+                <div *ngFor="let recipe of recipesOverviewModel.recipesOverview"  
+                class="recipe-box" (click)="goToDetails(recipe.id)">
+            
+                    <app-recipe-menu-model
+                        [recipeId]= recipe.id
+                        [userId]= recipe.userId
+                        [name]= recipe.name
+                        [level]= recipe.level
+                        [time]= recipe.time
+                        [portions]= recipe.portions
+                        style="width: 450px;height:340px;"
+                        class="recipe">
+                    </app-recipe-menu-model>
+                </div>
+            
+            </div>
+        </div>
+
+
+    </div>   
+    <nav aria-label="...">
+        <ul class=" pagination">
+            <li class="page-item" [class.disabled]="currentPage<1">
+                <a class="page-link navbar-button-style" (click)="previousPage()">Previous</a>
+            </li>
+
+            <li class="page-item" [class.disabled]="lastPageFlag">
+                <a class="page-link navbar-button-style" (click)="nextPage()">Next</a>
+            </li>
+        </ul>
+    </nav> 
+</div>
    
-
-
-
-
-
-    <img src="http://localhost:8080/api/files/images/1/1" />
-
-
-<nav aria-label="...">
-    <ul class=" pagination">
-        <li class="page-item" [class.disabled]="currentPage<1">
-            <a class="page-link navbar-button-style" (click)="previousPage()">Previous</a>
-          </li>
-
-        <li class="page-item" [class.disabled]="lastPageFlag">
-            <a class="page-link navbar-button-style" (click)="nextPage()">Next</a>
-        </li>
-    </ul>
-</nav>
