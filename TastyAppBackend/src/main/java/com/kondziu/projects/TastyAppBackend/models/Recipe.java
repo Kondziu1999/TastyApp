@@ -1,10 +1,7 @@
 package com.kondziu.projects.TastyAppBackend.models;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -21,6 +18,16 @@ import java.util.List;
 @Table(name = "recipe")
 public class Recipe {
 
+    public Recipe(String name, String level,String time,String portions,List<String> ingredients, List<String> steps,String description, User user){
+        this.name = name;
+        this.level = level;
+        this.time = time;
+        this.portions = portions;
+        this.ingredients = ingredients;
+        this.steps = steps;
+        this.description= description;
+        this.user = user;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

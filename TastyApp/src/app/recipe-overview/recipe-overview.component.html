@@ -51,3 +51,13 @@
 
 </div>
 
+<div *ngIf="photosUrls">
+    <div *ngFor="let photoUrl of photosUrls">
+        
+        <img src={{photoUrl}} style="width: 350px;height: 288px;" >
+    
+    </div>
+</div>
+
+
+

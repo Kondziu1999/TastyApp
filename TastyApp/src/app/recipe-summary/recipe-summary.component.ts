@@ -64,9 +64,8 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
         message=>{this.waitForRecipeUpload=false;
-          this.currentRecipeDetails.userId = message.userId;
+          //set recipeId
           this.currentRecipeDetails.recipeId = message.recipeId; 
-          console.log(this.currentRecipeDetails);
           //check if not null for security
           if(this.files == null) this.navigateToSuccessSide;
           //else if tere is image to upload 

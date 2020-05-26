@@ -42,7 +42,8 @@ $shadow-color: rgb(34, 34, 34) ;
     }  
 }
 .blur-image{
-    opacity: 0.3;
+    transform: scaleY(1.1) scaleX(1.15);
+    z-index: 5;
 }
 
 

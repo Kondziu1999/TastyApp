@@ -44,7 +44,7 @@ public class FileManager {
     public void compressImage(Integer userId,Integer recipeId, String filename, String base,int sizeInBytes) throws IOException {
         float sizeInKB = sizeInBytes/1024;
         //max size is 100KB
-        if(sizeInKB < 100) return;
+        if(sizeInKB < maxSize) return;
         final float compressionFactor = maxSize/sizeInKB;
 
         File input = new File(constructPathToImage(userId,recipeId,filename,base));

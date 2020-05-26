@@ -11,7 +11,9 @@ import { RecipesOverviewModel } from '../models/recipes-overview-model';
 })
 export class RecipeService {
 
-  backendUrl="http://localhost:8080/api"
+  backendUrl = "http://localhost:8080/api"
+  backendPhotoUrl =  "http://localhost:8080/api/files/images/";
+
   recipesOverviewUrlPostfix='/recipes/overview'
   constructor(private http: HttpClient) { }
   
@@ -25,6 +27,10 @@ export class RecipeService {
   getBackendURL(){
     return this.backendUrl;
   }
+  getBackendPhotoUrl(){
+    return this.backendPhotoUrl;
+  }
+
   getRecipe(id:number): Observable<RecipeModel>{
     return this.http.get<RecipeModel>(this.backendUrl+'/recipes/'+id,this.httpOptions)
       .pipe(
