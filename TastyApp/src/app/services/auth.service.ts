@@ -117,4 +117,9 @@ export class AuthService {
     
   } 
 
+
+  getIdOfLoggedUser() : string{
+    return localStorage.getItem('user_id');
+  }
+
 }

@@ -1,5 +1,5 @@
 export class RecipeModel {
-    id?: number
+    recipeId?: number
     userId?: number;
     name: string;
     level: string;

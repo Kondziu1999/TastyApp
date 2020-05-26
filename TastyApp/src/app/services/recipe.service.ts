@@ -62,7 +62,7 @@ export class RecipeService {
       .pipe(retry(2));
   }
 
-  uploadPhotos(files: Array<File>){
+  uploadPhotos(files: Array<File>,userId: number, recipeId: number){
     const uploadImagesData  = new FormData();
 
     files.forEach(file => {
@@ -70,7 +70,7 @@ export class RecipeService {
    
     });
     
-    return this.http.post<any>(this.backendUrl+"/files/images/1/1",uploadImagesData)
+    return this.http.post<any>(this.backendUrl+"/files/images/"+userId+"/"+recipeId,uploadImagesData)
       .pipe(retry(2));
   }
 

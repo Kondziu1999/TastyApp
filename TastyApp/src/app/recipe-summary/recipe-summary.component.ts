@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
 import { RecipeMessageServiceService } from '../services/recipe-message-service.service';
@@ -23,7 +24,7 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   public imageURL: any;
 
   constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
-    private recipeService: RecipeService) {
+    private recipeService: RecipeService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -55,24 +56,36 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
+    //set flag to spinner
     this.waitForRecipeUpload=true;
-    
+    //set id to form
+    this.currentRecipeDetails.userId = parseInt(this.authService.getIdOfLoggedUser());
+    //send recipe and invoke upload photos when positive response arrives
     this.recipeService.addRecipe(this.currentRecipeDetails)
       .subscribe(
-        message=>{this.waitForRecipeUpload=false; 
-          if(this.photosUploaded) this.navigateToSuccessSide()
+        message=>{this.waitForRecipeUpload=false;
+          this.currentRecipeDetails.userId = message.userId;
+          this.currentRecipeDetails.recipeId = message.recipeId; 
+          console.log(this.currentRecipeDetails);
+          //check if not null for security
+          if(this.files == null) this.navigateToSuccessSide;
+          //else if tere is image to upload 
+          this.files.length > 0 ? this.whenRecipeAddedUploadPhotos() : this.navigateToSuccessSide();
         },
         err => {this.responseError=true; this.waitForRecipeUpload=false}
         )
 
-    if(this.files!=null){
-      this.recipeService.uploadPhotos(this.files)
+    
+  }
+
+  whenRecipeAddedUploadPhotos(){
+    this.recipeService.uploadPhotos(this.files,this.currentRecipeDetails.userId,this.currentRecipeDetails.recipeId)
         .subscribe(
           msg => {
             this.photosUploaded=true;
             if(! this.waitForRecipeUpload) this.navigateToSuccessSide();},
-           err => {this.responseError=true; this.waitForRecipeUpload=false});
-    }
+            err => {this.responseError=true; this.waitForRecipeUpload=false});
+          
   }
 
   navigateToSuccessSide(): void{
