@@ -8,7 +8,10 @@ import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +44,7 @@ public class FileManager {
     }
 
     @Async
-    public void compressImage(Integer userId,Integer recipeId, String filename, String base,int sizeInBytes) throws IOException {
+    public void compressImage(Integer userId,Integer recipeId, String filename,String extension, String base,int sizeInBytes) throws IOException {
         float sizeInKB = sizeInBytes/1024;
         //max size is 100KB
         if(sizeInKB < maxSize) return;
@@ -54,7 +57,7 @@ public class FileManager {
         File compressedImageFile = new File(constructPathToImage(userId,recipeId,"c"+filename,base));
         OutputStream os =new FileOutputStream(compressedImageFile);
 
-        Iterator<ImageWriter> writers =  ImageIO.getImageWritersByFormatName("jpg");
+        Iterator<ImageWriter> writers =  ImageIO.getImageWritersByFormatName(extension);
         ImageWriter writer = (ImageWriter) writers.next();
 
         ImageOutputStream ios = ImageIO.createImageOutputStream(os);
@@ -64,6 +67,8 @@ public class FileManager {
 
         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
         param.setCompressionQuality(compressionFactor);
+
+        JPEGImageWriteParam jpegImageWriteParam = new JPEGImageWriteParam(null);
         writer.write(null, new IIOImage(image, null, null), param);
 
         os.close();
@@ -72,6 +77,28 @@ public class FileManager {
 
         //delete old file
         input.delete();
+    }
+
+
+    public BufferedImage convertToJpg(BufferedImage image){
+
+            BufferedImage result = new BufferedImage(
+                    image.getWidth(),
+                    image.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            result.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+
+            return result;
+
+    }
+    //not async since methods need feedback to display appropriate status code
+    public void saveImageFromBuffer(BufferedImage image,String format, File output) {
+        try {
+            ImageIO.write(image,format,output);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
 }
