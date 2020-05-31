@@ -51,13 +51,51 @@
 
 </div>
 
-<div *ngIf="photosUrls">
-    <div *ngFor="let photoUrl of photosUrls">
+<div class="recipe-overview-container">
+
+    <div class="title-container">
+        <span>{{recipe.name}}</span>
         
-        <img src={{photoUrl}} style="width: 350px;height: 288px;" >
-    
+        <div class="details-container">
+            <div class="detail">
+                <i style="color: #cebc74;" class="far fa-clock fa-3x" ></i>
+                <p>{{recipe.time}}  </p>
+            </div>
+            <div class="detail"> 
+                <i style="color: #cebc74;" class="fas fa-utensils fa-3x"></i>
+                <p>{{recipe.portions}}</p>
+            </div>
+           <div class="detail">
+                <i style="color: #cebc74;" class="fas fa-chart-line fa-3x" ></i>
+                <p>{{recipe.level}}  </p>
+           </div>
+        </div>
+        
     </div>
+    
+    <div *ngIf="photosUrls" class="photos-container">
+        <div class="main-photo">
+            <img src={{photosUrls[0]}}  >
+        </div>
+
+        <div class="bottom-photos-container">
+            <div *ngFor="let photoUrl of photosUrls; let i=index" class="loop-container">
+                <img *ngIf="i>0" src={{photoUrl}} >
+            </div>
+        </div>
+        
+    </div>
+
+   <div class="break"></div>
+    <!-- <div style="width: 100%;">
+        {{recipe.description}}
+        {{recipe.steps}}
+    </div> -->
+
+    
+
 </div>
+
 
 
 
