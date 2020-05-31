@@ -22,6 +22,8 @@ export class RecipeOverviewComponent implements OnInit {
   public photosUrls : Array<string>;
   public photosUrlPrefix: string;
 
+  displayModalVar: boolean= false;
+  imageURL : string;
   constructor(private route:ActivatedRoute,private recipeService: RecipeService,private router:Router) {
    }
 
@@ -65,4 +67,14 @@ export class RecipeOverviewComponent implements OnInit {
         error => console.log(error)
       );
   }
+
+  displayModal(): void{
+    this.displayModalVar=true;
+   
+  }
+
+  closeModal(){
+    this.displayModalVar=false;
+  }
+
 }

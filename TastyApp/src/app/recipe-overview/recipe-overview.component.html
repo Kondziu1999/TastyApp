@@ -1,5 +1,5 @@
 
-<div *ngIf="ifContentLoading" class="spinner-border text-primary" style="align-self: center;" role="status">Loading....</div>
+<!-- <div *ngIf="ifContentLoading" class="spinner-border text-primary" style="align-self: center;" role="status">Loading....</div>
 
 <div *ngIf="!ifContentLoading">
 
@@ -49,52 +49,86 @@
         
     </div>
 
-</div>
-
-<div class="recipe-overview-container">
-
-    <div class="title-container">
-        <span>{{recipe.name}}</span>
-        
-        <div class="details-container">
-            <div class="detail">
-                <i style="color: #cebc74;" class="far fa-clock fa-3x" ></i>
-                <p>{{recipe.time}}  </p>
-            </div>
-            <div class="detail"> 
-                <i style="color: #cebc74;" class="fas fa-utensils fa-3x"></i>
-                <p>{{recipe.portions}}</p>
-            </div>
-           <div class="detail">
-                <i style="color: #cebc74;" class="fas fa-chart-line fa-3x" ></i>
-                <p>{{recipe.level}}  </p>
-           </div>
-        </div>
-        
-    </div>
+</div> -->
+<div class="background">
+    <div class="recipe-container">
+        <div class="recipe-overview-container">
     
-    <div *ngIf="photosUrls" class="photos-container">
-        <div class="main-photo">
-            <img src={{photosUrls[0]}}  >
+            <div class="title-container">
+                <span>{{recipe.name}}</span>
+                
+                <div class="details-container">
+                    <div class="detail">
+                        <i style="color: #cebc74;" class="far fa-clock fa-3x" ></i>
+                        <p>{{recipe.time}}  </p>
+                    </div>
+                    <div class="detail"> 
+                        <i style="color: #cebc74;" class="fas fa-utensils fa-3x"></i>
+                        <p>{{recipe.portions}}</p>
+                    </div>
+                   <div class="detail">
+                        <i style="color: #cebc74;" class="fas fa-chart-line fa-3x" ></i>
+                        <p>{{recipe.level}}  </p>
+                   </div>
+                </div>
+                
+            </div>
+            
+            <div *ngIf="photosUrls" class="photos-container">
+                <div class="main-photo">
+                    <img src={{photosUrls[0]}} (click)="imageURL=photosUrls[0];displayModal()" >
+                </div>
+        
+                <div class="bottom-photos-container">
+                    <div *ngFor="let photoUrl of photosUrls; let i=index" class="loop-container">
+                        <img *ngIf="i>0" src={{photoUrl}} (click)="imageURL=photoUrl;displayModal()">
+                    </div>
+                </div>
+                
+            </div>      
         </div>
+    
+    
+        <div class="description-container">
+    
+            <div class="ingredients">
+                <h1> Składniki :</h1>
+               <p *ngFor="let ingredient of recipe.ingredients">
+                    {{ingredient}}
+               </p>
+            </div>
+    
+            <div class="steps">
+                <h1>Wykonanie : </h1>
+                <div *ngFor="let step  of recipe.steps let i=index" class="step">
+                    <span class="step-title">Krok {{i+1}}</span>
+                    <p>
+                        {{step}}
+                    </p>
+                </div>
 
-        <div class="bottom-photos-container">
-            <div *ngFor="let photoUrl of photosUrls; let i=index" class="loop-container">
-                <img *ngIf="i>0" src={{photoUrl}} >
             </div>
         </div>
-        
-    </div>
-
-   <div class="break"></div>
-    <!-- <div style="width: 100%;">
         {{recipe.description}}
-        {{recipe.steps}}
-    </div> -->
+       
+    </div>
 
-    
+
+    <div id="myModal" class="modal" style="display: block;" *ngIf="displayModalVar">
+            
+        <!-- The Close Button -->
+        <span (click)="closeModal()" class="close">&times;</span>
+      
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01" [src]="imageURL" >
+      
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
 
 </div>
+
+
 
 
 
