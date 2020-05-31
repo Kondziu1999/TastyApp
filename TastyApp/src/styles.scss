@@ -3,6 +3,14 @@ $green-color: #03d30d;
 $grey-color: rgb(233, 233, 233);
 $shadow-color: rgb(34, 34, 34) ;
 $background: rgb(233, 233, 233);
+$orange: rgb(235, 108, 4);
+#circle {
+    width: 100px;
+    height: 100px;
+    background: rgb(255, 145, 0);
+    border-radius: 50%
+  }
+
 
 .background{
     background-color: $background;
@@ -16,7 +24,7 @@ $background: rgb(233, 233, 233);
     background-color: white;
     box-shadow:  3px 3px 13px 1px $shadow-color; ;
     width: 80%;
-    height: 80%;
+    height: 0%;
 
     .recipe-overview-container{
         display: flex;
@@ -29,19 +37,26 @@ $background: rgb(233, 233, 233);
             height:  0;
         }
         .title-container{
+            margin-top: 10%;
             align-self: center;
             margin-left: 5%;
             width: 40%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: Ubuntu, flex-end;
     
-            span{
-                @extend .header-font;
+            h1{
                 font-size: 4vw;
+                text-align: center;
+                font-weight: bolder;
+                font-style:  sans-serif;
+                align-self: center;
             }
             .details-container{
+                margin-top: 20%;
+                align-self: flex-end;
+                height: 100%;
                 width: 100%;
                 display: flex;
                 align-items: center;
@@ -53,7 +68,7 @@ $background: rgb(233, 233, 233);
                     flex-direction: column;
                     align-items: center;
                     p{
-                        font-size: 1.3vw;
+                        font-size: 1.7vw;
                         @extend .header-font;
                     }
                 }
@@ -121,20 +136,32 @@ $background: rgb(233, 233, 233);
             display: flex;
             flex-direction: column;
             
+            .ingredient{
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                margin-bottom: 3%;
+                .check{
+                    color: $orange;
+                    margin-right: 2%;
+                    align-self: flex-start;
+                }
+                p{
+                    font-size: 1.7vw;
+                    align-self: flex-end;
+                }
+               
+            }
             h1{
-                font-size: 2.6rem;
+                font-size: 3vw;
                 font-weight: 700;
                 font-style: Ubuntu,sans-serif;
                 margin-bottom: 5%;
                 border-bottom: 3px solid #000;
                 width: 70%;
             }
-            p{
-                font-size: 1vw;
-                border-radius: 5%;
+
             
-            
-            }
         }
         .steps{
             width: 50%;
@@ -142,9 +169,23 @@ $background: rgb(233, 233, 233);
             flex-direction: column;
             .step{
                 margin-bottom: 2%;
+                display: flex;
+                flex-wrap: wrap;
+                .break-row{
+                    flex-basis: 100%;
+                    height: 0;
+                }
+                .star{
+                    color: $orange;
+                    margin-right: 2%;
+                }
+                p{
+                    font-size: 1.7vw;
+                    margin-left: 8%;
+                }
             }
             h1{
-                font-size: 2.6rem;
+                font-size: 3vw;
                 font-weight: 700;
                 font-style: Ubuntu,sans-serif;
                 margin-bottom: 5%;
@@ -152,15 +193,12 @@ $background: rgb(233, 233, 233);
                 width: 70%;
             }
             span{
-                font-size: 1.6rem;
+                font-size: 2vw;
                 font-weight: 700;
                 font-style: Ubuntu,sans-serif;
-                margin-bottom: 5%;
+                margin-bottom: 3%;
             }
-            p{
-                font-size: 1vw;
-               
-            }
+            
         }
     }
 

@@ -55,7 +55,7 @@
         <div class="recipe-overview-container">
     
             <div class="title-container">
-                <span>{{recipe.name}}</span>
+                <h1>{{recipe.name}}</h1>
                 
                 <div class="details-container">
                     <div class="detail">
@@ -93,15 +93,18 @@
     
             <div class="ingredients">
                 <h1> Składniki :</h1>
-               <p *ngFor="let ingredient of recipe.ingredients">
-                    {{ingredient}}
-               </p>
+                <div *ngFor="let ingredient of recipe.ingredients" class="ingredient">
+                    <i class="far fa-check-square fa-2x check"></i>
+                    <p>{{ingredient}}</p>
+                </div>
             </div>
     
             <div class="steps">
                 <h1>Wykonanie : </h1>
                 <div *ngFor="let step  of recipe.steps let i=index" class="step">
+                    <i class="far fa-star fa-2x star"></i>
                     <span class="step-title">Krok {{i+1}}</span>
+                    <div class="break-row"></div>
                     <p>
                         {{step}}
                     </p>
