@@ -22,6 +22,7 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
   public responseError: boolean;
   public files: Array<File>;
   public imageURL: any;
+  public bottomImagesUrls: String[]; 
 
   constructor(private route: ActivatedRoute,private details:RecipeMessageServiceService,private router:Router,
     private recipeService: RecipeService, private authService: AuthService) {
@@ -31,14 +32,18 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     this.detailsSubscription=this.details.getRecipeDetails()
           .subscribe(message=>this.currentRecipeDetails=JSON.parse(message));
     this.filesSubscription=this.details.getFiles()
-          .subscribe(message => this.files=message);
+          .subscribe(message => {this.files=message; 
+            this.createImageUrls(this.files)});
      
     this.waitForRecipeUpload=false;
     this.responseError=false;
  
   }
  
-
+  createImageUrls(files: Array<File>): void{
+    let index:number  = 0;
+    files.forEach(file => this.loadImageUrl(file, index++));
+  }
   ifPhotosUploaded() : boolean{
     if(this.files== null) return true;
     if(this.photosUploaded == null) return true;
@@ -113,8 +118,11 @@ export class RecipeSummaryComponent implements OnInit, OnDestroy {
     reader.onload = (_event) => { 
       // this.imageURL = reader.result; 
       this.imagesURL[index] = reader.result.toString();
-       
+      if(index!=0){
+        this.bottomImagesUrls[index-1]= reader.result.toString();
+      }
     }
+    console.log(this.imagesURL);
   }
 
   imagesURL: String[]=[];

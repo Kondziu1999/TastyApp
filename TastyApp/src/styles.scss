@@ -3,7 +3,10 @@ $green-color: #03d30d;
 $grey-color: rgb(233, 233, 233);
 $shadow-color: rgb(34, 34, 34) ;
 $background: rgb(233, 233, 233);
-$orange: rgb(235, 108, 4);
+$orange: #FF4500;
+$navbar-grey:  rgb(163, 158, 158);
+$salomon-pink:  #ce9874;
+
 #circle {
     width: 100px;
     height: 100px;
@@ -82,6 +85,7 @@ $orange: rgb(235, 108, 4);
             flex-direction: column;
             align-items: center;
             width: 60%;
+            height: 100%;
     
             .main-photo{
                 width: 80%;
@@ -102,16 +106,18 @@ $orange: rgb(235, 108, 4);
                 margin-top: 5%;
                 display: flex;
                 flex-direction: row;
-                justify-content: space-around;
-                width: 80%;
-                height: 20%;
+                justify-content: space-between;
+                align-items: center;
+                width: 40vw;
+                height: 20vh;
                 
                 .loop-container{
-                    
-                    max-width: 24%;
+                    max-width: 32%;
+                    height: 100%;
                     img{
                         width: 100%;
                         height: 100%;
+                        object-fit: fill;
                         &:hover{
                             cursor: pointer;
                             transform: scaleY(1.2) scaleX(1.3);
@@ -202,6 +208,51 @@ $orange: rgb(235, 108, 4);
         }
     }
 
+    .recipe-comment-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        margin-left: 3%;
+        
+        .title{
+            display: flex;
+            flex-direction: row;
+            align-self: flex-start;
+            align-items: flex-start;
+
+            i{
+                color: $orange;
+                align-self: center;
+                margin-right: 10%;
+            }
+          
+           
+        }
+        span{
+            font-size: 2.5vw;
+            font-weight: 700;
+            font-style: Ubuntu,sans-serif;
+            margin-bottom: 4%;
+            border-bottom: 3px solid #000;
+        }
+        
+        p{
+            margin-left: 3.5%;
+            font-size: 1.7vw;
+        }
+        
+
+       
+    }
+
+    .edit-confirm-container{
+        margin-right: 8%;
+        margin-bottom: 5%;
+        align-self: flex-end;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+    }
 }
 
 
@@ -215,14 +266,30 @@ $orange: rgb(235, 108, 4);
     background-color: rgb(233, 233, 233);
     font-weight: 500;
 
+    .header-box{
+        width: 80%;
+        height: 10vh;
+        background-color: white;
+        box-shadow:3px 3px 13px 1px $shadow-color ;
+        margin-bottom: 3%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h1{
+            text-align: center;
+            font-family: 'Balsamiq Sans', cursive;
+            color: $orange;
+        }
+    }
+
     .recipes-shadow-box{
         display: flex;
         flex-direction: column;
         align-items: center;
         box-shadow: 3px 3px 13px 1px $shadow-color;
         background-color: white;
-        width: 70%;
-        height: 70%;
+        width: 80%;
+        height: 80%;
     
     
         .recipes-box{
@@ -271,11 +338,28 @@ $orange: rgb(235, 108, 4);
         flex-direction: column;
         align-items: center;
 
+        .header{
+            background-color: $orange;
+             width: 100%;
+             margin-bottom: 5%;
+
+             h2{
+                word-spacing: 10px;align-self: center;color: white;
+             }
+        }
+
         .form{
             width: 100%;
             display: flex;
             align-items: center;
             flex-direction: column;
+
+            .ingredients-header{
+                width: 60%;
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 2%;
+            }
         }
     }
 
@@ -325,11 +409,15 @@ $orange: rgb(235, 108, 4);
 }
 
 .ingredients-container{
+
     & > .form-group {
         display: flex;
         }
 }
 
+.orange-btn-color{
+    background-color: $orange;
+}
 .summary-size{
     min-width: 450px;
     min-height: 400px;
@@ -409,6 +497,7 @@ $orange: rgb(235, 108, 4);
 
 .navbar-style{
    background-color: #585a58 ;
+   background-color: $orange;
    min-height: 50px;   
    margin-bottom: 3%;
 
@@ -422,9 +511,9 @@ $orange: rgb(235, 108, 4);
             border-right: 1px solid #bbb;
             &> .i{
                 color: white; 
-                padding: 12px 12px;
+                padding: 13px 13px;
                 &:hover{
-                    background-color: $green-color;
+                    background-color: $navbar-grey;
                     cursor: pointer;
                 }
             }
@@ -440,7 +529,7 @@ $orange: rgb(235, 108, 4);
                 font-size: 20px;
                 
                 &:hover{
-                    background-color: #03d30d;
+                    background-color: $navbar-grey;
                     cursor: pointer;
                 }
             }

@@ -6,8 +6,8 @@
     <div  class="form-group form-container" >
            
  
-        <div style="background-color: #585a58; width: 100%;margin-bottom: 5%;" class="flex-column">
-            <h2 class="add-recipe-header" style="word-spacing: 10px;align-self: center;color: white;"> TWÓJ  PRZEPIS</h2>
+        <div  class="flex-column header">
+            <h2 class="add-recipe-header"> TWÓJ  PRZEPIS</h2>
         </div>  
 
  
@@ -86,7 +86,7 @@
             </div>
             
 
-            <div style="width: 60%;display: flex;flex-direction: column;margin-bottom: 2%;">
+            <div class="ingredients-header">
                 <h3 class="header-style" style="align-self: flex-start;" >Składniki</h3>
                 <!-- <button type="button" class="btn btn-success btn-position" (click)="addIngredient()">Dodaj</button> -->
             </div>
@@ -98,7 +98,7 @@
                 <div class="ingredients-container ">
                     <div *ngFor="let ingredient of ingredients.controls; let i=index" class="form-group "  >
                         <input type="text" class="form-control basic-font" [formControlName]="i">
-                        <button  class="btn btn-secondary" style="margin-left: 10%;"  (click)="delIngredient(i)">-</button>
+                        <button  class="btn btn-secondary orange-btn-color" style="margin-left: 10%;"  (click)="delIngredient(i)">-</button>
                     </div>
                 </div>
                 
@@ -132,7 +132,7 @@
                         </label>
                         <div style="display: flex; align-items: center;">
                             <textarea  [formControlName]="i" class="form-control basic-font" style="flex: 10;margin-right: 3%;"></textarea>                   
-                            <button  class="btn btn-secondary" (click)="delStep(i)" >-</button>
+                            <button  class="btn btn-secondary orange-btn-color" (click)="delStep(i)" >-</button>
                         </div>
                         <div *ngIf="getStepValidity(i) && step.touched" class="alert alert-danger" style="flex-direction: column; width:70%;">
                             wymagane miniumum 20 znaków
