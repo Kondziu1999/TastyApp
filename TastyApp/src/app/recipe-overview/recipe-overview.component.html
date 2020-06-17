@@ -52,9 +52,12 @@
 </div> -->
 <div class="background">
     <div class="recipe-container">
+        <div *ngIf="ifContentLoading" style="align-self: center;">
+            <span class="sr-only">Loading...</span>
+        </div>
         <div class="recipe-overview-container">
     
-            <div class="title-container">
+            <div *ngIf="!ifContentLoading" class="title-container">
                 <h1>{{recipe.name}}</h1>
                 
                 <div class="details-container">
@@ -89,7 +92,7 @@
         </div>
     
     
-        <div class="description-container">
+        <div *ngIf="!ifContentLoading" class="description-container">
     
             <div class="ingredients">
                 <h1> Składniki :</h1>
@@ -112,8 +115,29 @@
 
             </div>
         </div>
-        {{recipe.description}}
-       
+        <p *ngIf="!ifContentLoading">{{recipe.description}}</p>
+        
+       <div class="comments-container">
+            <div class="title">
+                <i class="far fa-comments fa-3x"></i>
+                <span>Opinie użytkowników:</span>
+            </div>
+            <div *ngFor="let comment of comments" class="comment">
+                <div class="user">
+                    <p>{{comment.username}}</p>
+                    <i class="far fa-user fa-3x"></i>
+                </div>
+                <p> start value has mixed support, consider using flex-start instead
+                    start value has mixed support, consider using flex-start instead
+                    start value has mixed support, consider using flex-start instead
+                </p>
+                <span>
+                    {{comment.date | date: 'dd/MM/yyyy'}}
+                </span>
+                
+            </div>
+
+       </div>
     </div>
 
 

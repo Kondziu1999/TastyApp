@@ -253,6 +253,67 @@ $salomon-pink:  #ce9874;
         flex-direction: row;
         align-items: flex-end;
     }
+
+    .comments-container{
+        width: 100%;
+        margin-left: 3%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .title{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 3%;
+
+            i{
+                margin-right: 2%;
+                color: $orange;
+            }
+            span{
+                font-size: 2.5vw;
+                font-weight: 700;
+                font-style: Ubuntu,sans-serif;
+            }
+        }
+        .comment{
+            align-self: flex-start;
+            width: 90%;
+            border-bottom: 3px solid $orange ;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 3%;
+            .user{
+                width: 20% ;
+                align-self: flex-start;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                p{
+                    font-size: 1.5vw;
+                    font-weight: 700;
+                }
+               
+            }
+            p{
+                width: 70%;
+                margin-left: 5%;
+                font-size: 1.3vw;
+                font-weight: 500;
+            }
+            span{
+                width: 10%;
+                font-size: 1.2vw;
+                font-weight: 400;
+            }
+        }
+    }
+
+
 }
 
 

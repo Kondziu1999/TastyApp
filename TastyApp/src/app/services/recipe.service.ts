@@ -1,3 +1,4 @@
+import { commentDto } from './../models/commentDto';
 import { PhotosNamesDto } from './../payload/PhotosNamesDto';
 import { RecipeModel } from '../models/recipe-model.model';
 import { Injectable } from '@angular/core';
@@ -87,6 +88,10 @@ export class RecipeService {
   
   getPhotosNames( userId :number , recipeId: number) : Observable<PhotosNamesDto>{
     return this.http.get<PhotosNamesDto>( this.backendUrl + "/files/images/urls/" + userId + "/" + recipeId);
+  }
+
+  getRecipeComments(recipeId: number){
+    return this.http.get<commentDto[]> (this.backendUrl + "/recipes/"+recipeId+"/comments");
   }
 
   private handleError(error: HttpErrorResponse){

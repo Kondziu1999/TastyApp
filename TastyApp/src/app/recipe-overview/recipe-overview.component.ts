@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { commentDto } from '../models/commentDto';
 
 @Component({
   selector: 'app-recipe-overview',
@@ -21,6 +22,7 @@ export class RecipeOverviewComponent implements OnInit {
   public photosNamesDto: PhotosNamesDto;
   public photosUrls : Array<string>;
   public photosUrlPrefix: string;
+  public comments: commentDto[];
 
   displayModalVar: boolean= false;
   imageURL : string;
@@ -34,8 +36,8 @@ export class RecipeOverviewComponent implements OnInit {
     this.ifContentLoading=true;
 
     this.recipeObserver=this.route.paramMap.pipe(
-      switchMap(params=>{
-        this.id=Number(params.get('id'))
+      switchMap(params => {
+        this.id = Number(params.get('id'))
         return this.recipeService.getRecipe(this.id? this.id : 0);
       })
     )
@@ -46,6 +48,7 @@ export class RecipeOverviewComponent implements OnInit {
       message=> {this.recipe=message; this.ifContentLoading=false;console.log(message);
         this.getRecipeNames(); 
         this.photosUrlPrefix = this.photosUrlPrefix + this.recipe.userId + "/" + this.recipe.recipeId;
+        this.getComments();
         console.log(this.photosUrlPrefix);
       },
 
@@ -67,6 +70,14 @@ export class RecipeOverviewComponent implements OnInit {
     this.recipeService.getPhotosNames(this.recipe.userId,this.id)
       .subscribe(
         message => {this.photosNamesDto= message; console.log(message); this.parseToUrls();},
+        error => console.log(error)
+      );
+  }
+
+  getComments(){
+    this.recipeService.getRecipeComments(this.recipe.recipeId)
+      .subscribe(
+        message => {this.comments = message; console.log(message);this.comments},
         error => console.log(error)
       );
   }
