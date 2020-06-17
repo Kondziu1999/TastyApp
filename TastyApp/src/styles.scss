@@ -112,12 +112,12 @@ $salomon-pink:  #ce9874;
                 height: 20vh;
                 
                 .loop-container{
-                    max-width: 32%;
+                    max-width: 33%;
                     height: 100%;
                     img{
                         width: 100%;
                         height: 100%;
-                        object-fit: fill;
+                        object-fit: cover;
                         &:hover{
                             cursor: pointer;
                             transform: scaleY(1.2) scaleX(1.3);

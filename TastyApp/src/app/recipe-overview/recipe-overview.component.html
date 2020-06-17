@@ -74,12 +74,12 @@
                 
             </div>
             
-            <div *ngIf="photosUrls" class="photos-container">
+            <div #bp *ngIf="photosUrls" class="photos-container">
                 <div class="main-photo">
                     <img src={{photosUrls[0]}} (click)="imageURL=photosUrls[0];displayModal()" >
                 </div>
         
-                <div class="bottom-photos-container">
+                <div  class="bottom-photos-container">                
                     <div *ngFor="let photoUrl of photosUrls; let i=index" class="loop-container">
                         <img *ngIf="i>0" src={{photoUrl}} (click)="imageURL=photoUrl;displayModal()">
                     </div>

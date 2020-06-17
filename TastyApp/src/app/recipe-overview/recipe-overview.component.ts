@@ -1,7 +1,7 @@
 import { PhotosNamesDto } from './../payload/PhotosNamesDto';
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -24,8 +24,11 @@ export class RecipeOverviewComponent implements OnInit {
 
   displayModalVar: boolean= false;
   imageURL : string;
-  constructor(private route:ActivatedRoute,private recipeService: RecipeService,private router:Router) {
+
+  constructor(private route:ActivatedRoute,private recipeService: RecipeService,private router:Router,
+    private renderer2: Renderer2,private el:ElementRef) {
    }
+
 
   ngOnInit(): void {
     this.ifContentLoading=true;
