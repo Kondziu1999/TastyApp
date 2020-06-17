@@ -46,15 +46,18 @@ public class Recipe {
 
     @Column(name = "ingredients")
     @ElementCollection
-    private List<String> ingredients=new ArrayList<>();
+    private List<String> ingredients = new ArrayList<>();
 
     @Column(name="steps")
     @ElementCollection
-    private List<String> steps=new ArrayList<>();
+    private List<String> steps = new ArrayList<>();
 
     @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "recipe")
+    private List<Comment> comments = new ArrayList<>();
 }
