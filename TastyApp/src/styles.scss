@@ -90,10 +90,10 @@ $salomon-pink:  #ce9874;
     
             .main-photo{
                 max-width: 70%;
-    
+              
                 img {
                    width: 100%;
-                   object-fit: contain;
+                   object-fit: cover;
                     &:hover{
                         cursor: pointer;
                         transform: scaleY(1.05) scaleX(1.07);  
@@ -111,13 +111,16 @@ $salomon-pink:  #ce9874;
                 width: 40vw;
                 height: 20vh;
                 
+                
                 .loop-container{
                     max-width: 33%;
+                    height: 100%;
                     
                     img{
                         width: 100%;
+                        max-height: 100%;
+                        object-fit: cover;
                         
-                        object-fit: contain;
                         &:hover{
                             cursor: pointer;
                             transform: scaleY(1.2) scaleX(1.3);
