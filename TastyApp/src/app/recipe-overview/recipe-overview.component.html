@@ -115,8 +115,18 @@
 
             </div>
         </div>
-        <p *ngIf="!ifContentLoading">{{recipe.description}}</p>
-        
+        <!-- <p *ngIf="!ifContentLoading">{{recipe.description}}</p> -->
+
+        <div *ngIf="!ifContentLoading" class="recipe-comment-container" style="width: 100%;">
+            <div class="title" >
+                <i class="fas fa-drumstick-bite fa-2x" ></i>
+                <span>Opis:</span>
+            </div>
+            <p>
+                {{recipe.description}}
+            </p>
+        </div>
+
        <div class="comments-container">
             <div class="title">
                 <i class="far fa-comments fa-3x"></i>
@@ -127,9 +137,7 @@
                     <p>{{comment.username}}</p>
                     <i class="far fa-user fa-3x"></i>
                 </div>
-                <p> start value has mixed support, consider using flex-start instead
-                    start value has mixed support, consider using flex-start instead
-                    start value has mixed support, consider using flex-start instead
+                <p>{{comment.comment}}
                 </p>
                 <span>
                     {{comment.date | date: 'dd/MM/yyyy'}}
