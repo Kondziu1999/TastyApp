@@ -1,3 +1,4 @@
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PhotosNamesDto } from './../payload/PhotosNamesDto';
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
@@ -23,7 +24,15 @@ export class RecipeOverviewComponent implements OnInit {
   public photosUrls : Array<string>;
   public photosUrlPrefix: string;
   public comments: commentDto[];
+  // public commentForm:FormControl = new FormControl('',[Validators.maxLength(100),Validators.minLength(5)]);
 
+  public form = new FormGroup({
+    'comment': new FormControl('',[Validators.minLength(5),Validators.maxLength(100)])
+  });
+
+  get comment(){
+    return this.form.get('comment');
+  }
   displayModalVar: boolean= false;
   imageURL : string;
 
@@ -31,7 +40,7 @@ export class RecipeOverviewComponent implements OnInit {
     private renderer2: Renderer2,private el:ElementRef) {
    }
 
-
+  
   ngOnInit(): void {
     this.ifContentLoading=true;
 
@@ -91,4 +100,18 @@ export class RecipeOverviewComponent implements OnInit {
     this.displayModalVar=false;
   }
 
+  public expanded = false;
+
+  expandCommentContainer(){
+    this.expanded = true;
+  }
+
+  addComment(){
+      console.log(this.comment.value);
+  }
+
+  checkValidity(){
+    const com = (<string>this.comment.value)
+    return !(com.length<5 || com.length>100);
+  }
 }

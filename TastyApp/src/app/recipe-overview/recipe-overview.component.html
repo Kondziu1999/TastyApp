@@ -115,6 +115,7 @@
 
             </div>
         </div>
+        
 
         <div *ngIf="!ifContentLoading" class="recipe-comment-container" style="width: 100%;">
             <div class="title" >
@@ -124,6 +125,28 @@
             <p>
                 {{recipe.description}}
             </p>
+        </div>
+
+        <div  class="add-comment-container">
+            <button type="button" (click)="expandCommentContainer()" class="btn btn-primary orange-button">Podziel się swoją opinią</button>
+            
+            <div *ngIf="expanded" class="comment-container input-group">
+                <form [formGroup]="form">
+                    <textarea (blur)="checkValidity()" class="form-control" aria-label="With textarea" formControlName="comment"></textarea>
+                    <div *ngIf="!checkValidity() && (comment.touched || comment.dirty)" class="alert alert-danger" >
+                        <div *ngIf="!comment.errors">
+                            wymagane
+                        </div>
+                        <div *ngIf="comment.errors?.minlength">
+                            Wymagane minimum 5 znaków
+                        </div>
+                        <div *ngIf="comment.errors?.maxlength">
+                            maksimum 100 znaków
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button *ngIf="expanded" [disabled]="!checkValidity()" type="button" (click)="addComment()" class="btn btn-success add-button">Dodaj</button>
         </div>
 
        <div class="comments-container">

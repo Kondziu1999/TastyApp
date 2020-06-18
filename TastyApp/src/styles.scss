@@ -130,6 +130,56 @@ $salomon-pink:  #ce9874;
                 
             }
         }
+
+        
+    }
+    .add-comment-container{
+        margin-left: 2%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 3%;
+
+        form{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 3%;
+            .comment-container{
+                margin-top: 2%;
+                width: 50%;
+    
+                textarea{
+                    margin-left: 6%;
+                }
+            }
+           
+        }
+        .add-button{
+            margin-left: 3%;
+            align-self: flex-start;
+            border-color: black;
+
+            box-shadow: white;
+            background-color: $salomon-pink;
+             &:hover{
+                 background-color: $grey-color;
+             }
+            
+        }
+        
+        .orange-button{
+            box-shadow: white;
+            border-color: black;
+            background-color: $orange;
+            margin-left: 3%;
+            align-self: flex-start;
+            &:hover{
+                background-color: $grey-color;
+            }
+        }
+      
+     
     }
 
     .description-container{
