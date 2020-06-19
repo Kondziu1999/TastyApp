@@ -32,6 +32,11 @@ const routes: Routes = [
     {
       path: ':id',
       component: RecipeOverviewComponent
+    },
+    {
+      path: ':id/addComment',
+      component: RecipeOverviewComponent,
+      canActivate: [AuthGuard] 
     }
   ]},
   {path: 'register',component: RegistrationFormComponent},

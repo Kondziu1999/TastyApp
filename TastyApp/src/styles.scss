@@ -140,6 +140,10 @@ $salomon-pink:  #ce9874;
         flex-direction: column;
         margin-bottom: 3%;
 
+        .notification{
+            width: 50%;
+            margin-left: 3%;
+        }
         form{
             width: 50%;
             display: flex;

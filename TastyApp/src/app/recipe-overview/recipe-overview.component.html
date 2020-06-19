@@ -147,6 +147,16 @@
                 </form>
             </div>
             <button *ngIf="expanded" [disabled]="!checkValidity()" type="button" (click)="addComment()" class="btn btn-success add-button">Dodaj</button>
+        
+            <div *ngIf="ifCommentLoading" class="spinner-border text-secondary" style="margin-left: 3%;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div *ngIf="commentError" class="alert alert-danger notification" >
+                Coś poszło nie tak spróbuj ponownie później.
+            </div>
+            <div *ngIf="commentUploaded" class="alert alert-secondary notification"role="alert">
+                komentarz dodany !
+            </div>
         </div>
 
        <div class="comments-container">

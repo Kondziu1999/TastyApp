@@ -81,6 +81,13 @@ export class RecipeService {
       .pipe(retry(2));
   }
 
+  uploadComment(comment: commentDto,recipeId: number){
+      const userId = localStorage.getItem('user_id');
+      comment.userId = parseInt(userId);
+      console.log(JSON.stringify(comment));
+      return this.http.post<commentDto>(this.backendUrl +"/recipes/" + recipeId +"/comments", comment, this.httpOptions);
+  }
+
   getPhoto(){
     //return image directly
     return this.http.get<Blob>(this.backendUrl+"/files/images/1/1",{responseType : "blob" as "json" });

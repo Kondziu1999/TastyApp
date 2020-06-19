@@ -1,9 +1,10 @@
+import { AuthService } from './../services/auth.service';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PhotosNamesDto } from './../payload/PhotosNamesDto';
 import { RecipeService } from '../services/recipe.service';
 import { RecipeModel } from './../models/recipe-model.model';
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { commentDto } from '../models/commentDto';
@@ -24,7 +25,10 @@ export class RecipeOverviewComponent implements OnInit {
   public photosUrls : Array<string>;
   public photosUrlPrefix: string;
   public comments: commentDto[];
-  // public commentForm:FormControl = new FormControl('',[Validators.maxLength(100),Validators.minLength(5)]);
+  public ifCommentLoading : boolean;
+  public commentError: boolean;
+  public commentUploaded: boolean ;
+
 
   public form = new FormGroup({
     'comment': new FormControl('',[Validators.minLength(5),Validators.maxLength(100)])
@@ -37,12 +41,15 @@ export class RecipeOverviewComponent implements OnInit {
   imageURL : string;
 
   constructor(private route:ActivatedRoute,private recipeService: RecipeService,private router:Router,
-    private renderer2: Renderer2,private el:ElementRef) {
+    private auth: AuthService) {
    }
 
   
   ngOnInit(): void {
-    this.ifContentLoading=true;
+    this.ifContentLoading = true;
+    this.ifCommentLoading = false;
+    this.commentError = false;
+    this.commentUploaded = false;
 
     this.recipeObserver=this.route.paramMap.pipe(
       switchMap(params => {
@@ -103,11 +110,19 @@ export class RecipeOverviewComponent implements OnInit {
   public expanded = false;
 
   expandCommentContainer(){
+    console.log("if user is logged out:" + this.auth.isLoggedOut())
+    this.router.navigate(["/recipes/"+this.recipe.recipeId+"/addComment"]);
+   // if( this.auth.isLoggedOut() ) this.router.navigateByUrl("/login");
     this.expanded = true;
   }
-
   addComment(){
-      console.log(this.comment.value);
+      const comment = new commentDto(this.comment.value);
+      this.ifCommentLoading = true;
+      this.recipeService.uploadComment(comment, this.recipe.recipeId)
+        .subscribe(
+            message => {this.ifContentLoading = false, this.commentUploaded = true,this.ifCommentLoading = false},
+            error => {this.ifCommentLoading = false, this.commentError = true}
+        );
   }
 
   checkValidity(){
