@@ -33,7 +33,6 @@ public class RecipesOverviewService {
     }
 
     public RecipesOverviewWrapper getRecipesOverview(Optional<Integer> optionalPage){
-        System.out.println("Przed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //get Content from page
         List<Recipe> recipes = recipeRepository.
                 findAll(PageRequest.of( optionalPage.orElse(PAGE_DEFAULT) , PAGE_SIZE))
@@ -52,7 +51,6 @@ public class RecipesOverviewService {
                         recipe.getLevel(),
                         recipe.getTime(),
                         recipe.getPortions())));
-        System.out.println("PO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         return wrapper;
     }

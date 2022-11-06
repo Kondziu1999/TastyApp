@@ -109,7 +109,7 @@ public class AuthController {
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));
-
+        user.setEnabled(true);
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
@@ -117,10 +117,10 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         //create confirmation token and store it in db
-        ConfirmationToken confirmationToken=new ConfirmationToken(result);
-        confirmationTokenRepository.save(confirmationToken);
-        //pass it to service
-        registrationEmailService.prepareMessageAndSend(confirmationToken.getConfirmationToken(),user.getEmail());
+//        ConfirmationToken confirmationToken=new ConfirmationToken(result);
+//        confirmationTokenRepository.save(confirmationToken);
+//        //pass it to service
+//        registrationEmailService.prepareMessageAndSend(confirmationToken.getConfirmationToken(),user.getEmail());
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
