@@ -1,6 +1,7 @@
 package com.kondziu.projects.TastyAppBackend.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kondziu.projects.TastyAppBackend.interceptors.HasStringUserIdPrincipal;
 import com.kondziu.projects.TastyAppBackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails, HasStringUserIdPrincipal {
 
     private Long id;
     private String name;
@@ -81,5 +82,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public String getStringUserId() {
+        return getId().toString();
     }
 }

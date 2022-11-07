@@ -95,13 +95,13 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>com.agh</groupId>
-			<artifactId>ActivityTracker</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>./Users/priva/Desktop/TastyApp/ActivityTracker/build/libs/ActivityTracker-0.0.1-SNAPSHOT-plain.jar</systemPath>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.agh</groupId>-->
+<!--			<artifactId>ActivityTracker</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--			<scope>system</scope>-->
+<!--			<systemPath>./Users/priva/Desktop/TastyApp/ActivityTracker/build/libs/ActivityTracker-0.0.1-SNAPSHOT-plain.jar</systemPath>-->
+<!--		</dependency>-->
 
 	</dependencies>
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.SignatureException;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -20,6 +21,9 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
+    @Value("${activity_tracker_config.artificial_session_id}")
+    private String sessionIdHeader;
+
     public String generateToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -27,11 +31,14 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        String userSessionIdentifier = UUID.randomUUID().toString();
+
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setHeaderParam(sessionIdHeader, userSessionIdentifier)
                 .compact();
     }
 
@@ -44,6 +51,14 @@ public class JwtTokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
+    public String getSessionIdFromJWT(String token) {
+        var jwt = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parse(token);
+
+        return jwt.getHeader().get(sessionIdHeader).toString();
+
+    }
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

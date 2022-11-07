@@ -1,11 +1,11 @@
 package com.kondziu.projects.TastyAppBackend.interceptors;
 
 
+import com.kondziu.projects.TastyAppBackend.interceptors.model.ActivityUser;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "user_logs")
@@ -18,8 +18,7 @@ public class UserLog {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="user_id")
-    private Long userId;
+    private String activityUserId;
 
     @Column(name="user_session_id")
     private String userSessionId;

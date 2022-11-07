@@ -57,3 +57,5 @@ page:
 image:
   maxSize: 300
 
+activity_tracker_config:
+  artificial_session_id: "sessionId"
