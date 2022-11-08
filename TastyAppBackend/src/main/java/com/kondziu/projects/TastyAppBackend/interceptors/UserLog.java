@@ -18,6 +18,7 @@ public class UserLog {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "activity_user_id")
     private String activityUserId;
 
     @Column(name="user_session_id")
