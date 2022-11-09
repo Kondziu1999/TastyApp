@@ -1,7 +1,7 @@
 package com.kondziu.projects.TastyAppBackend.security;
 
+import com.agh.activitytrackerclient.utils.HasStringUserIdPrincipal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kondziu.projects.TastyAppBackend.interceptors.HasStringUserIdPrincipal;
 import com.kondziu.projects.TastyAppBackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

@@ -12,7 +12,7 @@ spring:
     hibernate:
       ddl-auto: update
       cache:
-        use_second_level_cache: true
+        use_second_level_cache: false
       region:
         factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
 
@@ -59,3 +59,6 @@ image:
 
 activity_tracker_config:
   artificial_session_id: "sessionId"
+
+activity_tracker:
+  sessionidheader: "sessionId"

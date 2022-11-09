@@ -1,6 +1,6 @@
 package com.kondziu.projects.TastyAppBackend;
 
-import com.kondziu.projects.TastyAppBackend.interceptors.LoggingInterceptor;
+import com.agh.activitytrackerclient.interceptor.LoggingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
